@@ -1,7 +1,10 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
+import space from './slice/SpaceSlice'
 
 export const store = configureStore({
-    reducer: {},
+    reducer: {
+        space,
+    },
 })
 
 export type AppDispatch = typeof store.dispatch;
