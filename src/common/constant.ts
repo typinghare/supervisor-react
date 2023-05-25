@@ -1,7 +1,12 @@
 /**
  * The domain of the API server.
  */
-export const domain: string = 'jameschan.us'
+export const DOMAIN: string = 'jameschan.us'
+
+/**
+ * The base URL.
+ */
+export const BASE_URL: string = 'https://' + DOMAIN
 
 /**
  * Cookie keys.
