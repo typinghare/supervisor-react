@@ -1,1 +1,0 @@
-export type AxiosRequest<T> = (...args: any) => Promise<T>

@@ -1,37 +1,41 @@
-import { AxiosRequest } from '../common/api.interface'
+import { HttpResponse, SupervisorAxios } from '../common/api'
 import { UserDto } from '../dto/UserDto'
-import axios from 'axios'
 import { UserSignUpDto } from '../dto/UserSignUpDto'
 import { UserSignInDto } from '../dto/UserSignInDto'
 import { LocalUser } from '../util/LocalUser'
+import { UserTokenDto } from '../dto/UserTokenDto'
 
 /**
  * User signs up.
  */
-export const userSignUp: AxiosRequest<UserDto> = async function(userSignUpDto: UserSignUpDto): Promise<UserDto> {
-    return (await axios.post('/users/', userSignUpDto)).data
+export const userSignUp = async function(userSignUpDto: UserSignUpDto): Promise<UserTokenDto> {
+    return (await SupervisorAxios.post('/users/', userSignUpDto)).data
 }
 
 /**
  * User signs in.
  */
-export const userSignIn: AxiosRequest<UserDto> = async function(userSignInDto: UserSignInDto): Promise<UserDto> {
-    return (await axios.post('/users/auth/', userSignInDto)).data
+export const userSignIn = async function(userSignInDto: UserSignInDto): Promise<HttpResponse<UserTokenDto>> {
+    return (await SupervisorAxios.post('/users/auth/', userSignInDto)).data
+}
+
+export const userSignInAxios = async function(userSignInDto: UserSignInDto) {
+    return SupervisorAxios.post('/users/auth/', userSignInDto)
 }
 
 /**
  * Gets user's information.
  * @param userId
  */
-export const getUserInfo: AxiosRequest<UserDto> = async function(userId: number): Promise<UserDto> {
-    return (await axios.get(`/users/${userId}/`)).data
+export const getUserInfo = async function(userId: number): Promise<UserDto> {
+    return (await SupervisorAxios.get(`/users/${userId}/`)).data
 }
 
 /**
  * Gets current user's information.
  */
-export const getCurrentUserInfo: AxiosRequest<UserDto> = async function(): Promise<UserDto> {
-    return (await axios.get(`/users/`, {
+export const getCurrentUserInfo = async function(): Promise<UserDto> {
+    return (await SupervisorAxios.get(`/users/`, {
         headers: { token: LocalUser.INSTANCE().token },
     })).data
 }

@@ -1,5 +1,3 @@
-import { CategoryDto } from './CategoryDto'
-
 export interface TaskDto {
     id: number,
     userId: number,
@@ -11,5 +9,6 @@ export interface TaskDto {
     startedAt: string,
     resumedAt: string,
     endedAt: string,
-    categoryDto: CategoryDto
+    subjectName: string
+    categoryName: string,
 }

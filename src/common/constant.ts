@@ -1,12 +1,20 @@
-/**
- * The domain of the API server.
- */
-export const DOMAIN: string = 'jameschan.us'
+import moment from 'moment/moment'
 
 /**
- * The base URL.
+ * The domain of the API server for the backend.
  */
-export const BASE_URL: string = 'https://' + DOMAIN
+export const API_DOMAIN: string = 'jameschan.us'
+// export const API_DOMAIN: string = 'localhost:8080'
+
+/**
+ * The base URL for the backend.
+ */
+export const API_BASE_URL: string = `https://${API_DOMAIN}/api/supervisor`
+
+/**
+ * Frontend.
+ */
+export const BASE_URL: string = '/supervisor'
 
 /**
  * Cookie keys.
@@ -18,9 +26,10 @@ export const CookieKey = {
 }
 
 export const RedirectUrl = {
-    ABOUT: '/supervisor/about',
-    USER: '/supervisor/user',
-    SIGN_IN: '/supervisor/user',
+    HOME: '/',
+    ABOUT: '/about',
+    SPACE: '/space',
+    SIGN_IN: '/sign-in',
 }
 
 export enum TaskStage {
@@ -46,3 +55,10 @@ export enum TaskStage {
      */
     ENDED,
 }
+
+/**
+ * Default cookie expire time.
+ */
+export const DEFAULT_COOKIE_EXPIRE_TIME: Date = moment().add(12, 'months').toDate()
+
+export const DEFAULT_DATE_FORMAT: string = 'YYYY-MM-DD HH:mm:ss'

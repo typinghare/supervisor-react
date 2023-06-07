@@ -1,15 +1,23 @@
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Home } from './Home'
-import { About } from './About'
+import { HomePage } from './HomePage'
+import { AboutPage } from './AboutPage'
+import { SpacePage } from './SpacePage'
+import { SignInPage } from './SignInPage'
+import { BASE_URL } from '../common/constant'
 
-export const SupervisorRouter: FunctionComponent = () => {
-    return <BrowserRouter basename='/supervisor'>
+/**
+ * Supervisor router.
+ * @constructor
+ */
+export const SupervisorRouter: React.FC = (): JSX.Element => {
+    return <BrowserRouter basename={BASE_URL}>
         <Routes>
-            <Route path='/' element={<Home />} />
-            {/*<Route path='/sign-in' element={<SignIn />} />*/}
-            <Route path='/about' element={<About />} />
-            {/*<Route path='/space/:userId' element={<Space />} />*/}
+            <Route path='/' element={<HomePage />} />
+            <Route path='/sign-in' element={<SignInPage />} />
+            <Route path='/about' element={<AboutPage />} />
+            <Route path='/space/:userId' element={<SpacePage />} />
+            <Route path='/space' element={<SpacePage />} />
         </Routes>
     </BrowserRouter>
 }

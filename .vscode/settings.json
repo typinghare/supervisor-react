@@ -1,0 +1,13 @@
+{
+    "workbench.preferredDarkColorTheme": "Material Theme Palenight",
+    "window.autoDetectColorScheme": true,
+    "window.closeWhenEmpty": false,
+    "workbench.colorTheme": "Material Theme Palenight",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "editor.scrollBeyondLastLine": false
+}

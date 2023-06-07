@@ -1,22 +1,24 @@
 import React from 'react'
-import { Box, BoxProps, Card, CardContent, Collapse, SxProps } from '@mui/material'
+import { Box, Card, CardContent, CardProps, Collapse, SxProps } from '@mui/material'
 import { TaskStage } from '../common/constant'
 import { TaskProgress, TaskProgressProps } from './TaskProgress'
 import { convertDateToTime } from '../common/date'
 import { TaskComment } from './TaskComment'
 
-export type TaskCardProps = BoxProps & {
+export type Task = {
     taskId: number,
     taskStage: TaskStage,
     subjectName: string,
     categoryName: string,
     createdAt: Date,
-    startedAt: Date,
-    endedAt: Date,
-    resumedAt: Date,
+    startedAt?: Date,
+    endedAt?: Date,
+    resumedAt?: Date,
     duration: number,
     expectedDuration: number,
 }
+
+export type TaskCardProps = CardProps & Task
 
 export const TaskCard: React.FC<TaskCardProps> = function(props): JSX.Element {
     const {
@@ -30,7 +32,7 @@ export const TaskCard: React.FC<TaskCardProps> = function(props): JSX.Element {
         resumedAt,
         duration,
         expectedDuration,
-        ...boxProps
+        ...cardProps
     } = props
 
     const [expanded, setExpanded] = React.useState<boolean>(false)
@@ -93,7 +95,7 @@ export const TaskCard: React.FC<TaskCardProps> = function(props): JSX.Element {
         endedAt: convertDateToTime(endedAt),
     }
 
-    return <Card variant='elevation' elevation={3}>
+    return <Card variant='elevation' elevation={3} {...cardProps}>
         <CardContent>
             <Title />
 
