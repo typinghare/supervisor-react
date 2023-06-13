@@ -3,7 +3,7 @@ import { RootState } from '../store'
 
 export type SpaceTabType = 'worklist' | 'chart' | 'console'
 
-export const spaceTabList = ['worklist', 'chart', 'console']
+export const spaceTabList: SpaceTabType[] = ['worklist', 'chart', 'console']
 
 export type SpaceState = {
     tab: SpaceTabType;

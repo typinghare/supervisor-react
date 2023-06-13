@@ -1,20 +1,20 @@
 import { Box, BoxProps } from '@mui/material'
-import { MuiStyles } from '../common/interfaces'
+import { MuiStyles } from '../../common/interfaces'
 
 export interface ChangelogSectionProps extends BoxProps {
     // The version of the changelog.
     version: string
 
-    // The publish date of the version (format: "MM/DD/YYYY").
-    publishDate: string
+    // The release date of the version (format: "MM/DD/YYYY").
+    releaseDate: string
 }
 
 /**
  * Changelog section.
  */
-export const ChangelogSection = function (props: ChangelogSectionProps) {
-    const { version, publishDate, children } = props
-    const styles: MuiStyles = {
+export const ChangelogSection = function(props: ChangelogSectionProps) {
+    const { version, releaseDate, children } = props
+    const styles: MuiStyles<'root' | 'title' | 'publishDate' | 'children'> = {
         root: {
             marginTop: '1em',
             '& ul': { margin: 0, paddingLeft: '2em' },
@@ -42,7 +42,7 @@ export const ChangelogSection = function (props: ChangelogSectionProps) {
         <Box sx={styles.root}>
             <Box sx={styles.root}>
                 {version}
-                <Box sx={styles.publishDate}>{publishDate}</Box>
+                <Box sx={styles.publishDate}>{releaseDate}</Box>
             </Box>
 
             <Box sx={styles.children}>{children}</Box>

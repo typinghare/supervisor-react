@@ -1,8 +1,8 @@
 import { ChangelogSection } from '../ChangelogSection'
 
-export const Changelog210 = function (): JSX.Element {
+export function Changelog210(): JSX.Element {
     return (
-        <ChangelogSection version="v2.1.0" publishDate="08/11/2022">
+        <ChangelogSection version='v2.1.0' releaseDate='08/11/2022'>
             <ul>
                 <li>The database has been redesigned and optimized.</li>
                 <li>

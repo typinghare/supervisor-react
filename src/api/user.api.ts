@@ -2,7 +2,6 @@ import { HttpResponse, SupervisorAxios } from '../common/api'
 import { UserDto } from '../dto/UserDto'
 import { UserSignUpDto } from '../dto/UserSignUpDto'
 import { UserSignInDto } from '../dto/UserSignInDto'
-import { LocalUser } from '../util/LocalUser'
 import { UserTokenDto } from '../dto/UserTokenDto'
 
 /**
@@ -35,7 +34,5 @@ export const getUserInfo = async function(userId: number): Promise<UserDto> {
  * Gets current user's information.
  */
 export const getCurrentUserInfo = async function(): Promise<UserDto> {
-    return (await SupervisorAxios.get(`/users/`, {
-        headers: { token: LocalUser.INSTANCE().token },
-    })).data
+    return (await SupervisorAxios.get(`/users/`, {})).data
 }

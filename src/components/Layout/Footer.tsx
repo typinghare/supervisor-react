@@ -1,8 +1,8 @@
 import { Box, Container } from '@mui/material'
-import { MuiStyles } from '../common/interfaces'
+import { MuiStyles } from '../../common/interfaces'
 
-export const Footer = function (): JSX.Element {
-    const styles: MuiStyles = {
+export const Footer = function(): JSX.Element {
+    const styles: MuiStyles<'root' | 'logo' | 'copyright'> = {
         root: {
             bottom: 0,
             width: '100% !important',

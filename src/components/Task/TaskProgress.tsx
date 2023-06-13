@@ -2,9 +2,9 @@
 
 import { Box, BoxProps, LinearProgress, SxProps } from '@mui/material'
 import React from 'react'
-import { TimeDisplay } from './TimeDisplay'
+import { TimeDisplay } from '../Common/TimeDisplay'
 import { HourMinuteSecond, SlowHourMinuteSecond } from '@typinghare/hour-minute-second'
-import { TaskStage } from '../common/constant'
+import { TaskStage } from '../../common/constant'
 
 export type TaskProgressProps = BoxProps & {
     taskStage?: TaskStage,

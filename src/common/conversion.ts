@@ -1,4 +1,4 @@
-import { Task } from '../component/TaskCard'
+import { Task } from '../components/Task/TaskCard'
 import { TaskDto } from '../dto/TaskDto'
 import moment from 'moment/moment'
 import { DEFAULT_DATE_FORMAT } from './constant'

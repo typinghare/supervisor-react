@@ -1,8 +1,8 @@
 import React from 'react'
 import { Box, Card, CardContent, CardProps, Collapse, SxProps } from '@mui/material'
-import { TaskStage } from '../common/constant'
+import { TaskStage } from '../../common/constant'
 import { TaskProgress, TaskProgressProps } from './TaskProgress'
-import { convertDateToTime } from '../common/date'
+import { convertDateToTime } from '../../common/date'
 import { TaskComment } from './TaskComment'
 
 export type Task = {

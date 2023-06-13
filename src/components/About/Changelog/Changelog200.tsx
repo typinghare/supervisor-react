@@ -1,8 +1,8 @@
 import { ChangelogSection } from '../ChangelogSection'
 
-export const Changelog200 = function (): JSX.Element {
+export function Changelog200(): JSX.Element {
     return (
-        <ChangelogSection version="v2.0.0" publishDate="03/18/2022">
+        <ChangelogSection version='v2.0.0' releaseDate='03/18/2022'>
             <ul>
                 <li>
                     Refactored code using <b>ReactJS</b>, <b>Material UI</b>, and <b>NestJS</b>.

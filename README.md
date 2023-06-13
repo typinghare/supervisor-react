@@ -1,46 +1,70 @@
-# Getting Started with Create React App
+# Supervisor
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The frontend of Supervisor is powered by ReactJS framework.
 
-## Available Scripts
+## Style Guide
 
-In the project directory, you can run:
+### TypeScript
 
-### `npm start`
+See [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### ReactJS in TypeScript
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+A complete React component should be coded as follows.
 
-### `npm test`
+~~~tsx
+import { Box, BoxProps } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { MuiStyles } from './interfaces'
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+// Define the properties of a component above it.
+// The name of the properties interface should follow the Pascal naming convention.
+// Using `interface` instead of `type` for readability.
+// Propeties interface extends BoxProps if you want to expose Box properties for users to customize.
+export interface MyComponentProps extends BoxProps {
+    myProp: string
+}
 
-### `npm run build`
+// The component's name should follow the Pascal naming convention.
+// Using functional components instead of outdated class components.
+// Using `export function` instead of `export cost = function()` for conciseness.
+// Every function should be explicitly assigned a return type, and components are no exception.
+// The return type of a component is `JSX.Element`.
+export function MyComponent(props: MyComponentProps): JSX.Element {
+    // Appying destructing assignment to retrieve properties.
+    // For readability, this should be at the very beginning of the function.
+    const { myProp, children, ...otherProps } = props
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    // Hooks are defined following by properties assignment.
+    const [myState, setMyState] = useState(myProp)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    // Then, effects are given.
+    useEffect(() => {
+        // Effect content...
+    }, [])
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    // Define custom variables and functions in-between.
+    function handleSomething(): void {
+    }
 
-### `npm run eject`
+    // Define styles.
+    const styles: MuiStyles<'root' | 'inner'> = {
+        root: {
+            padding: '1em',
+        },
+        inner: {
+            border: '1px solid #999999',
+            borderRadius: '6px',
+        },
+    }
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    // Returns the JSX element.
+    return (
+        // Using parentheses to align elements.
+        <Box sx={styles.root} {...otherProps}>
+            <Box sx={styles.inner}> {children} </Box>
+        </Box>
+    )
+}
+~~~
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

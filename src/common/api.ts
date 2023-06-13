@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_BASE_URL } from './constant'
+import { Server } from './constant'
 
 export type HttpResponse<T = null> = {
     message: string,
@@ -13,5 +13,5 @@ export type HttpFailResponse = {
 
 // Base URL
 export const SupervisorAxios = axios.create({
-    baseURL: API_BASE_URL,
+    baseURL: Server.ApiBaseUrl,
 })

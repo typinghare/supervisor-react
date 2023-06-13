@@ -1,35 +1,34 @@
 import moment from 'moment/moment'
 
-/**
- * The domain of the API server for the backend.
- */
-export const API_DOMAIN: string = 'jameschan.us'
-// export const API_DOMAIN: string = 'localhost:8080'
+export namespace Frontend {
+    // Frontend basename.
+    export const Basename = '/supervisor'
 
-/**
- * The base URL for the backend.
- */
-export const API_BASE_URL: string = `https://${API_DOMAIN}/api/supervisor`
-
-/**
- * Frontend.
- */
-export const BASE_URL: string = '/supervisor'
-
-/**
- * Cookie keys.
- */
-export const CookieKey = {
-    USER_ID: 'USER_ID',
-    TOKEN: 'TOKEN',
-    USERNAME: 'USERNAME',
+    export const CookieKey = {
+        UserId: 'user_id',
+        Token: 'token',
+        Username: 'username',
+    }
 }
 
-export const RedirectUrl = {
-    HOME: '/',
-    ABOUT: '/about',
-    SPACE: '/space',
-    SIGN_IN: '/sign-in',
+export namespace Server {
+    /**
+     * The domain of the backend server.
+     */
+    export const ApiDomain = 'jameschan.us'
+
+    // The protocol.
+    export const ApiProtocol: 'http' | 'https' = 'https'
+
+    // The base URL for the backend server.
+    export const ApiBaseUrl = `${ApiProtocol}://${ApiDomain}/api/supervisor`
+}
+
+export namespace Url {
+    export const Home = '/'
+    export const About = '/about'
+    export const Space = '/space'
+    export const SignIn = '/sign-in'
 }
 
 export enum TaskStage {

@@ -1,8 +1,8 @@
 import { ChangelogSection } from '../ChangelogSection'
 
-export const Changelog211 = function (): JSX.Element {
+export function Changelog211(): JSX.Element {
     return (
-        <ChangelogSection version="v2.1.1" publishDate="08/14/2022">
+        <ChangelogSection version='v2.1.1' releaseDate='08/14/2022'>
             <ul>
                 <li>
                     Improved task creation workflow: After a task is created, either the dashboard accordion or the

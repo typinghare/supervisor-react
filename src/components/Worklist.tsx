@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Grid } from '@mui/material'
 import { TaskDto } from '../dto/TaskDto'
-import { Task, TaskCard } from './TaskCard'
+import { Task, TaskCard } from './Task/TaskCard'
 import { convertTaskDtoToTask } from '../common/conversion'
 import { useMutation } from '@tanstack/react-query'
 import { getTasksForUser } from '../api/task.api'

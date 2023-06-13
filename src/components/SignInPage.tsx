@@ -2,49 +2,48 @@ import React from 'react'
 import { Box, Button, InputAdornment, TextField, Theme } from '@mui/material'
 import KeyIcon from '@mui/icons-material/Key'
 import { useNavigate } from 'react-router-dom'
-import { LocalUser } from '../util/LocalUser'
-import { BASE_URL, CookieKey, DEFAULT_COOKIE_EXPIRE_TIME, RedirectUrl } from '../common/constant'
-import { useCookies } from 'react-cookie'
 import { useMutation } from '@tanstack/react-query'
 import { userSignIn } from '../api/user.api'
 import { UserTokenDto } from '../dto/UserTokenDto'
 import { AccountCircle } from '@mui/icons-material'
-import { SupervisorContainer } from './SupervisorContainer'
 import { UserSignInDto } from '../dto/UserSignInDto'
 import { HttpResponse } from '../common/api'
+import { useUser } from '../state/user'
+import { Url } from '../common/constant'
+import { Page } from './Layout/Page'
 
 export const SignInPage: React.FC = function(): JSX.Element {
     const navigate = useNavigate()
+    const user = useUser()
     const [username, setUsername] = React.useState('')
     const [password, setPassword] = React.useState('')
 
     React.useEffect((): void => {
-        // If the user has signed in, redirect to the space page.
-        if (LocalUser.INSTANCE().isSignedIn) {
-            navigate(RedirectUrl.SPACE)
+        if (user.hasSignedIn()) {
+            navigate(Url.Space)
         }
-    }, [navigate])
+    }, [user, navigate])
 
     const style = (theme: Theme) => ({
         padding: theme.spacing(1),
         [theme.breakpoints.down('sm')]: {
-            padding: 0
+            padding: 0,
         },
         [theme.breakpoints.up('md')]: {
-            padding: '0 15%'
+            padding: '0 15%',
         },
         [theme.breakpoints.up('lg')]: {
-            padding: '0 30%'
+            padding: '0 30%',
         },
     })
 
-    return <SupervisorContainer>
+    return <Page>
         <Box sx={style}>
             <UsernameTextField username={username} onChange={username => setUsername(username)} />
             <PasswordTextField password={password} onChange={password => setPassword(password)} />
             <SubmitButton username={username} password={password} />
         </Box>
-    </SupervisorContainer>
+    </Page>
 }
 
 export type UsernameTextFieldProps = {
@@ -107,22 +106,15 @@ export type SubmitButtonProps = {
 
 export const SubmitButton: React.FC<SubmitButtonProps> = function(props): JSX.Element {
     const { username, password } = props
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_, setCookie] = useCookies([CookieKey.USER_ID, CookieKey.TOKEN, CookieKey.USERNAME])
+    const user = useUser()
     const navigate = useNavigate()
 
     const { mutate, isLoading } = useMutation(userSignIn, {
         onSuccess: (response: HttpResponse<UserTokenDto>): void => {
-            const { id, username, token } = response.data
-
-            LocalUser.INSTANCE().signIn(id, username, token)
-            setCookie(CookieKey.USER_ID, id, { path: BASE_URL, expires: DEFAULT_COOKIE_EXPIRE_TIME })
-            setCookie(CookieKey.USERNAME, username, { path: BASE_URL, expires: DEFAULT_COOKIE_EXPIRE_TIME })
-            setCookie(CookieKey.TOKEN, token, { path: BASE_URL, expires: DEFAULT_COOKIE_EXPIRE_TIME })
+            user.signIn(response.data)
 
             // Redirect to space page.
-            navigate(RedirectUrl.SPACE)
+            navigate(Url.Space)
         },
     })
 
