@@ -11,10 +11,13 @@ export function Page(props: BoxProps): JSX.Element {
             margin: '2em 1em',
         },
         [theme.breakpoints.up('sm')]: {
+            margin: '2em 5%',
+        },
+        [theme.breakpoints.up('lg')]: {
             margin: '2em 10%',
         },
-        [theme.breakpoints.up('md')]: {
-            margin: '2em 20%',
+        [theme.breakpoints.up('xl')]: {
+            margin: '2em 15%',
         },
 
         ...sx,

@@ -1,12 +1,11 @@
-// noinspection JSUnusedAssignment
-
-import { Box, BoxProps, LinearProgress, SxProps } from '@mui/material'
-import React from 'react'
+import { Box, BoxProps, LinearProgress } from '@mui/material'
 import { TimeDisplay } from '../Common/TimeDisplay'
 import { HourMinuteSecond, SlowHourMinuteSecond } from '@typinghare/hour-minute-second'
 import { TaskStage } from '../../common/constant'
+import { useEffect, useState } from 'react'
+import { MuiStyles } from '../../common/interfaces'
 
-export type TaskProgressProps = BoxProps & {
+export interface TaskProgressProps extends BoxProps {
     taskStage?: TaskStage,
     startedAt?: HourMinuteSecond
     endedAt?: HourMinuteSecond
@@ -14,24 +13,40 @@ export type TaskProgressProps = BoxProps & {
     expectedDuration: number;
 }
 
+/**
+ * Returns a progress percentage relative to the given duration and expected duration.
+ * @param duration
+ * @param expectedDuration
+ */
 function getProgress(duration: number, expectedDuration: number): number {
     return Math.min(100, Math.floor((duration / expectedDuration) * 100))
 }
 
-const timeDisplayStyle = {
-    display: 'inline-block',
-    width: '4em',
-    textAlign: 'center',
-    fontFamily: '\'Courier New\', sans-serif',
-}
+export function TaskProgress(props: TaskProgressProps): JSX.Element {
+    const { taskStage, startedAt, endedAt, duration, expectedDuration, ...otherProps } = props
+    const [dynamicDuration, setDynamicDuration] = useState(duration)
+    const [progress, setProgress] = useState(getProgress(dynamicDuration, expectedDuration))
 
-export const TaskProgress: React.FC<TaskProgressProps> = function(props): JSX.Element {
-    const { taskStage, startedAt, endedAt, duration, expectedDuration, ...boxProps } = props
-    const [dynamicDuration, setDynamicDuration] = React.useState(duration)
-    const [progress, setProgress] = React.useState(getProgress(duration, expectedDuration))
-
-    const StartTimeDisplay = function(): JSX.Element {
-        return <TimeDisplay time={startedAt} sx={timeDisplayStyle} />
+    const styles: MuiStyles<'startTime' | 'endTime' | 'progressBar'> = {
+        startTime: {
+            display: 'inline-block',
+            width: '4em',
+            textAlign: 'center',
+            fontFamily: 'Digital-7',
+        },
+        endTime: {
+            display: 'inline-block',
+            width: '4em',
+            textAlign: 'center',
+            fontFamily: 'Digital-7',
+            color: taskStage === TaskStage.ONGOING ? 'green' : 'inherit',
+        },
+        progressBar: {
+            display: 'inline-block !important',
+            width: 'calc(100% - 8em)',
+            height: '0.6em !important',
+            borderRadius: '0.5em',
+        },
     }
 
     const EndTimeDisplay = function(): JSX.Element {
@@ -42,26 +57,16 @@ export const TaskProgress: React.FC<TaskProgressProps> = function(props): JSX.El
             time = endedAt
         }
 
-        const style: SxProps = {
-            ...timeDisplayStyle,
-            color: taskStage === TaskStage.ONGOING ? 'green' : 'inherit',
-        }
-
-        return <TimeDisplay time={time} flash={taskStage === TaskStage.ONGOING} sx={style} />
+        return (
+            <TimeDisplay
+                time={time}
+                flash={taskStage === TaskStage.ONGOING}
+                sx={styles.endTime}
+            />
+        )
     }
 
-    function LinearProgressBar(): JSX.Element {
-        const style: SxProps = {
-            display: 'inline-block !important',
-            width: 'calc(100% - 8em)',
-            height: '0.6em !important',
-            borderRadius: '0.5em',
-        }
-
-        return <LinearProgress variant='determinate' value={progress} sx={style} />
-    }
-
-    React.useEffect(() => {
+    useEffect(() => {
         const initialTime = new Date().getTime()
         const durationInterval = taskStage === TaskStage.ONGOING ?
             setInterval((): void => {
@@ -78,9 +83,20 @@ export const TaskProgress: React.FC<TaskProgressProps> = function(props): JSX.El
         }
     }, [taskStage, expectedDuration, dynamicDuration])
 
-    return <Box sx={boxProps}>
-        <StartTimeDisplay />
-        <LinearProgressBar />
-        <EndTimeDisplay />
-    </Box>
+    return (
+        <Box {...otherProps}>
+            <TimeDisplay
+                time={startedAt}
+                sx={styles.startTime}
+            />
+
+            <LinearProgress
+                variant='determinate'
+                value={progress}
+                sx={styles.progressBar}
+            />
+
+            <EndTimeDisplay />
+        </Box>
+    )
 }

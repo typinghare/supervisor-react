@@ -35,24 +35,24 @@ export enum TaskStage {
     /**
      * The task hasn't been started.
      */
-    PENDING,
+    PENDING = 0,
 
     /**
      * The task is ongoing and duration is counting.
      * Users cannot start another task while the task is ongoing.
      */
-    ONGOING,
+    ONGOING = 1,
 
     /**
      * The task has been paused and duration is not counting.
      * Users can start another task if the task is paused.
      */
-    PAUSED,
+    PAUSED = 2,
 
     /**
      * The task has been ended.
      */
-    ENDED,
+    ENDED = 3,
 }
 
 /**

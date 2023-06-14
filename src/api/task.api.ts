@@ -1,6 +1,5 @@
 import { TaskDto } from '../dto/TaskDto'
-import axios from 'axios'
-import { HttpResponse } from '../common/api'
+import { HttpResponse, SupervisorAxios } from '../common/api'
 
 export type GetTasksForUserParams = {
     userId: number,
@@ -9,7 +8,7 @@ export type GetTasksForUserParams = {
     limit?: number,
     page?: number,
     categoryId?: number,
-    taskStage?: number,
+    taskStageString?: string,
 }
 
 /**
@@ -18,9 +17,9 @@ export type GetTasksForUserParams = {
 export const getTasksForUser = async function(
     params: GetTasksForUserParams,
 ): Promise<HttpResponse<TaskDto[]>> {
-    const { userId, fromTimestamp, toTimestamp, limit, page, categoryId, taskStage } = params
-    return (await axios.get(`/users/${userId}/tasks/`, {
-        params: { fromTimestamp, toTimestamp, limit, page, categoryId, taskStage },
+    const { userId, fromTimestamp, toTimestamp, limit, page, categoryId, taskStageString } = params
+    return (await SupervisorAxios.get(`/users/${userId}/tasks/`, {
+        params: { fromTimestamp, toTimestamp, limit, page, categoryId, taskStageString },
     })).data
 }
 
@@ -29,19 +28,19 @@ export const getTasksForUser = async function(
  * @param categoryId
  */
 export const createTask = async function(categoryId: number): Promise<HttpResponse<TaskDto>> {
-    return (await axios.post(`/tasks/`, { param: { categoryId } })).data
+    return (await SupervisorAxios.post(`/tasks/`, { param: { categoryId } })).data
 }
 
 /**
  * Updates a task.
  */
 export const updateTask = async function(taskId: number): Promise<HttpResponse<TaskDto>> {
-    return (await axios.put(`/tasks/${taskId}/`)).data
+    return (await SupervisorAxios.put(`/tasks/${taskId}/`)).data
 }
 
 /**
  * Deletes a task.
  */
 export const deleteTask = async function(taskId: number): Promise<HttpResponse<void>> {
-    return (await axios.delete(`/tasks/${taskId}/`)).data
+    return (await SupervisorAxios.delete(`/tasks/${taskId}/`)).data
 }

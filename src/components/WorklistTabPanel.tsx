@@ -1,10 +1,10 @@
 import { Worklist } from './Worklist'
 
-export interface WorklistTabProps {
+export interface WorklistTabPanelProps {
     userId: number
 }
 
-export function WorklistTab(props: WorklistTabProps): JSX.Element {
+export function WorklistTabPanel(props: WorklistTabPanelProps): JSX.Element {
     const { userId } = props
 
     return (

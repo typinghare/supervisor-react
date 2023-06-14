@@ -1,27 +1,27 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { Box, BoxProps } from '@mui/material'
 import { HourMinuteSecond } from '@typinghare/hour-minute-second'
 import { isUndefined } from 'lodash'
 
-export type TimeDisplayProps = BoxProps & {
+export interface TimeDisplayProps extends BoxProps {
     // The time to display; undefined will be displayed as "--:--"
-    time?: HourMinuteSecond,
+    time?: HourMinuteSecond
 
     // Whether the colon flashes.
-    flash?: boolean,
+    flash?: boolean
 
     // The interval between colon blinks in milliseconds.
     flashInterval?: number
 }
 
-export const TimeDisplay: React.FC<TimeDisplayProps> = function(props): JSX.Element {
-    const { time, flash, flashInterval, ...boxProps } = props
-    const hourString: string = isUndefined(time) ? '--' : time.hour.toString().padStart(2, '0')
-    const minuteString: string = isUndefined(time) ? '--' : time.minute.toString().padStart(2, '0')
+export function TimeDisplay(props: TimeDisplayProps): JSX.Element {
+    const { time, flash, flashInterval, ...otherProps } = props
+    const [showColon, setShowColon] = useState(true)
 
-    const [showColon, setShowColon] = React.useState(true)
+    const hour: string = isUndefined(time) ? '--' : time.hour.toString().padStart(2, '0')
+    const minute: string = isUndefined(time) ? '--' : time.minute.toString().padStart(2, '0')
 
-    React.useEffect(() => {
+    useEffect(() => {
         const flashHandle = flash && setInterval(() => setShowColon(!showColon), flashInterval || 1000)
 
         return (): void => {
@@ -29,8 +29,9 @@ export const TimeDisplay: React.FC<TimeDisplayProps> = function(props): JSX.Elem
         }
     }, [flash, flashInterval, showColon])
 
-    boxProps.display = 'inline-block'
-    return <Box {...boxProps}>
-        {hourString + (props.flash && !showColon ? ' ' : ':') + minuteString}
-    </Box>
+    return (
+        <Box display='inline-block' {...otherProps}>
+            {hour + (props.flash && !showColon ? ' ' : ':') + minute}
+        </Box>
+    )
 }
