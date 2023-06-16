@@ -1,5 +1,5 @@
-import { Page } from '../Layout/Page'
-import { MuiStyles } from '../../common/interfaces'
+import { Page } from '../Common/Page'
+import { collectStyles } from '../../common/functions/style'
 import { Box, Typography } from '@mui/material'
 import { Changelog200 } from './Changelog/Changelog200'
 import { Changelog210 } from './Changelog/Changelog210'
@@ -7,57 +7,45 @@ import { Changelog211 } from './Changelog/Changelog211'
 import { Changelog212 } from './Changelog/Changelog212'
 import { Changelog220 } from './Changelog/Changelog220'
 
-/**
- * The about page includes a piece of statement and changelogs.
- */
 export function AboutPage(): JSX.Element {
-    const styles: MuiStyles<'root' | 'changelogTitle'> = {
+    const styles = collectStyles({
         root: {
-            marginBottom: '2em',
+            backgroundColor: '#e9ecef',
         },
         changelogTitle: {
-            color: '#4361ee',
+            color: '#3f88c5',
             textAlign: 'center',
             fontWeight: 'bold',
+            fontSize: '2.5em',
+            marginTop: '1em',
         },
-    }
+    })
 
     return (
         <Page sx={styles.root}>
             <Statement />
 
-            <Typography
-                variant='h4'
-                mt={4}
-                sx={styles.changelogTitle}
-                children='Changelog'
-            />
-            <>
-                <Changelog200 />
-                <Changelog210 />
-                <Changelog211 />
-                <Changelog212 />
-                <Changelog220 />
-            </>
+            <Box sx={styles.changelogTitle}> Changelog </Box>
+            <ChangelogContent />
         </Page>
     )
 }
 
 function Statement(): JSX.Element {
-    const styles: MuiStyles<'root' | 'title'> = {
+    const styles = collectStyles({
         root: {
             marginTop: '1em',
-            backgroundColor: '#e5f6fd',
+            backgroundColor: '#e3f2fd',
             padding: '1em',
         },
         title: {
             marginBottom: '0.5em',
         },
-    }
+    })
 
     return (
         <Box sx={styles.root}>
-            <Typography variant='h4' sx={styles.title}>
+            <Typography variant='h5' sx={styles.title}>
                 Statement
             </Typography>
             <Typography variant='body1' mb={1}>
@@ -78,7 +66,23 @@ function Statement(): JSX.Element {
                 years ago. My friends, coworkers, classmates, teammates, all of you guys can supervise me and witness my
                 growth and change.
             </Typography>
-            <Typography variant='body1'>—March 18, 2022</Typography>
+            <Typography variant='body1'> –– March 18, 2022 </Typography>
         </Box>
+    )
+}
+
+/**
+ * Developers register changelog in this function.
+ * @constructor
+ */
+function ChangelogContent(): JSX.Element {
+    return (
+        <>
+            <Changelog200 />
+            <Changelog210 />
+            <Changelog211 />
+            <Changelog212 />
+            <Changelog220 />
+        </>
     )
 }

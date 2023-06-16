@@ -1,8 +1,8 @@
-import { ChangelogSection } from '../ChangelogSection'
+import { Changelog } from '../Changelog'
 
 export function Changelog200(): JSX.Element {
     return (
-        <ChangelogSection version='v2.0.0' releaseDate='03/18/2022'>
+        <Changelog version='2.0.0' releaseDate='Mar 18th, 2022'>
             <ul>
                 <li>
                     Refactored code using <b>ReactJS</b>, <b>Material UI</b>, and <b>NestJS</b>.
@@ -13,10 +13,10 @@ export function Changelog200(): JSX.Element {
                 <li>Replaced console commands with forms for task control and monitoring.</li>
                 <li>Added the ability to remove tasks.</li>
                 <li>
-                    Added expected durations for each <i>category</i> and progress bars that reach 100% when the
+                    Added an expected duration for each <i>category</i> and progress bars that reach 100% when the
                     duration exceeds the expectation.
                 </li>
             </ul>
-        </ChangelogSection>
+        </Changelog>
     )
 }

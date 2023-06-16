@@ -1,8 +1,8 @@
 import { Box, Container } from '@mui/material'
-import { MuiStyles } from '../../common/interfaces'
+import { collectStyles } from '../../common/functions/style'
 
-export const Footer = function(): JSX.Element {
-    const styles: MuiStyles<'root' | 'logo' | 'copyright'> = {
+export function Footer(): JSX.Element {
+    const styles = collectStyles({
         root: {
             bottom: 0,
             width: '100% !important',
@@ -20,13 +20,13 @@ export const Footer = function(): JSX.Element {
         copyright: {
             display: 'inline-block',
         },
-    }
+    })
 
     return (
         <Box sx={styles.root}>
             <Container>
                 <Box sx={styles.logo}>Supervisor</Box>
-                <Box sx={styles.copyright}>© 2022-2023 Supervisor, Ind.</Box>
+                <Box sx={styles.copyright}>© 2022-2023 Supervisor. (Hey I don't know what it this but whatever)</Box>
             </Container>
         </Box>
     )

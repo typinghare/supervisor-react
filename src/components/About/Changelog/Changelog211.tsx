@@ -1,8 +1,8 @@
-import { ChangelogSection } from '../ChangelogSection'
+import { Changelog } from '../Changelog'
 
 export function Changelog211(): JSX.Element {
     return (
-        <ChangelogSection version='v2.1.1' releaseDate='08/14/2022'>
+        <Changelog version='2.1.1' releaseDate='Aug 14th, 2022'>
             <ul>
                 <li>
                     Improved task creation workflow: After a task is created, either the dashboard accordion or the
@@ -15,6 +15,6 @@ export function Changelog211(): JSX.Element {
                 <li>Resolved an issue where the time was displayed incorrectly in the task card expanded content.</li>
                 <li>Fixed a bug where tasks could be created without selecting a category.</li>
             </ul>
-        </ChangelogSection>
+        </Changelog>
     )
 }

@@ -1,9 +1,11 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
 import space from './slice/SpaceSlice'
+import user from './slice/UserSlice'
 
 export const store = configureStore({
     reducer: {
         space,
+        user,
     },
 })
 

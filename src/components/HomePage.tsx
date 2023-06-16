@@ -1,25 +1,12 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Url } from '../common/constant'
-import { useUser } from '../state/user'
-import { Page } from './Layout/Page'
+import { Page } from './Common/Page'
+import { Alert } from '@mui/material'
 
-/**
- * Home page.
- */
-export const HomePage = function(): JSX.Element {
-    const navigate = useNavigate()
-    const user = useUser()
-
-    React.useEffect((): void => {
-        if (user.hasSignedIn()) {
-            navigate(Url.Space)
-        }
-    }, [navigate, user])
-
+export function HomePage(): JSX.Element {
     return (
         <Page>
-            <h2>Welcome to Supervisor 2.</h2>
+            <Alert severity='info'>
+                Welcome to Supervisor 2! I haven't yet designed the home page.
+            </Alert>
         </Page>
     )
 }

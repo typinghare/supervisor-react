@@ -1,27 +1,34 @@
-import { AppBar, Box, Link, Theme, Toolbar } from '@mui/material'
-import { useUser } from '../../state/user'
-import React from 'react'
-import { MuiStyles } from '../../common/interfaces'
-import { Frontend, Url } from '../../common/constant'
+import { AppBar, Box, Link, Toolbar } from '@mui/material'
+import { Frontend } from '../../common/constants/frontend'
+import { collectStyles } from '../../common/functions/style'
+import { useAppSelector } from '../../redux/hooks'
+import { selectUserId } from '../../redux/slice/UserSlice'
+
+export const navigationHeight = '4em'
 
 export function Navigation(): JSX.Element {
-    const user = useUser()
-    const styles: MuiStyles<'root' | 'logo' | 'about' | 'user' | 'signIn'> = {
-        root: (theme: Theme) => ({
-            [theme.breakpoints.down('sm')]: {
-                padding: '0 0 !important',
+    const userId = useAppSelector(selectUserId)
+
+    const styles = collectStyles({
+        root: {
+            padding: {
+                xs: '0 0',
+                sm: '0 5%',
+                md: '0 10%',
+                lg: '0 15%',
+                xl: '0 20%',
             },
-            [theme.breakpoints.up('sm')]: {
-                padding: '0 20vw !important',
-            },
-            height: '4em',
-        }),
+            height: navigationHeight,
+        },
         logo: {
             color: 'white',
             fontSize: '1.5em',
             fontWeight: 'bold',
             fontStyle: 'italic',
             cursor: 'pointer',
+            '&:hover': {
+                textDecoration: 'none',
+            },
         },
         about: {
             color: 'white',
@@ -35,27 +42,27 @@ export function Navigation(): JSX.Element {
             color: 'white',
             float: 'right',
         },
-    }
+    })
 
     return (
         <AppBar position='sticky' sx={styles.root}>
             <Toolbar>
-                <Link sx={styles.logo} href={Url.Home}>Supervisor 2</Link>
+                <Link sx={styles.logo} href={Frontend.Basename + Frontend.Url.Home}>Supervisor 2</Link>
                 <Box sx={{ flexGrow: 1 }}>
                     <Link
-                        href={Frontend.Basename + Url.About}
+                        href={Frontend.Basename + Frontend.Url.About}
                         sx={styles.about}
                         children='About'
                     />
 
-                    {user.hasSignedIn() && <Link
-                        href={Frontend.Basename + Url.Space}
+                    {userId !== undefined && <Link
+                        href={Frontend.Basename + Frontend.Url.Space}
                         sx={styles.user}
                         children='(User avatar)'
                     />}
 
-                    {!user.hasSignedIn() && <Link
-                        href={Frontend.Basename + Url.SignIn}
+                    {userId === undefined && <Link
+                        href={Frontend.Basename + Frontend.Url.SignIn}
                         sx={styles.signIn}
                         children='Sign In'
                     />}

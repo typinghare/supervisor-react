@@ -1,9 +1,7 @@
-import { Task } from '../components/Task/TaskCard'
-import { TaskDto } from '../dto/TaskDto'
+import { TaskDto } from '../../dto/TaskDto'
 import moment from 'moment/moment'
-import { DEFAULT_DATE_FORMAT } from './constant'
 
-export const convertTaskDtoToTask = function(taskDto: TaskDto): Task {
+export const convertTaskDtoToTask = function(taskDto: TaskDto) {
     return {
         taskId: taskDto.id,
         taskStage: taskDto.stage,
@@ -18,7 +16,7 @@ export const convertTaskDtoToTask = function(taskDto: TaskDto): Task {
     }
 }
 
-export const convertDateStringToDate = function(dateString: string | null, format: string = DEFAULT_DATE_FORMAT): Date | undefined {
+export const convertDateStringToDate = function(dateString: string | null, format: string = ''): Date | undefined {
     if (!dateString) return undefined
 
     return moment(dateString, format, true).toDate()

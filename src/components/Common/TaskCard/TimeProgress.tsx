@@ -1,61 +1,61 @@
 import { Box, BoxProps, LinearProgress } from '@mui/material'
-import { TimeDisplay } from '../Common/TimeDisplay'
+import { TaskStage } from '../../../common/enum/TaskStage'
 import { HourMinuteSecond, SlowHourMinuteSecond } from '@typinghare/hour-minute-second'
-import { TaskStage } from '../../common/constant'
+import { TimeDisplay } from '../TimeDisplay'
+import { collectStyles } from '../../../common/functions/style'
 import { useEffect, useState } from 'react'
-import { MuiStyles } from '../../common/interfaces'
 
-export interface TaskProgressProps extends BoxProps {
-    taskStage?: TaskStage,
+export interface TimeProgressProps extends BoxProps {
+    taskStage: TaskStage
+
     startedAt?: HourMinuteSecond
+
     endedAt?: HourMinuteSecond
-    duration: number;
-    expectedDuration: number;
+
+    duration: number
+
+    expectedDuration: number
 }
 
-/**
- * Returns a progress percentage relative to the given duration and expected duration.
- * @param duration
- * @param expectedDuration
- */
-function getProgress(duration: number, expectedDuration: number): number {
-    return Math.min(100, Math.floor((duration / expectedDuration) * 100))
-}
-
-export function TaskProgress(props: TaskProgressProps): JSX.Element {
-    const { taskStage, startedAt, endedAt, duration, expectedDuration, ...otherProps } = props
+export function TimeProgress(props: TimeProgressProps): JSX.Element {
+    const { taskStage, startedAt, endedAt, duration, expectedDuration } = props
     const [dynamicDuration, setDynamicDuration] = useState(duration)
     const [progress, setProgress] = useState(getProgress(dynamicDuration, expectedDuration))
 
-    const styles: MuiStyles<'startTime' | 'endTime' | 'progressBar'> = {
+    const styles = collectStyles({
+        root: {
+            display: 'flex',
+            alignItems: 'center',
+        },
         startTime: {
             display: 'inline-block',
-            width: '4em',
             textAlign: 'center',
-            fontFamily: 'Digital-7',
+            padding: '0 1em',
         },
         endTime: {
             display: 'inline-block',
-            width: '4em',
             textAlign: 'center',
-            fontFamily: 'Digital-7',
+            padding: '0 1em',
             color: taskStage === TaskStage.ONGOING ? 'green' : 'inherit',
         },
-        progressBar: {
-            display: 'inline-block !important',
-            width: 'calc(100% - 8em)',
+        progress: {
+            display: 'inline-block',
+            flexGrow: 1,
             height: '0.6em !important',
             borderRadius: '0.5em',
         },
-    }
+    })
 
-    const EndTimeDisplay = function(): JSX.Element {
-        let time: HourMinuteSecond | undefined = undefined
-        if (taskStage === TaskStage.ONGOING) {
-            time = SlowHourMinuteSecond.ofMinutes(duration)
-        } else if (taskStage === TaskStage.ENDED) {
-            time = endedAt
-        }
+    function EndTimeDisplay(): JSX.Element {
+        const time: HourMinuteSecond | undefined = (() => {
+            if (taskStage === TaskStage.ONGOING) {
+                return SlowHourMinuteSecond.ofMinutes(duration)
+            } else if (taskStage === TaskStage.ENDED) {
+                return endedAt
+            }
+
+            return undefined
+        })()
 
         return (
             <TimeDisplay
@@ -69,9 +69,9 @@ export function TaskProgress(props: TaskProgressProps): JSX.Element {
     useEffect(() => {
         const initialTime = new Date().getTime()
         const durationInterval = taskStage === TaskStage.ONGOING ?
-            setInterval((): void => {
-                const newDynamicDuration
-                    = Math.floor((new Date().getTime() - initialTime) / HourMinuteSecond.MILLISECONDS_IN_MINUTE)
+            setInterval(() => {
+                const newDynamicDuration = dynamicDuration +
+                    Math.floor((new Date().getTime() - initialTime) / HourMinuteSecond.MILLISECONDS_IN_MINUTE)
                 if (newDynamicDuration !== dynamicDuration) {
                     setDynamicDuration(newDynamicDuration)
                     setProgress(getProgress(newDynamicDuration, expectedDuration))
@@ -81,10 +81,10 @@ export function TaskProgress(props: TaskProgressProps): JSX.Element {
         return (): void => {
             if (durationInterval) clearInterval(durationInterval)
         }
-    }, [taskStage, expectedDuration, dynamicDuration])
+    }, [dynamicDuration, expectedDuration, taskStage, setDynamicDuration, setProgress])
 
     return (
-        <Box {...otherProps}>
+        <Box sx={styles.root}>
             <TimeDisplay
                 time={startedAt}
                 sx={styles.startTime}
@@ -93,10 +93,19 @@ export function TaskProgress(props: TaskProgressProps): JSX.Element {
             <LinearProgress
                 variant='determinate'
                 value={progress}
-                sx={styles.progressBar}
+                sx={styles.progress}
             />
 
             <EndTimeDisplay />
         </Box>
     )
+}
+
+/**
+ * Returns a progress percentage relative to the given duration and expected duration.
+ * @param duration
+ * @param expectedDuration
+ */
+function getProgress(duration: number, expectedDuration: number): number {
+    return Math.min(100, Math.floor((duration / expectedDuration) * 100))
 }

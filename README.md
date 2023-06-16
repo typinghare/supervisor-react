@@ -2,6 +2,46 @@
 
 The frontend of Supervisor is powered by ReactJS framework.
 
+## Dependencies
+
+~~~bash
+# This application is created by typescript.
+# @link https://create-react-app.dev/docs/getting-started
+npx create-react-app supervisor-react --template typescript
+
+# Install Redux.
+# @link https://redux.js.org/introduction/installation
+npm install react-redux redux @types/react-redux @types/redux
+
+# Install react-router-dom v6.
+# @link https://reactrouter.com/en/main/start/tutorial
+npm i react-router-dom
+
+# Install MUI (Material UI).
+# @link https://mui.com/material-ui/getting-started/installation/
+npm install @mui/material @emotion/react @emotion/styled @mui/lab
+
+# Install MUI icons support.
+# @link https://mui.com/material-ui/material-icons/
+npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
+
+# Install TanStack Query.
+# @link https://tanstack.com/query/latest/docs/react/installation
+npm i @tanstack/react-query
+
+# Install react-cookie.
+# @link https://www.npmjs.com/package/react-cookie
+npm i react-cookie
+
+# Install some useful libraries.
+npm axios
+npm moment
+npm lodash @types/lodash
+
+# Install Storybook.
+npx storybook@latest init
+~~~
+
 ## Style Guide
 
 ### TypeScript
@@ -15,7 +55,7 @@ A complete React component should be coded as follows.
 ~~~tsx
 import { Box, BoxProps } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { MuiStyles } from './interfaces'
+import { collectStyles } from './style'
 
 // Define the properties of a component above it.
 // The name of the properties interface should follow the Pascal naming convention.
@@ -48,7 +88,7 @@ export function MyComponent(props: MyComponentProps): JSX.Element {
     }
 
     // Define styles.
-    const styles: MuiStyles<'root' | 'inner'> = {
+    const styles = collectStyles({
         root: {
             padding: '1em',
         },
@@ -56,7 +96,7 @@ export function MyComponent(props: MyComponentProps): JSX.Element {
             border: '1px solid #999999',
             borderRadius: '6px',
         },
-    }
+    })
 
     // Returns the JSX element.
     return (

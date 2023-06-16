@@ -1,8 +1,8 @@
-import { ChangelogSection } from '../ChangelogSection'
+import { Changelog } from '../Changelog'
 
 export function Changelog210(): JSX.Element {
     return (
-        <ChangelogSection version='v2.1.0' releaseDate='08/11/2022'>
+        <Changelog version='2.1.0' releaseDate='Aug 11th, 2022'>
             <ul>
                 <li>The database has been redesigned and optimized.</li>
                 <li>
@@ -21,6 +21,6 @@ export function Changelog210(): JSX.Element {
                     <b>Recharts</b> has been integrated to provide data visualization and charting capabilities.
                 </li>
             </ul>
-        </ChangelogSection>
+        </Changelog>
     )
 }

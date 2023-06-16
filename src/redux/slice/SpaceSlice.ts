@@ -1,26 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
+import { Frontend } from '../../common/constants/frontend'
+import SpaceTabName = Frontend.SpaceTabName
 
-export type SpaceTabType = 'worklist' | 'chart' | 'new'
-
-export const spaceTabList: SpaceTabType[] = ['worklist', 'chart', 'new']
-
-export type SpaceState = {
-    tab: SpaceTabType;
+export interface SpaceState {
+    tabName: SpaceTabName
 }
 
-export const spaceSlice = createSlice({
+const spaceSlice = createSlice({
     name: 'space',
-    initialState: { tab: 'worklist' as SpaceTabType },
+    initialState: {
+        tabName: 'worklist' as SpaceTabName,
+    },
     reducers: {
-        switchSpaceTab: (state: SpaceState, action: PayloadAction<SpaceTabType>) => {
-            state.tab = action.payload
+        switchSpaceTab: (state: SpaceState, action: PayloadAction<SpaceTabName>) => {
+            state.tabName = action.payload
         },
     },
 })
 
 export const { switchSpaceTab } = spaceSlice.actions
 
-export const selectSpaceTab = (state: RootState) => state.space.tab
+export const selectSpaceTabName = (state: RootState) => state.space.tabName
 
 export default spaceSlice.reducer
