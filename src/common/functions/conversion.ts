@@ -1,16 +1,18 @@
 import { TaskDto } from '../../dto/TaskDto'
 import moment from 'moment/moment'
+import { Task } from '../../components/TaskCard/TaskCard'
 
-export const convertTaskDtoToTask = function(taskDto: TaskDto) {
+export const convertTaskDtoToTask = function(taskDto: TaskDto): Task {
     return {
-        taskId: taskDto.id,
+        id: taskDto.id,
         taskStage: taskDto.stage,
         subjectName: taskDto.subjectName,
         categoryName: taskDto.categoryName,
-        createdAt: convertDateStringToDate(taskDto.createdAt)!,
-        startedAt: convertDateStringToDate(taskDto.startedAt),
-        endedAt: convertDateStringToDate(taskDto.endedAt),
-        resumedAt: convertDateStringToDate(taskDto.resumedAt),
+        commentArray: [],
+        // createdAt: convertDateStringToDate(taskDto.createdAt)!,
+        // startedAt: convertDateStringToDate(taskDto.startedAt),
+        // endedAt: convertDateStringToDate(taskDto.endedAt),
+        // resumedAt: convertDateStringToDate(taskDto.resumedAt),
         duration: taskDto.duration,
         expectedDuration: 0,
     }

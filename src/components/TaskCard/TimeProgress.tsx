@@ -1,8 +1,8 @@
 import { Box, BoxProps, LinearProgress } from '@mui/material'
-import { TaskStage } from '../../../common/enum/TaskStage'
+import { TaskStage } from '../../common/enum/TaskStage'
 import { HourMinuteSecond, SlowHourMinuteSecond } from '@typinghare/hour-minute-second'
-import { TimeDisplay } from '../TimeDisplay'
-import { collectStyles } from '../../../common/functions/style'
+import { TimeDisplay } from '../Common/TimeDisplay'
+import { collectStyles } from '../../common/functions/style'
 import { useEffect, useState } from 'react'
 
 export interface TimeProgressProps extends BoxProps {
@@ -18,25 +18,36 @@ export interface TimeProgressProps extends BoxProps {
 }
 
 export function TimeProgress(props: TimeProgressProps): JSX.Element {
-    const { taskStage, startedAt, endedAt, duration, expectedDuration } = props
+    const { taskStage, startedAt, endedAt, duration, expectedDuration, sx, ...otherProps } = props
     const [dynamicDuration, setDynamicDuration] = useState(duration)
     const [progress, setProgress] = useState(getProgress(dynamicDuration, expectedDuration))
+
+    const endTimeColor: string = (() => {
+        if (taskStage === TaskStage.ONGOING) {
+            return 'green'
+        } else if (taskStage === TaskStage.PAUSED) {
+            return 'coral'
+        } else {
+            return 'inherit'
+        }
+    })()
 
     const styles = collectStyles({
         root: {
             display: 'flex',
             alignItems: 'center',
+            ...sx,
         },
         startTime: {
             display: 'inline-block',
             textAlign: 'center',
-            padding: '0 1em',
+            padding: '0 0.5em',
         },
         endTime: {
             display: 'inline-block',
             textAlign: 'center',
-            padding: '0 1em',
-            color: taskStage === TaskStage.ONGOING ? 'green' : 'inherit',
+            padding: '0 0.5em',
+            color: endTimeColor,
         },
         progress: {
             display: 'inline-block',
@@ -48,7 +59,7 @@ export function TimeProgress(props: TimeProgressProps): JSX.Element {
 
     function EndTimeDisplay(): JSX.Element {
         const time: HourMinuteSecond | undefined = (() => {
-            if (taskStage === TaskStage.ONGOING) {
+            if (taskStage === TaskStage.ONGOING || taskStage === TaskStage.PAUSED) {
                 return SlowHourMinuteSecond.ofMinutes(duration)
             } else if (taskStage === TaskStage.ENDED) {
                 return endedAt
@@ -84,7 +95,7 @@ export function TimeProgress(props: TimeProgressProps): JSX.Element {
     }, [dynamicDuration, expectedDuration, taskStage, setDynamicDuration, setProgress])
 
     return (
-        <Box sx={styles.root}>
+        <Box sx={styles.root} {...otherProps}>
             <TimeDisplay
                 time={startedAt}
                 sx={styles.startTime}

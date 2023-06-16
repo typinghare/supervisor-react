@@ -4,7 +4,7 @@ import { SlowHourMinuteSecond } from '@typinghare/hour-minute-second'
 import '../index.css'
 
 const meta = {
-    title: 'Example/TimeDisplay',
+    title: 'Common/TimeDisplay',
     component: TimeDisplay,
     tags: ['time'],
     argTypes: {

@@ -1,11 +1,11 @@
-import { TimeProgress } from '../components/Common/TaskCard/TimeProgress'
+import { TimeProgress } from '../components/TaskCard/TimeProgress'
 import { StoryObj } from '@storybook/react'
 import { TaskStage } from '../common/enum/TaskStage'
 import { SlowHourMinuteSecond } from '@typinghare/hour-minute-second'
 
 
 const meta = {
-    title: 'Example/TimeProgress',
+    title: 'Common/TimeProgress',
     component: TimeProgress,
     tags: ['time'],
     argTypes: {

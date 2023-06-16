@@ -13,7 +13,9 @@ import FactCheckIcon from '@mui/icons-material/FactCheck'
 import EqualizerIcon from '@mui/icons-material/Equalizer'
 import AddIcon from '@mui/icons-material/Add'
 import { TabContext, TabPanel } from '@mui/lab'
-import { SpaceWorklist } from './SpaceWorklist'
+import { WorklistPanel } from './WorklistPanel'
+import { ChartPanel } from './ChartPanel'
+import { NewPanel } from './NewPanel'
 import SpaceTabName = Frontend.SpaceTabName
 import spaceTabNameList = Frontend.spaceTabNameList
 
@@ -42,7 +44,9 @@ export function SpacePage(): JSX.Element {
 
     const styles = collectStyles({
         tabsContainer: {
-            borderBottom: '1px solid #E5E5E5',
+            '& .MuiTabs-scroller': {
+                borderBottom: '1px solid #E5E5E5',
+            },
         },
         tab: {
             padding: '0 1em',
@@ -50,7 +54,10 @@ export function SpacePage(): JSX.Element {
             minHeight: '40px !important',
         },
         tabPanel: {
-            padding: { xs: '12px !important' },
+            padding: {
+                xs: '0.5em !important',
+                md: '1em !important',
+            },
         },
     })
 
@@ -71,7 +78,7 @@ export function SpacePage(): JSX.Element {
 
     return (
         <Page>
-            <Box sx={styles.tabsContainer}>
+            <Box sx={styles.tabsContainer} className={'oh-my-god'}>
                 <Tabs
                     value={currentSpaceTabName}
                     onChange={handleTabChange}
@@ -105,16 +112,25 @@ export function SpacePage(): JSX.Element {
             </Box>
 
             <TabContext value={currentSpaceTabName}>
-                <TabPanel value={spaceTabNameList[0]}>
-                    <SpaceWorklist />
+                <TabPanel
+                    value={spaceTabNameList[0]}
+                    sx={styles.tabPanel}
+                >
+                    <WorklistPanel userId={userId} />
                 </TabPanel>
 
-                <TabPanel value={spaceTabNameList[1]}>
-                    Item Two
+                <TabPanel
+                    value={spaceTabNameList[1]}
+                    sx={styles.tabPanel}
+                >
+                    <ChartPanel userId={userId} />
                 </TabPanel>
 
-                <TabPanel value={spaceTabNameList[2]}>
-                    Item Three
+                <TabPanel
+                    value={spaceTabNameList[2]}
+                    sx={styles.tabPanel}
+                >
+                    <NewPanel userId={userId} />
                 </TabPanel>
             </TabContext>
         </Page>
