@@ -32,9 +32,13 @@ export function SignInPage(): JSX.Element {
             // Redirect to space page.
             navigate(Frontend.Url.Space)
 
-            setCookies(CookieKey.UserId, data.id)
-            setCookies(CookieKey.Token, data.token)
-            setCookies(CookieKey.Username, data.username)
+            const config = {
+                path: Frontend.Basename,
+                expires: Frontend.DEFAULT_COOKIE_EXPIRE_TIME
+            }
+            setCookies(CookieKey.UserId, data.id, config)
+            setCookies(CookieKey.Token, data.token, config)
+            setCookies(CookieKey.Username, data.username, config)
         },
         onError: () => {
 

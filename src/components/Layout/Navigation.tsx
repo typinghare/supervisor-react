@@ -24,7 +24,10 @@ export function Navigation(): JSX.Element {
         },
         logo: {
             color: 'white',
-            fontSize: '1.5em',
+            fontSize: {
+                xs: '1.25em',
+                sm: '1.5em',
+            },
             fontWeight: 'bold',
             fontStyle: 'italic',
             cursor: 'pointer',
@@ -91,7 +94,7 @@ export function Navigation(): JSX.Element {
                         {userId !== undefined && <Link
                             href={Frontend.Basename + Frontend.Url.Space}
                             sx={styles.user}
-                            children='(User avatar)'
+                            children='Avatar'
                         />}
 
                         {userId === undefined && <Link
