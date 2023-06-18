@@ -1,4 +1,3 @@
-
 export interface SubjectDto {
     id: number,
     userId: number,

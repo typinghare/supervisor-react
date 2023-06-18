@@ -1,18 +1,17 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Box, IconButton, Tooltip } from '@mui/material'
 import moment from 'moment'
-import { collectStyles } from '../../common/functions/style'
+import { collectStyles } from '../../../common/functions/style'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
-import { DatePickerDialog } from '../Common/DatePickerDialog'
-import { useSwitch } from '../../hook/useSwitch'
+import { DatePickerDialog } from '../../Common/DatePickerDialog'
+import { useSwitch } from '../../../hook/useSwitch'
 import { useMutation } from '@tanstack/react-query'
-import { getTasksForUser } from '../../common/api/user'
-import { HttpResponse } from '../../common/api'
-import { TaskDto } from '../../dto/TaskDto'
-import { convertTaskDtoToTask } from '../../common/functions/conversion'
-import { TaskCardCollection } from '../TaskCard/TaskCardCollection'
-import { Task } from '../TaskCard/TaskCard'
-import { TaskCardCollectionSkeleton } from '../TaskCard/TaskCardCollectionSkeleton'
+import { TaskDto } from '../../../dto/TaskDto'
+import { convertTaskDtoToTask } from '../../../common/functions/conversion'
+import { TaskCardCollection } from '../../TaskCard/TaskCardCollection'
+import { Task } from '../../TaskCard/TaskCard'
+import { TaskCardCollectionSkeleton } from '../../TaskCard/TaskCardCollectionSkeleton'
+import Api from '../../../common/api'
 
 export interface WorklistProps {
     userId: number,
@@ -24,8 +23,9 @@ export function Worklist(props: WorklistProps): JSX.Element {
     const [date, setDate] = useState(optionalDate || new Date())
     const [isDialogOpen, openDialog, closeDialog] = useSwitch()
     const [taskList, setTaskList] = useState<Task[]>([])
-    const { mutate, isLoading } = useMutation(getTasksForUser, {
-        onSuccess: (response: HttpResponse<TaskDto[]>) => {
+
+    const { mutate, isLoading } = useMutation(Api.getTasksForUser, {
+        onSuccess: (response: Api.HttpResponse<TaskDto[]>) => {
             const taskDtoList = response.data
             const taskList = taskDtoList.map(convertTaskDtoToTask)
             setTaskList(taskList)
@@ -37,10 +37,12 @@ export function Worklist(props: WorklistProps): JSX.Element {
     }
 
     const loadTaskList = useCallback(() => {
+        const momentDate = moment()
+
         mutate({
             userId,
-            fromTimestamp: 1,
-            toTimestamp: new Date().getTime(),
+            fromTimestamp: momentDate.startOf('day').toDate().getTime(),
+            toTimestamp: momentDate.endOf('day').toDate().getTime(),
         })
     }, [mutate, userId])
 

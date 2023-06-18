@@ -10,10 +10,9 @@ import { UsernameInput } from '../Common/UsernameInput'
 import { PasswordInput } from '../Common/PasswordInput'
 import { useMutation } from '@tanstack/react-query'
 import { useDispatch } from 'react-redux'
-import { HttpResponse } from '../../common/api'
 import { UserTokenDto } from '../../dto/UserTokenDto'
-import { userSignIn } from '../../common/api/user'
 import { useCookies } from 'react-cookie'
+import Api from '../../common/api'
 import CookieKey = Frontend.CookieKey
 
 export function SignInPage(): JSX.Element {
@@ -25,8 +24,8 @@ export function SignInPage(): JSX.Element {
 
     const userId = useAppSelector(selectUserId)
 
-    const { mutate, isLoading } = useMutation(userSignIn, {
-        onSuccess: (response: HttpResponse<UserTokenDto>) => {
+    const { mutate, isLoading } = useMutation(Api.signIn, {
+        onSuccess: (response: Api.HttpResponse<UserTokenDto>) => {
             const data = response.data
             dispatch(signIn(response.data))
 
@@ -39,7 +38,7 @@ export function SignInPage(): JSX.Element {
         },
         onError: () => {
 
-        }
+        },
     })
 
     function handleSubmit() {

@@ -1,10 +1,10 @@
-import { HttpResponse, SupervisorAxios } from '../api'
 import { UserTokenDto } from '../../dto/UserTokenDto'
 import { UserSignInDto } from '../../dto/UserSignInDto'
 import { TaskDto } from '../../dto/TaskDto'
+import Api from '../api'
 
-export async function userSignIn(userSignInDto: UserSignInDto): Promise<HttpResponse<UserTokenDto>> {
-    return (await SupervisorAxios.post('/users/auth/', userSignInDto)).data
+export async function signIn(userSignInDto: UserSignInDto): Promise<Api.HttpResponse<UserTokenDto>> {
+    return (await Api.SupervisorAxios.post('/users/auth/', userSignInDto)).data
 }
 
 export interface GetTasksForUserParams {
@@ -20,9 +20,9 @@ export interface GetTasksForUserParams {
 /**
  * Fetches user's all tasks.
  */
-export async function getTasksForUser(params: GetTasksForUserParams): Promise<HttpResponse<TaskDto[]>> {
+export async function getTasksForUser(params: GetTasksForUserParams): Promise<Api.HttpResponse<TaskDto[]>> {
     const { userId, fromTimestamp, toTimestamp, limit, page, categoryId, taskStageString } = params
-    return (await SupervisorAxios.get(`/users/${userId}/tasks/`, {
+    return (await Api.SupervisorAxios.get(`/users/${userId}/tasks/`, {
         params: { fromTimestamp, toTimestamp, limit, page, categoryId, taskStageString },
     })).data
 }

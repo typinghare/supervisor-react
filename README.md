@@ -33,10 +33,15 @@ npm i @tanstack/react-query
 # @link https://www.npmjs.com/package/react-cookie
 npm i react-cookie
 
+# Install React Charts.
+# @link https://react-charts.tanstack.com/docs/installation
+ npm install react-charts@beta --save
+
 # Install some useful libraries.
 npm axios
 npm moment
 npm lodash @types/lodash
+npm i uuid @types/uuid
 
 # Install Storybook.
 npx storybook@latest init

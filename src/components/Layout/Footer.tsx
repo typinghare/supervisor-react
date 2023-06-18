@@ -26,7 +26,7 @@ export function Footer(): JSX.Element {
         <Box sx={styles.root}>
             <Container>
                 <Box sx={styles.logo}>Supervisor</Box>
-                <Box sx={styles.copyright}>© 2022-2023 Supervisor. (Hey I don't know what it this but whatever)</Box>
+                <Box sx={styles.copyright}>© 2022-2023 Supervisor. (Hey I don't know what is this but whatever)</Box>
             </Container>
         </Box>
     )

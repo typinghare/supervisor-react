@@ -2,9 +2,7 @@
  * This namespace contains constants that are relevant to the server.
  */
 export namespace Server {
-    /**
-     * The domain of the backend server.
-     */
+    // The domain of the backend server.
     export const ApiDomain = 'jameschan.us'
 
     // The protocol.
@@ -14,5 +12,12 @@ export namespace Server {
     export const ApiBaseUrl = `${ApiProtocol}://${ApiDomain}/api/supervisor`
 
     // Api date time format
-    export const DATETIME_FORMAT: string = 'YYYY-MM-DD HH:mm:ss'
+    export const DateTimeFormat: string = 'YYYY-MM-DD HH:mm:ss'
+
+    /**
+     * Header keys.
+     */
+    export namespace HeaderKey {
+        export const Token = 'token'
+    }
 }

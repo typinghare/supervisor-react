@@ -16,7 +16,7 @@ const userSlice = createSlice({
         userId: undefined,
         token: undefined,
         username: undefined,
-    },
+    } as UserState,
     reducers: {
         signIn(state: UserState, action: PayloadAction<User>) {
             const { userId, token, username } = action.payload

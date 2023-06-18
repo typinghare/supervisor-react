@@ -19,6 +19,8 @@ export function Navigation(): JSX.Element {
                 xl: '0 20%',
             },
             height: navigationHeight,
+            display: 'flex',
+            justifyItems: 'center',
         },
         logo: {
             color: 'white',
@@ -26,21 +28,44 @@ export function Navigation(): JSX.Element {
             fontWeight: 'bold',
             fontStyle: 'italic',
             cursor: 'pointer',
+            textDecoration: 'none',
             '&:hover': {
                 textDecoration: 'none',
             },
         },
+        linkContainer: {
+            flexGrow: 1,
+            display: 'flex',
+            justifyContent: 'space-between',
+        },
+        rightSideLinkContainer: {
+            marginLeft: 'auto',
+        },
         about: {
             color: 'white',
             margin: '0 1em',
+            textDecoration: 'none',
+            '&:hover': {
+                textDecoration: 'underline',
+                textDecorationColor: 'white',
+            },
+        },
+        space: {
+            color: 'white',
+            textDecoration: 'none',
+            marginRight: '1em',
+            '&:hover': {
+                textDecoration: 'underline',
+                textDecorationColor: 'white',
+            },
         },
         user: {
             color: 'white',
-            float: 'right',
+            textDecoration: 'none',
         },
         signIn: {
             color: 'white',
-            float: 'right',
+            textDecoration: 'none',
         },
     })
 
@@ -48,24 +73,33 @@ export function Navigation(): JSX.Element {
         <AppBar position='sticky' sx={styles.root}>
             <Toolbar>
                 <Link sx={styles.logo} href={Frontend.Basename + Frontend.Url.Home}>Supervisor 2</Link>
-                <Box sx={{ flexGrow: 1 }}>
+                <Box sx={styles.linkContainer}>
                     <Link
                         href={Frontend.Basename + Frontend.Url.About}
                         sx={styles.about}
-                        children='About'
-                    />
+                    >
+                        About
+                    </Link>
 
-                    {userId !== undefined && <Link
-                        href={Frontend.Basename + Frontend.Url.Space}
-                        sx={styles.user}
-                        children='(User avatar)'
-                    />}
+                    <Box sx={styles.rightSideLinkContainer}>
+                        <Link
+                            href={Frontend.Basename + Frontend.Url.Space}
+                            sx={styles.space}
+                        >
+                            Space
+                        </Link>
+                        {userId !== undefined && <Link
+                            href={Frontend.Basename + Frontend.Url.Space}
+                            sx={styles.user}
+                            children='(User avatar)'
+                        />}
 
-                    {userId === undefined && <Link
-                        href={Frontend.Basename + Frontend.Url.SignIn}
-                        sx={styles.signIn}
-                        children='Sign In'
-                    />}
+                        {userId === undefined && <Link
+                            href={Frontend.Basename + Frontend.Url.SignIn}
+                            sx={styles.signIn}
+                            children='Sign In'
+                        />}
+                    </Box>
                 </Box>
             </Toolbar>
         </AppBar>

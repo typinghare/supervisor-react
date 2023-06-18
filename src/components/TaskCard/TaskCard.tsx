@@ -18,6 +18,9 @@ export interface Task {
     endedAt?: HourMinuteSecond,
     expectedDuration: number
 
+    createdAt?: Date
+    resumedAt?: Date
+
     commentArray: string[]
 }
 

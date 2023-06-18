@@ -13,9 +13,11 @@ import FactCheckIcon from '@mui/icons-material/FactCheck'
 import EqualizerIcon from '@mui/icons-material/Equalizer'
 import AddIcon from '@mui/icons-material/Add'
 import { TabContext, TabPanel } from '@mui/lab'
-import { WorklistPanel } from './WorklistPanel'
-import { ChartPanel } from './ChartPanel'
-import { NewPanel } from './NewPanel'
+import { WorklistPanel } from './WorklistPanel/WorklistPanel'
+import { ChartPanel } from './ChartPanel/ChartPanel'
+import { NewPanel } from './NewPanel/NewPanel'
+import { ControlPanel } from './ControlPanel/ControlPanel'
+import ControlCameraIcon from '@mui/icons-material/ControlCamera'
 import SpaceTabName = Frontend.SpaceTabName
 import spaceTabNameList = Frontend.spaceTabNameList
 
@@ -40,7 +42,7 @@ export function SpacePage(): JSX.Element {
         if (spaceTabNameList.includes(spaceTabName) && currentSpaceTabName !== spaceTabName) {
             dispatch(switchSpaceTab(spaceTabName))
         }
-    }, [currentSpaceTabName, dispatch])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const styles = collectStyles({
         tabsContainer: {
@@ -58,6 +60,9 @@ export function SpacePage(): JSX.Element {
                 xs: '0.5em !important',
                 md: '1em !important',
             },
+        },
+        icon: {
+            fontSize: '1.25em',
         },
     })
 
@@ -78,7 +83,7 @@ export function SpacePage(): JSX.Element {
 
     return (
         <Page>
-            <Box sx={styles.tabsContainer} className={'oh-my-god'}>
+            <Box sx={styles.tabsContainer}>
                 <Tabs
                     value={currentSpaceTabName}
                     onChange={handleTabChange}
@@ -90,7 +95,7 @@ export function SpacePage(): JSX.Element {
                         value={spaceTabNameList[0]}
                         label={'WorkList'}
                         iconPosition='start'
-                        icon={<FactCheckIcon sx={{ fontSize: '1.25em' }} />}
+                        icon={<FactCheckIcon sx={styles.icon} />}
                     />
 
                     <Tab
@@ -98,15 +103,23 @@ export function SpacePage(): JSX.Element {
                         value={spaceTabNameList[1]}
                         label={'Chart'}
                         iconPosition='start'
-                        icon={<EqualizerIcon sx={{ fontSize: '1.25em' }} />}
+                        icon={<EqualizerIcon sx={styles.icon} />}
                     />
 
                     <Tab
                         sx={styles.tab}
                         value={spaceTabNameList[2]}
-                        label={'Add'}
+                        label={'New'}
                         iconPosition='start'
-                        icon={<AddIcon sx={{ fontSize: '1.25em' }} />}
+                        icon={<AddIcon sx={styles.icon} />}
+                    />
+
+                    <Tab
+                        sx={styles.tab}
+                        value={spaceTabNameList[3]}
+                        label={'Control'}
+                        iconPosition='start'
+                        icon={<ControlCameraIcon sx={styles.icon} />}
                     />
                 </Tabs>
             </Box>
@@ -123,7 +136,7 @@ export function SpacePage(): JSX.Element {
                     value={spaceTabNameList[1]}
                     sx={styles.tabPanel}
                 >
-                    <ChartPanel userId={userId} />
+                    <ChartPanel />
                 </TabPanel>
 
                 <TabPanel
@@ -131,6 +144,13 @@ export function SpacePage(): JSX.Element {
                     sx={styles.tabPanel}
                 >
                     <NewPanel userId={userId} />
+                </TabPanel>
+
+                <TabPanel
+                    value={spaceTabNameList[3]}
+                    sx={styles.tabPanel}
+                >
+                    <ControlPanel />
                 </TabPanel>
             </TabContext>
         </Page>

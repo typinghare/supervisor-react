@@ -1,11 +1,11 @@
 import { Grid } from '@mui/material'
 import { Task, TaskCard } from './TaskCard'
 
-export interface WorklistProps {
+export interface TaskCardCollectionProps {
     taskList: Task[]
 }
 
-export function TaskCardCollection(props: WorklistProps): JSX.Element {
+export function TaskCardCollection(props: TaskCardCollectionProps): JSX.Element {
     const { taskList } = props
 
     const taskCardList: JSX.Element[] = taskList.map(task => {

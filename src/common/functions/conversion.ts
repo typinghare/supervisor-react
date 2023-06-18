@@ -1,6 +1,7 @@
 import { TaskDto } from '../../dto/TaskDto'
 import moment from 'moment/moment'
 import { Task } from '../../components/TaskCard/TaskCard'
+import { HourMinuteSecond, SlowHourMinuteSecond } from '@typinghare/hour-minute-second'
 
 export const convertTaskDtoToTask = function(taskDto: TaskDto): Task {
     return {
@@ -8,13 +9,15 @@ export const convertTaskDtoToTask = function(taskDto: TaskDto): Task {
         taskStage: taskDto.stage,
         subjectName: taskDto.subjectName,
         categoryName: taskDto.categoryName,
-        commentArray: [],
-        // createdAt: convertDateStringToDate(taskDto.createdAt)!,
-        // startedAt: convertDateStringToDate(taskDto.startedAt),
-        // endedAt: convertDateStringToDate(taskDto.endedAt),
-        // resumedAt: convertDateStringToDate(taskDto.resumedAt),
+        createdAt: convertDateStringToDate(taskDto.createdAt)!,
+        startedAt: convertDateToTime(convertDateStringToDate(taskDto.startedAt)),
+        endedAt: convertDateToTime(convertDateStringToDate(taskDto.endedAt)),
+        resumedAt: convertDateStringToDate(taskDto.resumedAt),
         duration: taskDto.duration,
-        expectedDuration: 0,
+        expectedDuration: taskDto.expectedDuration,
+        commentArray: taskDto.taskCommentDtoList.map(taskCommentDto => {
+            return taskCommentDto.content
+        }),
     }
 }
 
@@ -22,4 +25,13 @@ export const convertDateStringToDate = function(dateString: string | null, forma
     if (!dateString) return undefined
 
     return moment(dateString, format, true).toDate()
+}
+
+export const convertDateToTime = function(date: Date | undefined): HourMinuteSecond | undefined {
+    if (!date) return undefined
+
+    const time = SlowHourMinuteSecond.ofHours(date.getHours())
+    time.extendMinute(date.getMinutes())
+
+    return time
 }

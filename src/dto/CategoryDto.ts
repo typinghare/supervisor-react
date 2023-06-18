@@ -1,4 +1,3 @@
-
 export interface CategoryDto {
     id: number,
     subjectId: number,

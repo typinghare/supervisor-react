@@ -25,7 +25,7 @@ export namespace Frontend {
         export const SignIn = '/sign-in'
     }
 
-    export type SpaceTabName = 'worklist' | 'chart' | 'new'
+    export type SpaceTabName = 'worklist' | 'chart' | 'new' | 'control'
 
-    export const spaceTabNameList: SpaceTabName[] = ['worklist', 'chart', 'new']
+    export const spaceTabNameList: SpaceTabName[] = ['worklist', 'chart', 'new', 'control']
 }

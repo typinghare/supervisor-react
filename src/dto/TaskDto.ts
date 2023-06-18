@@ -1,3 +1,5 @@
+import { TaskCommentDto } from './TaskCommentDto'
+
 export interface TaskDto {
     id: number,
     userId: number,
@@ -11,4 +13,6 @@ export interface TaskDto {
     endedAt: string,
     subjectName: string
     categoryName: string,
+    expectedDuration: number,
+    taskCommentDtoList: TaskCommentDto[]
 }
