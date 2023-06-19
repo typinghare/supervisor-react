@@ -4,13 +4,7 @@ import { Box } from '@mui/material'
 import { collectStyles } from '../../../common/functions/style'
 import { NewSubject } from './NewSubject'
 
-export interface NewPanelProps {
-    userId: number
-}
-
-export function NewPanel(props: NewPanelProps): JSX.Element {
-    const { userId } = props
-
+export function NewPanel(): JSX.Element {
     const styles = collectStyles({
         newTaskContainer: {
             marginBottom: '2em',

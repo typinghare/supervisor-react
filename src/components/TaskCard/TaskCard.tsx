@@ -42,7 +42,7 @@ export function TaskCard(props: TaskCardProps): JSX.Element {
             padding: '0.5em 1em',
         },
         timeProgress: {
-            margin: '1em 0.5em',
+            margin: '1em 0.25em',
         },
         taskComment: {
             margin: '0 1em',

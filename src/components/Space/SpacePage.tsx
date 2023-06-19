@@ -1,5 +1,5 @@
 import { Page } from '../Common/Page'
-import { Alert, Box, Tab, Tabs } from '@mui/material'
+import { Alert, BottomNavigation, BottomNavigationAction, Box, Tab, Tabs, useMediaQuery, useTheme } from '@mui/material'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from '../../redux/hooks'
 import { selectUserId } from '../../redux/slice/UserSlice'
@@ -18,14 +18,20 @@ import { ChartPanel } from './ChartPanel/ChartPanel'
 import { NewPanel } from './NewPanel/NewPanel'
 import { ControlPanel } from './ControlPanel/ControlPanel'
 import ControlCameraIcon from '@mui/icons-material/ControlCamera'
+import RestoreIcon from '@mui/icons-material/Restore'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
 import SpaceTabName = Frontend.SpaceTabName
 import spaceTabNameList = Frontend.spaceTabNameList
+
 
 export function SpacePage(): JSX.Element {
     const { userId: userIdString } = useParams()
     const dispatch = useDispatch()
     const localUserId = useAppSelector(selectUserId)
     const currentSpaceTabName = useAppSelector(selectSpaceTabName)
+    const theme = useTheme()
+    const isSmallDevice = useMediaQuery(theme.breakpoints.down('sm'))
 
     const userId: number = (() => {
         if (userIdString === undefined) {
@@ -43,6 +49,48 @@ export function SpacePage(): JSX.Element {
             dispatch(switchSpaceTab(spaceTabName))
         }
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+    if (userId <= 0) {
+        // Incorrect user id given.
+        return (
+            <Page>
+                <Alert severity='error'>
+                    Incorrect user id: [ {userId} ].
+                </Alert>
+            </Page>
+        )
+    }
+
+    return (
+        <Page>
+            {
+                isSmallDevice && (
+                    <SmallDeviceSpaceContent
+                        userId={userId}
+                        currentSpaceTabName={currentSpaceTabName}
+                    />
+                )
+            }
+            {
+                !isSmallDevice && (
+                    <LargeDeviceSpaceContent
+                        userId={userId}
+                        currentSpaceTabName={currentSpaceTabName}
+                    />
+                )
+            }
+        </Page>
+    )
+}
+
+export interface SpacePageProps {
+    userId: number
+    currentSpaceTabName: SpaceTabName
+}
+
+function LargeDeviceSpaceContent(props: SpacePageProps): JSX.Element {
+    const { userId, currentSpaceTabName } = props
+    const dispatch = useDispatch()
 
     const styles = collectStyles({
         tabsContainer: {
@@ -66,23 +114,12 @@ export function SpacePage(): JSX.Element {
         },
     })
 
-    if (userId <= 0) {
-        // Incorrect user id given.
-        return (
-            <Page>
-                <Alert severity='error'>
-                    Incorrect user id: [ {userId} ].
-                </Alert>
-            </Page>
-        )
-    }
-
     function handleTabChange(event: SyntheticEvent, value: string) {
         dispatch(switchSpaceTab(value as SpaceTabName))
     }
 
     return (
-        <Page>
+        <>
             <Box sx={styles.tabsContainer}>
                 <Tabs
                     value={currentSpaceTabName}
@@ -143,7 +180,7 @@ export function SpacePage(): JSX.Element {
                     value={spaceTabNameList[2]}
                     sx={styles.tabPanel}
                 >
-                    <NewPanel userId={userId} />
+                    <NewPanel />
                 </TabPanel>
 
                 <TabPanel
@@ -153,6 +190,66 @@ export function SpacePage(): JSX.Element {
                     <ControlPanel />
                 </TabPanel>
             </TabContext>
-        </Page>
+        </>
+    )
+}
+
+function SmallDeviceSpaceContent(props: SpacePageProps): JSX.Element {
+    const { userId, currentSpaceTabName } = props
+    const dispatch = useDispatch()
+
+    const styles = collectStyles({
+        root: {
+            display: 'flex',
+            position: 'relative',
+            flexDirection: 'column',
+        },
+        tabsContainer: {
+            flex: 1,
+            overflowY: 'auto',
+        },
+        bottomNavigation: {
+            position: 'sticky',
+            bottom: 0,
+            zIndex: 1000,
+        },
+        tab: {
+            padding: '0 1em',
+            height: '40px !important',
+            minHeight: '40px !important',
+        },
+        tabPanel: {
+            padding: {
+                xs: '0.5em !important',
+                md: '1em !important',
+            },
+        },
+        icon: {
+            fontSize: '1.25em',
+        },
+    })
+
+    function handleTabChange(event: SyntheticEvent, value: string) {
+        dispatch(switchSpaceTab(value as SpaceTabName))
+    }
+
+    return (
+        <Box sx={styles.root}>
+            <Box sx={styles.tabsContainer}>
+                <Alert>
+                    This is the container.
+                </Alert>
+            </Box>
+            <BottomNavigation
+                showLabels
+                value={currentSpaceTabName}
+                onChange={handleTabChange}
+                sx={styles.bottomNavigation}
+            >
+                <BottomNavigationAction label='Recent' icon={<RestoreIcon />} />
+                <BottomNavigationAction label='Favorites' icon={<FavoriteIcon />} />
+                <BottomNavigationAction label='Nearby' icon={<LocationOnIcon />} />
+            </BottomNavigation>
+        </Box>
     )
 }

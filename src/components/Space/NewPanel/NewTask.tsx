@@ -49,11 +49,7 @@ export function NewTask(): JSX.Element {
         },
     })
 
-    const { mutate: createTaskComment, isLoading: isCreatingTaskComment } = useMutation(Api.createTaskComment, {
-        onSuccess: () => {
-
-        },
-    })
+    const { mutate: createTaskComment, isLoading: isCreatingTaskComment } = useMutation(Api.createTaskComment)
 
     const { mutate: createTask, isLoading: isCreatingTask } = useMutation(Api.createTask, {
         onSuccess: (response: HttpResponse<TaskDto>) => {
@@ -66,6 +62,9 @@ export function NewTask(): JSX.Element {
 
             setSnackBarMessage('Created task successfully.')
             openSnackBar()
+
+            // Clear content.
+            setComment('')
         },
     })
 
@@ -100,6 +99,9 @@ export function NewTask(): JSX.Element {
 
             setSnackBarMessage('Created task and started it successfully.')
             openSnackBar()
+
+            // Clear content.
+            setComment('')
         },
     })
 

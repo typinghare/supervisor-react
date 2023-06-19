@@ -8,6 +8,7 @@ import { Frontend } from '../common/constants/frontend'
 import { useDispatch } from 'react-redux'
 import { signIn } from '../redux/slice/UserSlice'
 import CookieKey = Frontend.CookieKey
+import { useMediaQuery, useTheme } from '@mui/material'
 
 export function App(): JSX.Element {
     const dispatch = useDispatch()
@@ -20,13 +21,18 @@ export function App(): JSX.Element {
         dispatch(signIn({ userId, token, username }))
     })
 
+    const theme = useTheme()
+    const isSmallDevice = useMediaQuery(theme.breakpoints.down('sm'))
+
     return (
         <QueryClientProvider client={new QueryClient()}>
             <Navigation />
 
             <>
                 <Router />
-                <Footer />
+                {
+                    !isSmallDevice && (<Footer />)
+                }
             </>
         </QueryClientProvider>
     )

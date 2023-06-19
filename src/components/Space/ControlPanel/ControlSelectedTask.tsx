@@ -13,6 +13,7 @@ import { TaskAction } from '../../../common/enum/TaskAction'
 import { useToken } from '../../../hook/useToken'
 import { TaskCardSkeleton } from '../../TaskCard/TaskCardSkeleton'
 import { find } from 'lodash'
+import { collectStyles } from '../../../common/functions/style'
 
 export function ControlSelectedTask(): JSX.Element {
     const userId = useAppSelector(selectUserId)
@@ -63,6 +64,15 @@ export function ControlSelectedTask(): JSX.Element {
         }
     }
 
+    const styles = collectStyles({
+        root: {
+            alignItems: 'center',
+        },
+        taskCardContainer: {
+            marginBottom: '0.5em',
+        },
+    })
+
     if (!userId) {
         return (
             <Box>
@@ -86,8 +96,8 @@ export function ControlSelectedTask(): JSX.Element {
     }
 
     return (
-        <Grid container spacing={1}>
-            <Grid item xs={12} md={6} lg={6} xl={6}>
+        <Grid container spacing={1} sx={styles.root}>
+            <Grid item xs={12} md={6} lg={6} xl={6} sx={styles.taskCardContainer}>
                 <TaskCard {...selectedTask} />
             </Grid>
 

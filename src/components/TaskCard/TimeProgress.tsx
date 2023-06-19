@@ -7,13 +7,9 @@ import { useEffect, useState } from 'react'
 
 export interface TimeProgressProps extends BoxProps {
     taskStage: TaskStage
-
     startedAt?: HourMinuteSecond
-
     endedAt?: HourMinuteSecond
-
     duration: number
-
     expectedDuration: number
 }
 
@@ -60,7 +56,7 @@ export function TimeProgress(props: TimeProgressProps): JSX.Element {
     function EndTimeDisplay(): JSX.Element {
         const time: HourMinuteSecond | undefined = (() => {
             if (taskStage === TaskStage.ONGOING || taskStage === TaskStage.PAUSED) {
-                return SlowHourMinuteSecond.ofMinutes(duration)
+                return SlowHourMinuteSecond.ofMinutes(dynamicDuration)
             } else if (taskStage === TaskStage.ENDED) {
                 return endedAt
             }
@@ -92,7 +88,7 @@ export function TimeProgress(props: TimeProgressProps): JSX.Element {
         return (): void => {
             if (durationInterval) clearInterval(durationInterval)
         }
-    }, [dynamicDuration, expectedDuration, taskStage, setDynamicDuration, setProgress])
+    }, [taskStage, setDynamicDuration, setProgress]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Box sx={styles.root} {...otherProps}>
