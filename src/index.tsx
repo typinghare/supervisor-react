@@ -5,15 +5,19 @@ import { store } from './redux/store'
 import { App } from './components/App'
 import { Provider } from 'react-redux'
 import { CookiesProvider } from 'react-cookie'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 // This application apply Redux to manage global states and contents.
+// Register all providers here.
 root.render(
     <React.StrictMode>
         <Provider store={store}>
             <CookiesProvider>
-                <App />
+                <QueryClientProvider client={new QueryClient()}>
+                    <App />
+                </QueryClientProvider>
             </CookiesProvider>
         </Provider>
     </React.StrictMode>,

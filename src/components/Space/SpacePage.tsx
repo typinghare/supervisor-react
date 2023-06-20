@@ -1,9 +1,9 @@
 import { Page } from '../Common/Page'
-import { Alert, useMediaQuery, useTheme } from '@mui/material'
+import { Alert, BottomNavigation, BottomNavigationAction, Paper, useMediaQuery, useTheme } from '@mui/material'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAppSelector } from '../../redux/hooks'
 import { selectUserId } from '../../redux/slice/UserSlice'
-import { useEffect } from 'react'
+import { SyntheticEvent, useEffect } from 'react'
 import { collectStyles } from '../../common/functions/style'
 import { Frontend } from '../../common/constants/frontend'
 import { getStringAfterSharp } from '../../common/functions/url'
@@ -21,6 +21,8 @@ import { ControlPanel } from './ControlPanel/ControlPanel'
 import { TabList } from '../Common/Tab/TabList'
 import SpaceTabName = Frontend.SpaceTabName
 import spaceTabNameList = Frontend.spaceTabNameList
+import { indexOf } from 'lodash'
+import { bottomNavigationHeight } from '../App'
 
 
 export function SpacePage(): JSX.Element {
@@ -77,11 +79,22 @@ export function SpacePage(): JSX.Element {
                 md: '1em !important',
             },
         },
+        bottomNavigation: {
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: bottomNavigationHeight
+        },
     })
 
     function handleTabChange(value: string) {
         dispatch(switchSpaceTab(value as SpaceTabName))
         navigate(location.pathname + '#' + value)
+    }
+
+    function handleSpaceTabChange(event: SyntheticEvent, value: number) {
+        dispatch(switchSpaceTab(spaceTabNameList[value]))
     }
 
     return (
@@ -133,6 +146,32 @@ export function SpacePage(): JSX.Element {
                     </TabPanel>
                 )}
             </TabContext>
+
+            <Paper sx={styles.bottomNavigation} elevation={3}>
+                <BottomNavigation
+                    showLabels
+                    value={indexOf(spaceTabNameList, currentSpaceTabName)}
+                    onChange={handleSpaceTabChange}
+                >
+                    <BottomNavigationAction
+                        label='Worklist'
+                        icon={<FactCheckIcon />}
+                    />
+                    <BottomNavigationAction
+                        label='Chart'
+                        icon={<EqualizerIcon />}
+                    />
+                    <BottomNavigationAction
+                        label='New'
+                        icon={<AddIcon />}
+                    />
+
+                    <BottomNavigationAction
+                        label='Control'
+                        icon={<ControlCameraIcon />}
+                    />
+                </BottomNavigation>
+            </Paper>
         </Page>
     )
 }
