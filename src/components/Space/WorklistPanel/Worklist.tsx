@@ -66,6 +66,7 @@ export function Worklist(props: WorklistProps): JSX.Element {
             display: 'inline-block',
             fontSize: '2em',
             fontWeight: 'bold',
+            marginLeft: '0.25em'
         },
     })
 

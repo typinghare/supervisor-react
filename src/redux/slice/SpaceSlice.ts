@@ -20,7 +20,7 @@ const spaceSlice = createSlice({
             state.tabName = action.payload
         },
         setSubjectList(state: SpaceState, action: PayloadAction<ValueItemEntry[]>) {
-            state.subjectList = [...action.payload]
+            state.subjectList = action.payload
         },
     },
 })

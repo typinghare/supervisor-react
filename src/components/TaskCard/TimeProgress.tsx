@@ -3,7 +3,7 @@ import { TaskStage } from '../../common/enum/TaskStage'
 import { HourMinuteSecond, SlowHourMinuteSecond } from '@typinghare/hour-minute-second'
 import { TimeDisplay } from '../Common/TimeDisplay'
 import { collectStyles } from '../../common/functions/style'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export interface TimeProgressProps extends BoxProps {
     taskStage: TaskStage
@@ -53,42 +53,32 @@ export function TimeProgress(props: TimeProgressProps): JSX.Element {
         },
     })
 
-    function EndTimeDisplay(): JSX.Element {
-        const time: HourMinuteSecond | undefined = (() => {
-            if (taskStage === TaskStage.ONGOING || taskStage === TaskStage.PAUSED) {
-                return SlowHourMinuteSecond.ofMinutes(dynamicDuration)
-            } else if (taskStage === TaskStage.ENDED) {
-                return endedAt
-            }
-
-            return undefined
-        })()
-
-        return (
-            <TimeDisplay
-                time={time}
-                flash={taskStage === TaskStage.ONGOING}
-                sx={styles.endTime}
-            />
-        )
-    }
-
-    useEffect(() => {
-        const initialTime = new Date().getTime()
-        const durationInterval = taskStage === TaskStage.ONGOING ?
-            setInterval(() => {
-                const newDynamicDuration = dynamicDuration +
-                    Math.floor((new Date().getTime() - initialTime) / HourMinuteSecond.MILLISECONDS_IN_MINUTE)
-                if (newDynamicDuration !== dynamicDuration) {
-                    setDynamicDuration(newDynamicDuration)
-                    setProgress(getProgress(newDynamicDuration, expectedDuration))
-                }
-            }, HourMinuteSecond.MILLISECONDS_IN_SECOND) : null
-
-        return (): void => {
-            if (durationInterval) clearInterval(durationInterval)
+    const endTime: HourMinuteSecond | undefined = (() => {
+        if (taskStage === TaskStage.ONGOING || taskStage === TaskStage.PAUSED) {
+            return SlowHourMinuteSecond.ofMinutes(dynamicDuration)
+        } else if (taskStage === TaskStage.ENDED) {
+            return endedAt
         }
-    }, [taskStage, setDynamicDuration, setProgress]) // eslint-disable-line react-hooks/exhaustive-deps
+
+        return undefined
+    })()
+
+    // useEffect(() => {
+    //     const initialTime = new Date().getTime()
+    //     const durationInterval = taskStage === TaskStage.ONGOING ?
+    //         setInterval(() => {
+    //             const newDynamicDuration = dynamicDuration +
+    //                 Math.floor((new Date().getTime() - initialTime) / HourMinuteSecond.MILLISECONDS_IN_MINUTE)
+    //             if (newDynamicDuration !== dynamicDuration) {
+    //                 setDynamicDuration(newDynamicDuration)
+    //                 setProgress(getProgress(newDynamicDuration, expectedDuration))
+    //             }
+    //         }, HourMinuteSecond.MILLISECONDS_IN_SECOND) : null
+    //
+    //     return (): void => {
+    //         if (durationInterval) clearInterval(durationInterval)
+    //     }
+    // }, [taskStage, setDynamicDuration, setProgress]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Box sx={styles.root} {...otherProps}>
@@ -103,7 +93,11 @@ export function TimeProgress(props: TimeProgressProps): JSX.Element {
                 sx={styles.progress}
             />
 
-            <EndTimeDisplay />
+            <TimeDisplay
+                time={endTime}
+                flash={taskStage === TaskStage.ONGOING}
+                sx={styles.endTime}
+            />
         </Box>
     )
 }

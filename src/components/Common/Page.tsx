@@ -1,6 +1,7 @@
 import { Box, BoxProps, Theme } from '@mui/material'
 import { collectStyles } from '../../common/functions/style'
 import { navigationHeight } from '../Layout/Navigation'
+import { bottomNavigationHeight } from '../App'
 
 export interface PageProps extends BoxProps {
 }
@@ -12,12 +13,14 @@ export function Page(props: PageProps): JSX.Element {
         root: (theme: Theme) => ({
             margin: '0',
             maxWidth: '100vw',
-            minHeight: `calc(100vh - ${navigationHeight})`,
+
             [theme.breakpoints.down('sm')]: {
-                padding: '1em 1em',
+                padding: '1em 0.5em',
+                minHeight: `calc(100vh + ${bottomNavigationHeight})`,
             },
             [theme.breakpoints.up('sm')]: {
-                padding: '1em 5%',
+                padding: '1em 1em',
+                minHeight: `calc(100vh - ${navigationHeight})`,
             },
             [theme.breakpoints.up('lg')]: {
                 padding: '1em 10%',
