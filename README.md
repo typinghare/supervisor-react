@@ -11,40 +11,45 @@ npx create-react-app supervisor-react --template typescript
 
 # Install Redux.
 # @link https://redux.js.org/introduction/installation
-npm install react-redux redux @types/react-redux @types/redux
+pnpm add react-redux redux @types/react-redux @types/redux
 
 # Install react-router-dom v6.
 # @link https://reactrouter.com/en/main/start/tutorial
-npm i react-router-dom
+pnpm add react-router-dom
 
 # Install MUI (Material UI).
 # @link https://mui.com/material-ui/getting-started/installation/
-npm install @mui/material @emotion/react @emotion/styled @mui/lab
+pnpm add @mui/material @emotion/react @emotion/styled @mui/lab
 
 # Install MUI icons support.
 # @link https://mui.com/material-ui/material-icons/
-npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
+pnpm add @mui/icons-material @mui/material @emotion/styled @emotion/react
 
 # Install TanStack Query.
 # @link https://tanstack.com/query/latest/docs/react/installation
-npm i @tanstack/react-query
+pnpm add @tanstack/react-query
 
 # Install react-cookie.
 # @link https://www.npmjs.com/package/react-cookie
-npm i react-cookie
+pnpm add react-cookie
 
 # Install React Charts.
 # @link https://react-charts.tanstack.com/docs/installation
- npm install react-charts@beta --save
+pnpm add react-charts@beta
+
+# Install ApexCharts.
+# @link
+pnpm add apexcharts
 
 # Install some useful libraries.
-npm axios
-npm moment
-npm lodash @types/lodash
-npm i uuid @types/uuid
+pnpm add axios
+pnpm add moment
+pnpm add lodash @types/lodash
+pnpm add uuid @types/uuid
 
 # Install Storybook.
 npx storybook@latest init
+
 ~~~
 
 ## Style Guide

@@ -11,6 +11,9 @@ export namespace Server {
     // The base URL for the backend server.
     export const ApiBaseUrl = `${ApiProtocol}://${ApiDomain}/api/supervisor`
 
+    // Api date format
+    export const DateFormat: string = 'YYYY-MM-DD'
+
     // Api date time format
     export const DateTimeFormat: string = 'YYYY-MM-DD HH:mm:ss'
 

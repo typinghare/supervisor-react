@@ -3,7 +3,7 @@ import { TaskStage } from '../../common/enum/TaskStage'
 import { HourMinuteSecond, SlowHourMinuteSecond } from '@typinghare/hour-minute-second'
 import { TimeDisplay } from '../Common/TimeDisplay'
 import { collectStyles } from '../../common/functions/style'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export interface TimeProgressProps extends BoxProps {
     taskStage: TaskStage
@@ -63,22 +63,22 @@ export function TimeProgress(props: TimeProgressProps): JSX.Element {
         return undefined
     })()
 
-    // useEffect(() => {
-    //     const initialTime = new Date().getTime()
-    //     const durationInterval = taskStage === TaskStage.ONGOING ?
-    //         setInterval(() => {
-    //             const newDynamicDuration = dynamicDuration +
-    //                 Math.floor((new Date().getTime() - initialTime) / HourMinuteSecond.MILLISECONDS_IN_MINUTE)
-    //             if (newDynamicDuration !== dynamicDuration) {
-    //                 setDynamicDuration(newDynamicDuration)
-    //                 setProgress(getProgress(newDynamicDuration, expectedDuration))
-    //             }
-    //         }, HourMinuteSecond.MILLISECONDS_IN_SECOND) : null
-    //
-    //     return (): void => {
-    //         if (durationInterval) clearInterval(durationInterval)
-    //     }
-    // }, [taskStage, setDynamicDuration, setProgress]) // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        const initialTime = new Date().getTime()
+        const durationInterval = taskStage === TaskStage.ONGOING ?
+            setInterval(() => {
+                const newDynamicDuration = dynamicDuration +
+                    Math.floor((new Date().getTime() - initialTime) / HourMinuteSecond.MILLISECONDS_IN_MINUTE)
+                if (newDynamicDuration !== dynamicDuration) {
+                    setDynamicDuration(newDynamicDuration)
+                    setProgress(getProgress(newDynamicDuration, expectedDuration))
+                }
+            }, HourMinuteSecond.MILLISECONDS_IN_SECOND) : null
+
+        return (): void => {
+            if (durationInterval) clearInterval(durationInterval)
+        }
+    }, [taskStage, setDynamicDuration, setProgress]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Box sx={styles.root} {...otherProps}>

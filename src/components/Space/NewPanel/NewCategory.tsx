@@ -1,4 +1,4 @@
-import { Alert, Box, Grid, Snackbar, TextField } from '@mui/material'
+import { Box, Grid, TextField } from '@mui/material'
 import { collectStyles } from '../../../common/functions/style'
 import { SimpleSelect } from '../../Common/SimpleSelect'
 import { ChangeEvent, useEffect, useState } from 'react'
@@ -13,11 +13,12 @@ import { selectSubjectList, setSubjectList } from '../../../redux/slice/SpaceSli
 import { useAppSelector } from '../../../redux/hooks'
 import { selectUserId } from '../../../redux/slice/UserSlice'
 import CategoryIcon from '@mui/icons-material/Category'
+import { AlertSnackBar } from '../../Common/AlertSnackBar'
 
 export function NewCategory(): JSX.Element {
     const [subjectId, setSubjectId] = useState<number>(0)
     const [categoryName, setCategoryName] = useState<string>('')
-    const [expectedDuration, setExpectedDuration] = useState<number>(30)
+    const [expectedDuration, setExpectedDuration] = useState<string>('30')
     const token = useToken()
     const [isSnackBarOpen, openSnackBar, closeSnackBar] = useSwitch()
     const dispatch = useDispatch()
@@ -43,7 +44,7 @@ export function NewCategory(): JSX.Element {
             // Clear all content.
             setSubjectId(subjectList[0].value)
             setCategoryName('')
-            setExpectedDuration(30)
+            setExpectedDuration('30')
         },
     })
 
@@ -56,10 +57,15 @@ export function NewCategory(): JSX.Element {
             return
         }
 
+        const expectedDurationInt: number = parseInt(expectedDuration)
+        if (isNaN(expectedDurationInt)) {
+            return
+        }
+
         createCategory({
             token,
             subjectId,
-            expectedDuration,
+            expectedDuration: expectedDurationInt,
             name: categoryName,
         })
     }
@@ -70,15 +76,7 @@ export function NewCategory(): JSX.Element {
 
     function handleExpectedDurationChange(event: ChangeEvent<HTMLInputElement>) {
         const value: string = event.target.value
-        if (value === '') {
-            setExpectedDuration(0)
-        } else {
-            const validValue = value.length > 1 && value[0] === '0' ? value.substring(1) : value
-            const intValue = parseInt(validValue)
-            if (!isNaN(intValue) && intValue > 0) {
-                setExpectedDuration(intValue)
-            }
-        }
+        setExpectedDuration(value)
     }
 
     useEffect(() => {
@@ -160,11 +158,13 @@ export function NewCategory(): JSX.Element {
                     </LoadingButton>
                 </Grid>
 
-                <Snackbar open={isSnackBarOpen} autoHideDuration={5000} onClose={closeSnackBar}>
-                    <Alert onClose={closeSnackBar} severity='success' sx={{ width: '100%' }}>
-                        Created category successfully.
-                    </Alert>
-                </Snackbar>
+                <AlertSnackBar
+                    open={isSnackBarOpen}
+                    onClose={closeSnackBar}
+                    severity='success'
+                >
+                    Created category successfully.
+                </AlertSnackBar>
             </Grid>
         </>
     )

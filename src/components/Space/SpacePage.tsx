@@ -1,5 +1,5 @@
 import { Page } from '../Common/Page'
-import { Alert, BottomNavigation, BottomNavigationAction, Paper, useMediaQuery, useTheme } from '@mui/material'
+import { Alert, BottomNavigation, BottomNavigationAction, Paper } from '@mui/material'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAppSelector } from '../../redux/hooks'
 import { selectUserId } from '../../redux/slice/UserSlice'
@@ -19,11 +19,11 @@ import { ChartPanel } from './ChartPanel/ChartPanel'
 import { NewPanel } from './NewPanel/NewPanel'
 import { ControlPanel } from './ControlPanel/ControlPanel'
 import { TabList } from '../Common/Tab/TabList'
-import SpaceTabName = Frontend.SpaceTabName
-import spaceTabNameList = Frontend.spaceTabNameList
 import { indexOf } from 'lodash'
 import { bottomNavigationHeight } from '../App'
-
+import useDeviceType from '../../hook/useDeviceType'
+import SpaceTabName = Frontend.SpaceTabName
+import spaceTabNameList = Frontend.spaceTabNameList
 
 export function SpacePage(): JSX.Element {
     const { userId: userIdString } = useParams()
@@ -32,8 +32,7 @@ export function SpacePage(): JSX.Element {
     const currentSpaceTabName = useAppSelector(selectSpaceTabName)
     const navigate = useNavigate()
     const location = useLocation()
-    const theme = useTheme()
-    const isSmallDevice = useMediaQuery(theme.breakpoints.down('sm'))
+    const isSmallDevice = useDeviceType() === 'small'
 
     const userId: number = (() => {
         if (userIdString === undefined) {
@@ -84,17 +83,17 @@ export function SpacePage(): JSX.Element {
             bottom: 0,
             left: 0,
             right: 0,
-            height: bottomNavigationHeight
+            height: bottomNavigationHeight,
         },
     })
 
-    function handleTabChange(value: string) {
+    function handleSpaceTabChange(value: string) {
         dispatch(switchSpaceTab(value as SpaceTabName))
         navigate(location.pathname + '#' + value)
     }
 
-    function handleSpaceTabChange(event: SyntheticEvent, value: number) {
-        dispatch(switchSpaceTab(spaceTabNameList[value]))
+    function handleBottomNavigationSpaceTabChange(event: SyntheticEvent, value: number) {
+        handleSpaceTabChange(spaceTabNameList[value])
     }
 
     return (
@@ -104,7 +103,7 @@ export function SpacePage(): JSX.Element {
                     value={currentSpaceTabName}
                     valueList={spaceTabNameList}
                     labelList={['Worklist', 'Chart', 'New', 'Control']}
-                    onValueChange={handleTabChange}
+                    onValueChange={handleSpaceTabChange}
                 >
                     <FactCheckIcon />
                     <EqualizerIcon />
@@ -125,7 +124,7 @@ export function SpacePage(): JSX.Element {
                     value={spaceTabNameList[1]}
                     sx={styles.tabPanel}
                 >
-                    <ChartPanel />
+                    <ChartPanel userId={userId} />
                 </TabPanel>
 
                 {userId === localUserId && (
@@ -147,31 +146,33 @@ export function SpacePage(): JSX.Element {
                 )}
             </TabContext>
 
-            <Paper sx={styles.bottomNavigation} elevation={3}>
-                <BottomNavigation
-                    showLabels
-                    value={indexOf(spaceTabNameList, currentSpaceTabName)}
-                    onChange={handleSpaceTabChange}
-                >
-                    <BottomNavigationAction
-                        label='Worklist'
-                        icon={<FactCheckIcon />}
-                    />
-                    <BottomNavigationAction
-                        label='Chart'
-                        icon={<EqualizerIcon />}
-                    />
-                    <BottomNavigationAction
-                        label='New'
-                        icon={<AddIcon />}
-                    />
+            {isSmallDevice && (
+                <Paper sx={styles.bottomNavigation} elevation={3}>
+                    <BottomNavigation
+                        showLabels
+                        value={indexOf(spaceTabNameList, currentSpaceTabName)}
+                        onChange={handleBottomNavigationSpaceTabChange}
+                    >
+                        <BottomNavigationAction
+                            label='Worklist'
+                            icon={<FactCheckIcon />}
+                        />
+                        <BottomNavigationAction
+                            label='Chart'
+                            icon={<EqualizerIcon />}
+                        />
+                        <BottomNavigationAction
+                            label='New'
+                            icon={<AddIcon />}
+                        />
 
-                    <BottomNavigationAction
-                        label='Control'
-                        icon={<ControlCameraIcon />}
-                    />
-                </BottomNavigation>
-            </Paper>
+                        <BottomNavigationAction
+                            label='Control'
+                            icon={<ControlCameraIcon />}
+                        />
+                    </BottomNavigation>
+                </Paper>
+            )}
         </Page>
     )
 }

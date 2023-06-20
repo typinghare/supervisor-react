@@ -6,7 +6,7 @@ import { SubjectDto } from '../../../dto/SubjectDto'
 import { CategoryDto } from '../../../dto/CategoryDto'
 import { TaskAction } from '../../../common/enum/TaskAction'
 import { collectStyles } from '../../../common/functions/style'
-import { Alert, Box, Button, Grid, Snackbar, TextField } from '@mui/material'
+import { Box, Button, Grid, TextField } from '@mui/material'
 import EventIcon from '@mui/icons-material/Event'
 import { SimpleSelect, ValueItemEntry } from '../../Common/SimpleSelect'
 import { useToken } from '../../../hook/useToken'
@@ -15,13 +15,14 @@ import { useAppSelector } from '../../../redux/hooks'
 import { useDispatch } from 'react-redux'
 import { selectSubjectList, setSubjectList } from '../../../redux/slice/SpaceSlice'
 import { TaskDto } from '../../../dto/TaskDto'
+import { AlertSnackBar } from '../../Common/AlertSnackBar'
 import HttpResponse = Api.HttpResponse
 
 export function NewTask(): JSX.Element {
     const subjectList = useAppSelector(selectSubjectList)
-    const [subjectId, setSubjectId] = useState<number>(0)
+    const [subjectId, setSubjectId] = useState<number | ''>('')
     const [categoryList, setCategoryList] = useState<ValueItemEntry[]>([])
-    const [categoryId, setCategoryId] = useState<number>(0)
+    const [categoryId, setCategoryId] = useState<number | ''>('')
     const [comment, setComment] = useState<string>('')
     const [isSnackBarOpen, openSnackBar, closeSnackBar] = useSwitch()
     const [snackBarMessage, setSnackBarMessage] = useState<string>('')
@@ -107,7 +108,9 @@ export function NewTask(): JSX.Element {
 
     function handleSubjectChange(subjectId: number) {
         setSubjectId(subjectId)
-        loadCategory()
+        setCategoryList([])
+        setCategoryId('')
+        getCategories(subjectId)
     }
 
     function handleCategoryChange(categoryId: number) {
@@ -115,7 +118,7 @@ export function NewTask(): JSX.Element {
     }
 
     function handleCreate() {
-        if (token === undefined) {
+        if (token === undefined || categoryId === '') {
             return
         }
 
@@ -123,6 +126,10 @@ export function NewTask(): JSX.Element {
     }
 
     function handleCreateAndStart() {
+        if (categoryId === '') {
+            return
+        }
+
         createAndStartTask(categoryId)
     }
 
@@ -130,8 +137,10 @@ export function NewTask(): JSX.Element {
         setComment(event.target.value)
     }
 
-    function loadCategory() {
-        getCategories(subjectId)
+    function handleCategorySelectFocus() {
+        if (subjectId !== '') {
+            getCategories(subjectId)
+        }
     }
 
     useEffect(() => {
@@ -165,7 +174,7 @@ export function NewTask(): JSX.Element {
             <Grid container spacing={2} sx={styles.container}>
                 <Grid item xs={12} md={6} lg={4} xl={3}>
                     <SimpleSelect
-                        label='Subject'
+                        label={isLoadingSubjects ? 'Loading subjects ...' : 'Subject'}
                         valueItemList={subjectList}
                         onValueChange={handleSubjectChange}
                         disabled={isLoadingSubjects}
@@ -175,11 +184,11 @@ export function NewTask(): JSX.Element {
 
                 <Grid item xs={12} md={6} lg={4} xl={3}>
                     <SimpleSelect
-                        label='Category'
+                        label={isLoadingCategories ? 'Loading categories ...' : 'Category'}
                         valueItemList={categoryList}
                         onValueChange={handleCategoryChange}
-                        onFocus={loadCategory}
-                        disabled={isLoadingCategories}
+                        onFocus={handleCategorySelectFocus}
+                        disabled={isLoadingCategories || subjectId === ''}
                         size='small'
                     />
                 </Grid>
@@ -220,11 +229,13 @@ export function NewTask(): JSX.Element {
                     </Button>
                 </Grid>
 
-                <Snackbar open={isSnackBarOpen} autoHideDuration={5000} onClose={closeSnackBar}>
-                    <Alert onClose={closeSnackBar} severity='success' sx={{ width: '100%' }}>
-                        {snackBarMessage}
-                    </Alert>
-                </Snackbar>
+                <AlertSnackBar
+                    open={isSnackBarOpen}
+                    severity={'success'}
+                    onClose={closeSnackBar}
+                >
+                    {snackBarMessage}
+                </AlertSnackBar>
             </Grid>
         </>
     )

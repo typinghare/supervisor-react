@@ -2,6 +2,7 @@ import { TaskDto } from '../../dto/TaskDto'
 import moment from 'moment/moment'
 import { Task } from '../../components/TaskCard/TaskCard'
 import { HourMinuteSecond, SlowHourMinuteSecond } from '@typinghare/hour-minute-second'
+import { Server } from '../constants/server'
 
 export const convertTaskDtoToTask = function(taskDto: TaskDto): Task {
     return {
@@ -25,6 +26,10 @@ export const convertDateStringToDate = function(dateString: string | null, forma
     if (!dateString) return undefined
 
     return moment(dateString, format, true).toDate()
+}
+
+export function convertDateToDateString(date: Date): string {
+    return moment(date).format(Server.DateFormat)
 }
 
 export const convertDateToTime = function(date: Date | undefined): HourMinuteSecond | undefined {
