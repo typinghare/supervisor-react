@@ -19,8 +19,7 @@ export function TaskCardWrapperCollection(props: TaskCardWrapperCollectionProps)
 
     return (
         <Grid container spacing={2}>
-            {
-                taskList.map((task) => (
+            {taskList.map((task) => (
                     <Grid item xs={12} md={6} key={task.id}>
                         <TaskCardWrapper
                             shine={task.id === selectedTaskId}
@@ -28,8 +27,8 @@ export function TaskCardWrapperCollection(props: TaskCardWrapperCollectionProps)
                             {...task}
                         />
                     </Grid>
-                ))
-            }
+                ),
+            )}
         </Grid>
     )
 }

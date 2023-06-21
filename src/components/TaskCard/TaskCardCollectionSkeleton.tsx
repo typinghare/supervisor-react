@@ -1,18 +1,16 @@
 import { Grid } from '@mui/material'
 import { TaskCardSkeleton } from './TaskCardSkeleton'
+import { range } from 'lodash'
 
 export function TaskCardCollectionSkeleton(): JSX.Element {
-    const array = [0, 1, 2, 3]
-
     return (
         <Grid container spacing={2}>
-            {
-                array.map(key => (
+            {range(4).map(key => (
                     <Grid item xs={12} md={6} key={key}>
                         <TaskCardSkeleton />
                     </Grid>
-                ))
-            }
+                ),
+            )}
         </Grid>
     )
 }

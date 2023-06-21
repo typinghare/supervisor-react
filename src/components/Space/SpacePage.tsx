@@ -62,6 +62,9 @@ export function SpacePage(): JSX.Element {
     }
 
     const styles = collectStyles({
+        root: {
+            backgroundColor: '#e9ecef',
+        },
         tabsContainer: {
             '& .MuiTabs-scroller': {
                 borderBottom: '1px solid #E5E5E5',
@@ -97,7 +100,7 @@ export function SpacePage(): JSX.Element {
     }
 
     return (
-        <Page>
+        <Page sx={styles.root}>
             {!isSmallDevice && (
                 <TabList
                     value={currentSpaceTabName}

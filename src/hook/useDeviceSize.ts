@@ -1,18 +1,14 @@
 import { useMediaQuery, useTheme } from '@mui/material'
 
 export enum DeviceSize {
-    // (0, 600) pixels
-    Small,
-
-    // [600, 1200) pixels
-    Medium,
-
-    // [1200, infinity) pixels
-    Large,
+    Small,    // (0, 600) pixels
+    Medium,   // [600, 1200) pixels
+    Large,    // [1200, infinity) pixels
 }
 
 /**
- * Returns the type of the device.
+ * Custom hook that returns the size category of the device based on the screen width.
+ * @returns The DeviceSize enum value representing the device size category.
  */
 function useDeviceSize(): DeviceSize {
     const theme = useTheme()

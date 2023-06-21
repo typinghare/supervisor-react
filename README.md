@@ -38,7 +38,7 @@ pnpm add react-cookie
 pnpm add react-charts@beta
 
 # Install ApexCharts.
-# @link
+# @link https://apexcharts.com/docs/installation/
 pnpm add apexcharts
 
 # Install some useful libraries.

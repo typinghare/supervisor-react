@@ -50,6 +50,10 @@ export function ChartPanel(props: ChartPanelProps): JSX.Element {
         )
     }
 
+    function getMinutes(seconds: number) {
+        return Math.floor(seconds / HourMinuteSecond.SECOND_IN_MINUTE)
+    }
+
     // Aggregation.
     const dateMinutesData: DateMinutesDatum[] = (function(taskDtoList) {
         const momentDate = moment()
@@ -59,9 +63,9 @@ export function ChartPanel(props: ChartPanelProps): JSX.Element {
         taskDtoList.forEach(taskDto => {
             const createdAtDateString = taskDto.createdAt.split(' ')[0]
             if (dateTotalMinutesMap.hasOwnProperty(createdAtDateString)) {
-                dateTotalMinutesMap[createdAtDateString] += taskDto.duration / HourMinuteSecond.SECOND_IN_MINUTE
+                dateTotalMinutesMap[createdAtDateString] += getMinutes(taskDto.duration)
             } else {
-                dateTotalMinutesMap[createdAtDateString] = taskDto.duration / HourMinuteSecond.SECOND_IN_MINUTE
+                dateTotalMinutesMap[createdAtDateString] = getMinutes(taskDto.duration)
             }
         })
 
@@ -83,9 +87,9 @@ export function ChartPanel(props: ChartPanelProps): JSX.Element {
         taskDtoList.forEach(taskDto => {
             const subjectName = taskDto.subjectName
             if (subjectMinutesMap.hasOwnProperty(subjectName)) {
-                subjectMinutesMap[subjectName] += taskDto.duration / HourMinuteSecond.SECOND_IN_MINUTE
+                subjectMinutesMap[subjectName] += getMinutes(taskDto.duration)
             } else {
-                subjectMinutesMap[subjectName] = taskDto.duration / HourMinuteSecond.SECOND_IN_MINUTE
+                subjectMinutesMap[subjectName] = getMinutes(taskDto.duration)
             }
         })
 

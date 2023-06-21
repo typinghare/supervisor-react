@@ -17,15 +17,19 @@ export function Changelog220(): JSX.Element {
                 </li>
 
                 <li>
-                    Now bottom navigation substitutes tabs in small devices.
+                    Now bottom navigation substitutes tabs on small devices.
                 </li>
 
                 <li>
-                    Now user can customize subjects and categories in the "New" tab.
+                    Enhanced functionality in the 'New' tab to allow users to personalize subjects and categories.
                 </li>
 
                 <li>
-                    Added plenty of loading effects, such as skeleton and text prompts.
+                    Implemented various loading effects, including skeleton elements and text prompts.
+                </li>
+
+                <li>
+                    Included a new feature that enables users to sign out.
                 </li>
             </ul>
         </Changelog>

@@ -3,6 +3,7 @@ import { Frontend } from '../../common/constants/frontend'
 import { collectStyles } from '../../common/functions/style'
 import { useAppSelector } from '../../redux/hooks'
 import { selectUserId } from '../../redux/slice/UserSlice'
+import { UserMenu } from '../User/UserMenu'
 
 export const navigationHeight = '4em'
 
@@ -40,9 +41,12 @@ export function Navigation(): JSX.Element {
             flexGrow: 1,
             display: 'flex',
             justifyContent: 'space-between',
+            alignItems: 'center',
         },
         rightSideLinkContainer: {
             marginLeft: 'auto',
+            display: 'flex',
+            alignItems: 'center',
         },
         about: {
             color: 'white',
@@ -62,9 +66,12 @@ export function Navigation(): JSX.Element {
                 textDecorationColor: 'white',
             },
         },
-        user: {
-            color: 'white',
+        userAvatar: {
+            display: 'inline-block',
             textDecoration: 'none',
+            '& .': {
+                color: 'white',
+            },
         },
         signIn: {
             color: 'white',
@@ -91,17 +98,20 @@ export function Navigation(): JSX.Element {
                         >
                             Space
                         </Link>
-                        {userId !== undefined && <Link
-                            href={Frontend.Basename + Frontend.Url.Space}
-                            sx={styles.user}
-                            children='Avatar'
-                        />}
 
-                        {userId === undefined && <Link
-                            href={Frontend.Basename + Frontend.Url.SignIn}
-                            sx={styles.signIn}
-                            children='Sign In'
-                        />}
+                        {userId !== undefined && (
+                            <Box sx={styles.userAvatar}>
+                                <UserMenu />
+                            </Box>
+                        )}
+
+                        {userId === undefined && (
+                            <Link
+                                href={Frontend.Basename + Frontend.Url.SignIn}
+                                sx={styles.signIn}
+                                children='Sign In'
+                            />
+                        )}
                     </Box>
                 </Box>
             </Toolbar>

@@ -10,7 +10,7 @@ import { CookieSetOptions } from 'universal-cookie'
  * @example [tokenCookie, setTokenCookie, removeTokenCookie] = useCookie('token')
  */
 function useCookie(name: string, value ?: any): [
-    string | undefined,
+        string | undefined,
     (value: any, options?: CookieSetOptions) => void,
     (options?: CookieSetOptions) => void
 ] {

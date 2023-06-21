@@ -52,7 +52,6 @@ export function Worklist(props: WorklistProps): JSX.Element {
     }
 
     useEffect(() => {
-        console.log('loadTaskList')
         loadTaskList()
     }, [date, loadTaskList])
 

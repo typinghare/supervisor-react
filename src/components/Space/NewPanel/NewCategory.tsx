@@ -41,7 +41,6 @@ export function NewCategory(): JSX.Element {
             openSnackBar()
 
             // Clear all content.
-            setSubjectId(subjectList[0].value)
             setCategoryName('')
             setExpectedDurationMin('30')
         },

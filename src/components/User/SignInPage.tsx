@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { Page } from '../Common/Page'
 import { useAppSelector } from '../../redux/hooks'
 import { selectUserId, signIn } from '../../redux/slice/UserSlice'
-import { useEffect, useState } from 'react'
+import { KeyboardEvent, useEffect, useState } from 'react'
 import { Frontend } from '../../common/constants/frontend'
 import { collectStyles } from '../../common/functions/style'
 import { Alert, Box, Button } from '@mui/material'
@@ -11,15 +11,17 @@ import { PasswordInput } from '../Common/PasswordInput'
 import { useMutation } from '@tanstack/react-query'
 import { useDispatch } from 'react-redux'
 import { UserTokenDto } from '../../dto/UserTokenDto'
-import { useCookies } from 'react-cookie'
 import Api from '../../common/api'
 import useSwitch from '../../hook/useSwitch'
+import useCookie from '../../hook/useCookie'
 import CookieKey = Frontend.CookieKey
 
 export function SignInPage(): JSX.Element {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [, setCookies] = useCookies([CookieKey.UserId, CookieKey.Token, CookieKey.Username])
+    const [, setUserIdCookie] = useCookie(CookieKey.UserId)
+    const [, setTokenCookie] = useCookie(CookieKey.Token)
+    const [, setUsernameCookie] = useCookie(CookieKey.Username)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [isAlertShow, openAlert, closeAlert] = useSwitch()
@@ -28,20 +30,20 @@ export function SignInPage(): JSX.Element {
 
     const { mutate, isLoading } = useMutation(Api.signIn, {
         onSuccess: (response: Api.HttpResponse<UserTokenDto>) => {
-            const data = response.data
+            const userTokenDto = response.data
             dispatch(signIn({
-                userId: data.id,
-                token: data.token,
-                username: data.username,
+                userId: userTokenDto.id,
+                token: userTokenDto.token,
+                username: userTokenDto.username,
             }))
 
             const config = {
                 path: Frontend.Basename,
                 expires: Frontend.DEFAULT_COOKIE_EXPIRE_TIME,
             }
-            setCookies(CookieKey.UserId, data.id, config)
-            setCookies(CookieKey.Token, data.token, config)
-            setCookies(CookieKey.Username, data.username, config)
+            setUserIdCookie(userTokenDto.id, config)
+            setTokenCookie(userTokenDto.token, config)
+            setUsernameCookie(userTokenDto.username, config)
 
             // Redirect to space page.
             navigate(Frontend.Url.Space)
@@ -62,12 +64,17 @@ export function SignInPage(): JSX.Element {
         }
     }, []) // eslint-disable-line
 
+    function handlePasswordKeyUp(event: KeyboardEvent<HTMLInputElement>) {
+        if (event.key === 'Enter') {
+            handleSubmit()
+        }
+    }
+
     const styles = collectStyles({
         alert: {
             marginBottom: '1em',
         },
         content: (theme) => ({
-            padding: theme.spacing(1),
             [theme.breakpoints.down('sm')]: {
                 padding: 0,
             },
@@ -89,8 +96,15 @@ export function SignInPage(): JSX.Element {
                     </Alert>
                 )}
 
-                <UsernameInput username={username} onChange={setUsername} />
-                <PasswordInput password={password} onChange={setPassword} />
+                <UsernameInput
+                    username={username}
+                    onChange={setUsername}
+                />
+                <PasswordInput
+                    password={password}
+                    onChange={setPassword}
+                    onKeyUp={handlePasswordKeyUp}
+                />
 
                 <Button
                     variant='contained'

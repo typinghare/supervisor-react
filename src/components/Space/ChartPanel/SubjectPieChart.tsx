@@ -1,6 +1,7 @@
 import Chart from 'react-apexcharts'
 import { ChartBox } from '../../Common/Chart/ChartBox'
 import { ApexOptions } from 'apexcharts'
+import { renderToStaticMarkup } from 'react-dom/server'
 
 export interface SubjectMinuteDatum {
     subjectName: string
@@ -30,6 +31,20 @@ export function SubjectPieChart(props: SubjectPieChartProps): JSX.Element {
         dataLabels: {
             enabled: true,
             formatter: (val: number) => Math.round(val) + '%',
+        },
+        tooltip: {
+            custom: function({ seriesIndex }) {
+                const datum = data[seriesIndex]
+                const element = (
+                    <div style={{ padding: '0.25em 0.5em' }}>
+                        {datum.subjectName}&nbsp;-&nbsp;
+                        <span style={{ fontWeight: 'bold' }}>{datum.minutes}</span>
+                        &nbsp;min
+                    </div>
+                )
+
+                return renderToStaticMarkup(element).toString()
+            },
         },
     }
 

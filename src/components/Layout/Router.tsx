@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Frontend } from '../../common/constants/frontend'
 import { AboutPage } from '../About/AboutPage'
 import { HomePage } from '../HomePage'
-import { SignInPage } from '../SignIn/SignInPage'
+import { SignInPage } from '../User/SignInPage'
 import { SpacePage } from '../Space/SpacePage'
 
 /**

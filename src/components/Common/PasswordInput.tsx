@@ -1,15 +1,15 @@
 import { collectStyles } from '../../common/functions/style'
-import { InputAdornment, TextField } from '@mui/material'
+import { InputAdornment, TextField, TextFieldProps } from '@mui/material'
 import { ChangeEvent } from 'react'
 import KeyIcon from '@mui/icons-material/Key'
 
-export interface PasswordInputProps {
+export type PasswordInputProps = Omit<TextFieldProps, 'onChange'> & {
     password: string
     onChange: (password: string) => void
 }
 
 export function PasswordInput(props: PasswordInputProps): JSX.Element {
-    const { password, onChange } = props
+    const { password, onChange, ...otherProps } = props
 
     const styles = collectStyles({
         icon: {
@@ -40,6 +40,7 @@ export function PasswordInput(props: PasswordInputProps): JSX.Element {
             value={password}
             onChange={handleTextChange}
             InputProps={{ startAdornment }}
+            {...otherProps}
         />
     )
 }
