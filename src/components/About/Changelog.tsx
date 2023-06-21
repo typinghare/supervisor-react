@@ -48,7 +48,7 @@ export function Changelog(props: ChangelogProps): JSX.Element {
             </Box>
 
             <Box sx={styles.publishDate}>
-                {moment(releaseDate).format('Mo DD, YYYY')}
+                {moment(releaseDate).format('MMM Do, YYYY')}
             </Box>
 
             <Divider />
