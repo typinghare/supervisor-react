@@ -1,8 +1,12 @@
 import { Changelog } from '../Changelog'
+import moment from 'moment/moment'
 
 export function Changelog211(): JSX.Element {
     return (
-        <Changelog version='2.1.1' releaseDate='Aug 14th, 2022'>
+        <Changelog
+            version='2.1.1'
+            releaseDate={moment('08/14/2023').toDate()}
+        >
             <ul>
                 <li>
                     Improved task creation workflow: After a task is created, either the dashboard accordion or the

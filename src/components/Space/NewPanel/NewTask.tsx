@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react'
-import { useSwitch } from '../../../hook/useSwitch'
+import useSwitch from '../../../hook/useSwitch'
 import { useMutation } from '@tanstack/react-query'
 import Api from '../../../common/api'
 import { SubjectDto } from '../../../dto/SubjectDto'
@@ -9,8 +9,7 @@ import { collectStyles } from '../../../common/functions/style'
 import { Box, Button, Grid, TextField } from '@mui/material'
 import EventIcon from '@mui/icons-material/Event'
 import { SimpleSelect, ValueItemEntry } from '../../Common/SimpleSelect'
-import { useToken } from '../../../hook/useToken'
-import { selectUserId } from '../../../redux/slice/UserSlice'
+import { selectToken, selectUserId } from '../../../redux/slice/UserSlice'
 import { useAppSelector } from '../../../redux/hooks'
 import { useDispatch } from 'react-redux'
 import { selectSubjectList, setSubjectList } from '../../../redux/slice/SpaceSlice'
@@ -27,7 +26,7 @@ export function NewTask(): JSX.Element {
     const [isSnackBarOpen, openSnackBar, closeSnackBar] = useSwitch()
     const [snackBarMessage, setSnackBarMessage] = useState<string>('')
     const userId = useAppSelector(selectUserId)
-    const token = useToken()
+    const token = useAppSelector(selectToken)
     const dispatch = useDispatch()
 
     const { mutate: getSubjects, isLoading: isLoadingSubjects } = useMutation(Api.getSubjectsForUser, {

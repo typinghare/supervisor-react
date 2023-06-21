@@ -21,7 +21,7 @@ import { ControlPanel } from './ControlPanel/ControlPanel'
 import { TabList } from '../Common/Tab/TabList'
 import { indexOf } from 'lodash'
 import { bottomNavigationHeight } from '../App'
-import useDeviceType from '../../hook/useDeviceType'
+import useDeviceSize, { DeviceSize } from '../../hook/useDeviceSize'
 import SpaceTabName = Frontend.SpaceTabName
 import spaceTabNameList = Frontend.spaceTabNameList
 
@@ -32,7 +32,7 @@ export function SpacePage(): JSX.Element {
     const currentSpaceTabName = useAppSelector(selectSpaceTabName)
     const navigate = useNavigate()
     const location = useLocation()
-    const isSmallDevice = useDeviceType() === 'small'
+    const isSmallDevice = useDeviceSize() === DeviceSize.Small
 
     const userId: number = (() => {
         if (userIdString === undefined) {

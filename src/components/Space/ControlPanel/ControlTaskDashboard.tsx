@@ -6,8 +6,9 @@ import { collectStyles } from '../../../common/functions/style'
 import { useMutation } from '@tanstack/react-query'
 import Api from '../../../common/api'
 import { TaskDto } from '../../../dto/TaskDto'
-import { useToken } from '../../../hook/useToken'
 import { convertTaskDtoToTask } from '../../../common/functions/conversion'
+import { useAppSelector } from '../../../redux/hooks'
+import { selectToken } from '../../../redux/slice/UserSlice'
 
 export interface ControlTaskDashboardProps {
     selectedTaskDto?: TaskDto
@@ -16,7 +17,7 @@ export interface ControlTaskDashboardProps {
 
 export function ControlTaskDashboard(props: ControlTaskDashboardProps): JSX.Element {
     const { selectedTaskDto, onTaskUpdate } = props
-    const token = useToken()
+    const token = useAppSelector(selectToken)
 
     const { mutate: updateTask, isLoading: isUpdatingTask } = useMutation(Api.updateTask, {
         onSuccess: (response: Api.HttpResponse<TaskDto>) => {

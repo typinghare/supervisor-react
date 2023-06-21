@@ -5,13 +5,12 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import Api from '../../../common/api'
 import { SubjectDto } from '../../../dto/SubjectDto'
-import { useToken } from '../../../hook/useToken'
 import { LoadingButton } from '@mui/lab'
-import { useSwitch } from '../../../hook/useSwitch'
+import useSwitch from '../../../hook/useSwitch'
 import { useDispatch } from 'react-redux'
 import { selectSubjectList, setSubjectList } from '../../../redux/slice/SpaceSlice'
 import { useAppSelector } from '../../../redux/hooks'
-import { selectUserId } from '../../../redux/slice/UserSlice'
+import { selectToken, selectUserId } from '../../../redux/slice/UserSlice'
 import CategoryIcon from '@mui/icons-material/Category'
 import { AlertSnackBar } from '../../Common/AlertSnackBar'
 
@@ -19,7 +18,7 @@ export function NewCategory(): JSX.Element {
     const [subjectId, setSubjectId] = useState<number>(0)
     const [categoryName, setCategoryName] = useState<string>('')
     const [expectedDurationMin, setExpectedDurationMin] = useState<string>('30')
-    const token = useToken()
+    const token = useAppSelector(selectToken)
     const [isSnackBarOpen, openSnackBar, closeSnackBar] = useSwitch()
     const dispatch = useDispatch()
     const subjectList = useAppSelector(selectSubjectList)

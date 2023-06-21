@@ -2,7 +2,7 @@ import { Alert, AlertProps, Snackbar, SnackbarProps } from '@mui/material'
 import { collectStyles } from '../../common/functions/style'
 import { SyntheticEvent } from 'react'
 import { navigationHeight } from '../Layout/Navigation'
-import useDeviceType from '../../hook/useDeviceType'
+import useDeviceSize, { DeviceSize } from '../../hook/useDeviceSize'
 
 // @ts-ignore
 export interface AlertSnackBarProps extends SnackbarProps {
@@ -15,7 +15,7 @@ export function AlertSnackBar(props: AlertSnackBarProps): JSX.Element {
         severity, children, open, onClose, sx,
         ...otherProps
     } = props
-    const isSmallDevice = useDeviceType() === 'small'
+    const isSmallDevice = useDeviceSize() === DeviceSize.Small
 
     const styles = collectStyles({
         root: {

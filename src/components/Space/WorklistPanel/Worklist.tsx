@@ -4,7 +4,7 @@ import moment from 'moment'
 import { collectStyles } from '../../../common/functions/style'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import { DatePickerDialog } from '../../Common/DatePickerDialog'
-import { useSwitch } from '../../../hook/useSwitch'
+import useSwitch from '../../../hook/useSwitch'
 import { useMutation } from '@tanstack/react-query'
 import { TaskDto } from '../../../dto/TaskDto'
 import { convertTaskDtoToTask } from '../../../common/functions/conversion'
@@ -49,12 +49,12 @@ export function Worklist(props: WorklistProps): JSX.Element {
     function handleDateSelected(date: Date) {
         closeDialog()
         setDate(date)
-        loadTaskList()
     }
 
     useEffect(() => {
+        console.log('loadTaskList')
         loadTaskList()
-    }, [loadTaskList])
+    }, [date, loadTaskList])
 
     const styles = collectStyles({
         header: {
@@ -66,7 +66,8 @@ export function Worklist(props: WorklistProps): JSX.Element {
             display: 'inline-block',
             fontSize: '2em',
             fontWeight: 'bold',
-            marginLeft: '0.25em',
+            margin: '0 0.5em',
+            fontFamily: 'Lato',
         },
     })
 
@@ -90,12 +91,10 @@ export function Worklist(props: WorklistProps): JSX.Element {
                 />
             </Box>
 
-            {!isLoading && (
-                <TaskCardCollection taskList={taskList} />
-            )}
-
-            {isLoading && (
+            {isLoading ? (
                 <TaskCardCollectionSkeleton />
+            ) : (
+                <TaskCardCollection taskList={taskList} />
             )}
         </>
     )

@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux'
 import { UserTokenDto } from '../../dto/UserTokenDto'
 import { useCookies } from 'react-cookie'
 import Api from '../../common/api'
-import { useSwitch } from '../../hook/useSwitch'
+import useSwitch from '../../hook/useSwitch'
 import CookieKey = Frontend.CookieKey
 
 export function SignInPage(): JSX.Element {

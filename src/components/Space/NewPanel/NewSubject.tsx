@@ -4,19 +4,19 @@ import { LoadingButton } from '@mui/lab'
 import { collectStyles } from '../../../common/functions/style'
 import { useMutation } from '@tanstack/react-query'
 import Api from '../../../common/api'
-import { useSwitch } from '../../../hook/useSwitch'
-import { useToken } from '../../../hook/useToken'
+import useSwitch from '../../../hook/useSwitch'
 import { useAppSelector } from '../../../redux/hooks'
 import { selectSubjectList, setSubjectList } from '../../../redux/slice/SpaceSlice'
 import { useDispatch } from 'react-redux'
 import { SubjectDto } from '../../../dto/SubjectDto'
 import BookIcon from '@mui/icons-material/Book'
+import { selectToken } from '../../../redux/slice/UserSlice'
 import HttpResponse = Api.HttpResponse
 
 export function NewSubject(): JSX.Element {
     const [subjectName, setSubjectName] = useState<string>('')
     const [isSnackBarOpen, openSnackBar, closeSnackBar] = useSwitch()
-    const token = useToken()
+    const token = useAppSelector(selectToken)
     const subjectList = useAppSelector(selectSubjectList)
     const dispatch = useDispatch()
 

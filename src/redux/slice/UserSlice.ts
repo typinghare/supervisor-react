@@ -37,7 +37,7 @@ const userSlice = createSlice({
 export const { signIn } = userSlice.actions
 
 export const selectUserId = (state: RootState) => state.user.userId
-// export const selectToken = (state: RootState) => state.user.token
+export const selectToken = (state: RootState) => state.user.token
 // export const selectUsername = (state: RootState) => state.user.username
 
 export default userSlice.reducer

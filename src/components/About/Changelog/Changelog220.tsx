@@ -1,8 +1,12 @@
 import { Changelog } from '../Changelog'
+import moment from 'moment'
 
 export function Changelog220(): JSX.Element {
     return (
-        <Changelog version='2.2.0' releaseDate='Jun 20th, 2023'>
+        <Changelog
+            version='2.2.0'
+            releaseDate={moment('06/21/2023').toDate()}
+        >
             <ul>
                 <li>
                     Refactored the backend using Java19 and Spring framework.

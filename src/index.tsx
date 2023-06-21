@@ -11,6 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 // This application apply Redux to manage global states and contents.
 // Register all providers here.
+// Providers (from outside to inside): Redux, react-cookies, react-query.
 root.render(
     <React.StrictMode>
         <Provider store={store}>

@@ -1,8 +1,12 @@
 import { Changelog } from '../Changelog'
+import moment from 'moment/moment'
 
 export function Changelog210(): JSX.Element {
     return (
-        <Changelog version='2.1.0' releaseDate='Aug 11th, 2022'>
+        <Changelog
+            version='2.1.0'
+            releaseDate={moment('08/11/2023').toDate()}
+        >
             <ul>
                 <li>The database has been redesigned and optimized.</li>
                 <li>
