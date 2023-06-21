@@ -9,6 +9,7 @@ import { AreaChart, DateMinutesDatum } from './AreaChart'
 import { convertDateToDateString } from '../../../common/functions/conversion'
 import { collectStyles } from '../../../common/functions/style'
 import { SubjectMinuteDatum, SubjectPieChart } from './SubjectPieChart'
+import { HourMinuteSecond } from '@typinghare/hour-minute-second'
 import HttpResponse = Api.HttpResponse
 
 export interface ChartPanelProps {
@@ -58,9 +59,9 @@ export function ChartPanel(props: ChartPanelProps): JSX.Element {
         taskDtoList.forEach(taskDto => {
             const createdAtDateString = taskDto.createdAt.split(' ')[0]
             if (dateTotalMinutesMap.hasOwnProperty(createdAtDateString)) {
-                dateTotalMinutesMap[createdAtDateString] += taskDto.duration
+                dateTotalMinutesMap[createdAtDateString] += taskDto.duration / HourMinuteSecond.SECOND_IN_MINUTE
             } else {
-                dateTotalMinutesMap[createdAtDateString] = taskDto.duration
+                dateTotalMinutesMap[createdAtDateString] = taskDto.duration / HourMinuteSecond.SECOND_IN_MINUTE
             }
         })
 
@@ -82,9 +83,9 @@ export function ChartPanel(props: ChartPanelProps): JSX.Element {
         taskDtoList.forEach(taskDto => {
             const subjectName = taskDto.subjectName
             if (subjectMinutesMap.hasOwnProperty(subjectName)) {
-                subjectMinutesMap[subjectName] += taskDto.duration
+                subjectMinutesMap[subjectName] += taskDto.duration / HourMinuteSecond.SECOND_IN_MINUTE
             } else {
-                subjectMinutesMap[subjectName] = taskDto.duration
+                subjectMinutesMap[subjectName] = taskDto.duration / HourMinuteSecond.SECOND_IN_MINUTE
             }
         })
 

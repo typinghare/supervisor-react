@@ -55,7 +55,7 @@ export function TimeProgress(props: TimeProgressProps): JSX.Element {
 
     const endTime: HourMinuteSecond | undefined = (() => {
         if (taskStage === TaskStage.ONGOING || taskStage === TaskStage.PAUSED) {
-            return SlowHourMinuteSecond.ofMinutes(dynamicDuration)
+            return SlowHourMinuteSecond.ofSeconds(dynamicDuration)
         } else if (taskStage === TaskStage.ENDED) {
             return endedAt
         }
@@ -68,7 +68,7 @@ export function TimeProgress(props: TimeProgressProps): JSX.Element {
         const durationInterval = taskStage === TaskStage.ONGOING ?
             setInterval(() => {
                 const newDynamicDuration = dynamicDuration +
-                    Math.floor((new Date().getTime() - initialTime) / HourMinuteSecond.MILLISECONDS_IN_MINUTE)
+                    Math.floor((new Date().getTime() - initialTime) / HourMinuteSecond.MILLISECONDS_IN_SECOND)
                 if (newDynamicDuration !== dynamicDuration) {
                     setDynamicDuration(newDynamicDuration)
                     setProgress(getProgress(newDynamicDuration, expectedDuration))
@@ -104,8 +104,8 @@ export function TimeProgress(props: TimeProgressProps): JSX.Element {
 
 /**
  * Returns a progress percentage relative to the given duration and expected duration.
- * @param duration
- * @param expectedDuration
+ * @param duration The duration in seconds
+ * @param expectedDuration The expected duration in seconds
  */
 function getProgress(duration: number, expectedDuration: number): number {
     return Math.min(100, Math.floor((duration / expectedDuration) * 100))

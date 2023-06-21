@@ -18,7 +18,7 @@ import { AlertSnackBar } from '../../Common/AlertSnackBar'
 export function NewCategory(): JSX.Element {
     const [subjectId, setSubjectId] = useState<number>(0)
     const [categoryName, setCategoryName] = useState<string>('')
-    const [expectedDuration, setExpectedDuration] = useState<string>('30')
+    const [expectedDurationMin, setExpectedDurationMin] = useState<string>('30')
     const token = useToken()
     const [isSnackBarOpen, openSnackBar, closeSnackBar] = useSwitch()
     const dispatch = useDispatch()
@@ -44,7 +44,7 @@ export function NewCategory(): JSX.Element {
             // Clear all content.
             setSubjectId(subjectList[0].value)
             setCategoryName('')
-            setExpectedDuration('30')
+            setExpectedDurationMin('30')
         },
     })
 
@@ -57,15 +57,15 @@ export function NewCategory(): JSX.Element {
             return
         }
 
-        const expectedDurationInt: number = parseInt(expectedDuration)
-        if (isNaN(expectedDurationInt)) {
+        const expectedDurationMinInt: number = parseInt(expectedDurationMin)
+        if (isNaN(expectedDurationMinInt)) {
             return
         }
 
         createCategory({
             token,
             subjectId,
-            expectedDuration: expectedDurationInt,
+            expectedDuration: expectedDurationMinInt * 60,
             name: categoryName,
         })
     }
@@ -76,7 +76,7 @@ export function NewCategory(): JSX.Element {
 
     function handleExpectedDurationChange(event: ChangeEvent<HTMLInputElement>) {
         const value: string = event.target.value
-        setExpectedDuration(value)
+        setExpectedDurationMin(value)
     }
 
     useEffect(() => {
@@ -139,7 +139,7 @@ export function NewCategory(): JSX.Element {
                         fullWidth
                         label='Expected Duration (min)'
                         type='number'
-                        value={expectedDuration}
+                        value={expectedDurationMin}
                         onChange={handleExpectedDurationChange}
                         variant='standard'
                         size='small'

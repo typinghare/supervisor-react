@@ -6,6 +6,8 @@ import moment from 'moment'
 
 export type DateMinutesDatum = {
     date: Date,
+
+    // Minutes in minutes.
     minutes: number
 }
 

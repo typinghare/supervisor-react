@@ -37,14 +37,14 @@ export function Worklist(props: WorklistProps): JSX.Element {
     }
 
     const loadTaskList = useCallback(() => {
-        const momentDate = moment()
+        const momentDate = moment(date)
 
         mutate({
             userId,
             fromTimestamp: momentDate.startOf('day').toDate().getTime(),
             toTimestamp: momentDate.endOf('day').toDate().getTime(),
         })
-    }, [mutate, userId])
+    }, [mutate, userId, date])
 
     function handleDateSelected(date: Date) {
         closeDialog()
@@ -66,7 +66,7 @@ export function Worklist(props: WorklistProps): JSX.Element {
             display: 'inline-block',
             fontSize: '2em',
             fontWeight: 'bold',
-            marginLeft: '0.25em'
+            marginLeft: '0.25em',
         },
     })
 

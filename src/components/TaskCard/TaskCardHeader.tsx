@@ -45,7 +45,7 @@ export function TaskCardHeader(props: TaskCardHeaderProps): JSX.Element {
             case TaskStage.PAUSED:
                 return `PAUSED`
             case TaskStage.ENDED:
-                return `${duration}min`
+                return `${Math.floor(duration / 60)}min`
         }
     })()
 
