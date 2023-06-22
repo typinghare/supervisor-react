@@ -5,7 +5,7 @@ export function Changelog211(): JSX.Element {
     return (
         <Changelog
             version='2.1.1'
-            releaseDate={moment('08/14/2023').toDate()}
+            releaseDate={moment('08/14/2022').toDate()}
         >
             <ul>
                 <li>

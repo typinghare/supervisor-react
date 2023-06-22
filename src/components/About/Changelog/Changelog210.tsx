@@ -5,7 +5,7 @@ export function Changelog210(): JSX.Element {
     return (
         <Changelog
             version='2.1.0'
-            releaseDate={moment('08/11/2023').toDate()}
+            releaseDate={moment('08/11/2022').toDate()}
         >
             <ul>
                 <li>The database has been redesigned and optimized.</li>

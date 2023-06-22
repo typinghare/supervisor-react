@@ -9,7 +9,7 @@ export function Changelog220(): JSX.Element {
         >
             <ul>
                 <li>
-                    Refactored the backend using Java19 and Spring framework.
+                    Refactored the backend using <b>Java 19</b> and <b>Spring Boot 3</b>.
                 </li>
 
                 <li>
@@ -21,7 +21,12 @@ export function Changelog220(): JSX.Element {
                 </li>
 
                 <li>
-                    Enhanced functionality in the 'New' tab to allow users to personalize subjects and categories.
+                    Optimized the implementation by incorporating <b>React Query</b> for efficient
+                    debouncing and prevention of throttling.
+                </li>
+
+                <li>
+                    Enhanced functionality in the New tab to allow users to personalize subjects and categories.
                 </li>
 
                 <li>

@@ -76,13 +76,19 @@ function Statement(): JSX.Element {
  * @constructor
  */
 function ChangelogContent(): JSX.Element {
+    const styles = collectStyles({
+        root: {
+            marginBottom: '2em',
+        },
+    })
+
     return (
-        <>
+        <Box sx={styles.root}>
             <Changelog200 />
             <Changelog210 />
             <Changelog211 />
             <Changelog212 />
             <Changelog220 />
-        </>
+        </Box>
     )
 }
