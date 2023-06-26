@@ -41,8 +41,8 @@ export function UserMenu(): JSX.Element {
 
     const styles = collectStyles({
         avatar: {
-            height: '50%',
-            width: '50%',
+            width: '32px',
+            height: '32px',
             cursor: 'pointer',
         },
         menuPaper: {

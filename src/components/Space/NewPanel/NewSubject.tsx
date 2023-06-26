@@ -77,7 +77,7 @@ export function NewSubject(): JSX.Element {
             </Box>
 
             <Grid container spacing={2} sx={styles.container}>
-                <Grid item xs={12} md={6} lg={4} xl={3}>
+                <Grid item xs={12} md={4} lg={3}>
                     <TextField
                         fullWidth
                         label='Subject Name'
@@ -88,7 +88,7 @@ export function NewSubject(): JSX.Element {
                     />
                 </Grid>
 
-                <Grid item xs={12} md={6} lg={4} xl={3}>
+                <Grid item xs={12} md={4} lg={2}>
                     <LoadingButton
                         fullWidth
                         variant='contained'

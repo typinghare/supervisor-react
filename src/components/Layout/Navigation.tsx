@@ -5,7 +5,7 @@ import { useAppSelector } from '../../redux/hooks'
 import { selectUserId } from '../../redux/slice/UserSlice'
 import { UserMenu } from '../User/UserMenu'
 
-export const navigationHeight = '4em'
+export const navigationHeight = '64px'
 
 export function Navigation(): JSX.Element {
     const userId = useAppSelector(selectUserId)
@@ -22,6 +22,9 @@ export function Navigation(): JSX.Element {
             height: navigationHeight,
             display: 'flex',
             justifyItems: 'center',
+        },
+        toolbar: {
+            minHeight: navigationHeight,
         },
         logo: {
             color: 'white',
@@ -69,6 +72,7 @@ export function Navigation(): JSX.Element {
         userAvatar: {
             display: 'inline-block',
             textDecoration: 'none',
+            width: '32px',
             '& .': {
                 color: 'white',
             },
@@ -81,7 +85,7 @@ export function Navigation(): JSX.Element {
 
     return (
         <AppBar position='sticky' sx={styles.root}>
-            <Toolbar>
+            <Toolbar sx={styles.toolbar}>
                 <Link sx={styles.logo} href={Frontend.Basename + Frontend.Url.Home}>Supervisor 2</Link>
                 <Box sx={styles.linkContainer}>
                     <Link

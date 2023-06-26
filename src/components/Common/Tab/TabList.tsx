@@ -21,7 +21,11 @@ export function TabList(props: TabListProps): JSX.Element {
     }
 
     const styles = collectStyles({
-        icon: {
+        tabs: {
+            height: '56px',
+        },
+        tab: {
+            paddingTop: 0,
             '& svg': {
                 fontSize: '1.25em',
             },
@@ -35,6 +39,7 @@ export function TabList(props: TabListProps): JSX.Element {
                 variant='scrollable'
                 scrollButtons
                 onChange={handleTabChange}
+                sx={styles.tabs}
             >
                 {range(size).map(key => (
                     children[key] !== undefined && <Tab
@@ -42,7 +47,7 @@ export function TabList(props: TabListProps): JSX.Element {
                         value={valueList[key]}
                         label={labelList[key]}
                         iconPosition='start'
-                        sx={styles.icon}
+                        sx={styles.tab}
                         icon={Array.isArray(children) ? children[key] : undefined}
                     />
                 ))}

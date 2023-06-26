@@ -6,6 +6,7 @@ import { Changelog210 } from './Changelog/Changelog210'
 import { Changelog211 } from './Changelog/Changelog211'
 import { Changelog212 } from './Changelog/Changelog212'
 import { Changelog220 } from './Changelog/Changelog220'
+import { Changelog221 } from './Changelog/Changelog221'
 
 export function AboutPage(): JSX.Element {
     const styles = collectStyles({
@@ -89,6 +90,7 @@ function ChangelogContent(): JSX.Element {
             <Changelog211 />
             <Changelog212 />
             <Changelog220 />
+            <Changelog221 />
         </Box>
     )
 }

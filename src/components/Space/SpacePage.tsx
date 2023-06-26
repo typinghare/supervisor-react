@@ -160,19 +160,25 @@ export function SpacePage(): JSX.Element {
                             label='Worklist'
                             icon={<FactCheckIcon />}
                         />
+
                         <BottomNavigationAction
                             label='Chart'
                             icon={<EqualizerIcon />}
                         />
-                        <BottomNavigationAction
-                            label='New'
-                            icon={<AddIcon />}
-                        />
 
-                        <BottomNavigationAction
-                            label='Control'
-                            icon={<ControlCameraIcon />}
-                        />
+                        {userId === localUserId && (
+                            <BottomNavigationAction
+                                label='New'
+                                icon={<AddIcon />}
+                            />
+                        )}
+
+                        {userId === localUserId && (
+                            <BottomNavigationAction
+                                label='Control'
+                                icon={<ControlCameraIcon />}
+                            />
+                        )}
                     </BottomNavigation>
                 </Paper>
             )}

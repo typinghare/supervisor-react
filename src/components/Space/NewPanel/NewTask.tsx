@@ -12,7 +12,7 @@ import { SimpleSelect, ValueItemEntry } from '../../Common/SimpleSelect'
 import { selectToken, selectUserId } from '../../../redux/slice/UserSlice'
 import { useAppSelector } from '../../../redux/hooks'
 import { useDispatch } from 'react-redux'
-import { selectSubjectList, setSubjectList } from '../../../redux/slice/SpaceSlice'
+import { selectSubjectList, setSubjectList, switchSpaceTab } from '../../../redux/slice/SpaceSlice'
 import { TaskDto } from '../../../dto/TaskDto'
 import { AlertSnackBar } from '../../Common/AlertSnackBar'
 import HttpResponse = Api.HttpResponse
@@ -102,6 +102,9 @@ export function NewTask(): JSX.Element {
 
             // Clear content.
             setComment('')
+
+            // Switch to control tab.
+            dispatch(switchSpaceTab('control'))
         },
     })
 
@@ -171,7 +174,7 @@ export function NewTask(): JSX.Element {
                 <Box sx={styles.headerTitle}> New Task </Box>
             </Box>
             <Grid container spacing={2} sx={styles.container}>
-                <Grid item xs={12} md={6} lg={4} xl={3}>
+                <Grid item xs={12} md={4} lg={3}>
                     <SimpleSelect
                         label={isLoadingSubjects ? 'Loading subjects ...' : 'Subject'}
                         valueItemList={subjectList}
@@ -181,7 +184,7 @@ export function NewTask(): JSX.Element {
                     />
                 </Grid>
 
-                <Grid item xs={12} md={6} lg={4} xl={3}>
+                <Grid item xs={12} md={4} lg={3}>
                     <SimpleSelect
                         label={isLoadingCategories ? 'Loading categories ...' : 'Category'}
                         valueItemList={categoryList}
@@ -192,7 +195,7 @@ export function NewTask(): JSX.Element {
                     />
                 </Grid>
 
-                <Grid item xs={12} md={12} lg={4} xl={6}>
+                <Grid item xs={12} md={4} lg={6}>
                     <TextField
                         fullWidth
                         label='Comment'
@@ -204,7 +207,7 @@ export function NewTask(): JSX.Element {
                     />
                 </Grid>
 
-                <Grid item xs={6} md={4} lg={3} xl={2}>
+                <Grid item xs={6} md={3} lg={2}>
                     <Button
                         fullWidth
                         variant='contained'
@@ -216,7 +219,7 @@ export function NewTask(): JSX.Element {
                     </Button>
                 </Grid>
 
-                <Grid item xs={6} md={4} lg={3} xl={2}>
+                <Grid item xs={6} md={3} lg={2}>
                     <Button
                         fullWidth
                         variant='contained'

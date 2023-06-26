@@ -111,7 +111,7 @@ export function NewCategory(): JSX.Element {
             </Box>
 
             <Grid container spacing={2} sx={styles.container}>
-                <Grid item xs={12} md={6} lg={4} xl={3}>
+                <Grid item xs={12} md={4} lg={3}>
                     <SimpleSelect
                         label='Subject'
                         valueItemList={subjectList}
@@ -121,7 +121,7 @@ export function NewCategory(): JSX.Element {
                     />
                 </Grid>
 
-                <Grid item xs={12} md={6} lg={4} xl={3}>
+                <Grid item xs={12} md={4} lg={3}>
                     <TextField
                         fullWidth
                         value={categoryName}
@@ -132,7 +132,7 @@ export function NewCategory(): JSX.Element {
                     />
                 </Grid>
 
-                <Grid item xs={12} md={6} lg={4} xl={3}>
+                <Grid item xs={12} md={4} lg={2}>
                     <TextField
                         fullWidth
                         label='Expected Duration (min)'
@@ -144,7 +144,7 @@ export function NewCategory(): JSX.Element {
                     />
                 </Grid>
 
-                <Grid item xs={12} md={6} lg={4} xl={3}>
+                <Grid item xs={12} md={4} lg={2}>
                     <LoadingButton
                         fullWidth
                         variant='contained'

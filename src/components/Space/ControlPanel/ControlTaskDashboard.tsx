@@ -9,6 +9,10 @@ import { TaskDto } from '../../../dto/TaskDto'
 import { convertTaskDtoToTask } from '../../../common/functions/conversion'
 import { useAppSelector } from '../../../redux/hooks'
 import { selectToken } from '../../../redux/slice/UserSlice'
+import useDeviceSize, { DeviceSize } from '../../../hook/useDeviceSize'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import PauseIcon from '@mui/icons-material/Pause'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 export interface ControlTaskDashboardProps {
     selectedTaskDto?: TaskDto
@@ -18,6 +22,7 @@ export interface ControlTaskDashboardProps {
 export function ControlTaskDashboard(props: ControlTaskDashboardProps): JSX.Element {
     const { selectedTaskDto, onTaskUpdate } = props
     const token = useAppSelector(selectToken)
+    const isSmallDevice = useDeviceSize() === DeviceSize.Small
 
     const { mutate: updateTask, isLoading: isUpdatingTask } = useMutation(Api.updateTask, {
         onSuccess: (response: Api.HttpResponse<TaskDto>) => {
@@ -33,6 +38,10 @@ export function ControlTaskDashboard(props: ControlTaskDashboardProps): JSX.Elem
             const taskId = selectedTask.id
             updateTask({ token, taskId, taskAction })
         }
+    }
+
+    function handleDeleteTask() {
+
     }
 
     const styles = collectStyles({
@@ -69,36 +78,52 @@ export function ControlTaskDashboard(props: ControlTaskDashboardProps): JSX.Elem
                         color='success'
                         disabled={selectedTask.taskStage !== TaskStage.PENDING}
                         onClick={handleUpdateTaskStageProvider(TaskAction.START)}
+                        startIcon={<PlayArrowIcon />}
                     >
                         Start
                     </Button>
 
-                    <Button
-                        variant='contained'
-                        color='warning'
-                        disabled={selectedTask.taskStage !== TaskStage.ONGOING}
-                        onClick={handleUpdateTaskStageProvider(TaskAction.PAUSE)}
-                    >
-                        Pause
-                    </Button>
+                    {selectedTask.taskStage === TaskStage.ONGOING && (
+                        <Button
+                            variant='contained'
+                            color='warning'
+                            disabled={selectedTask.taskStage !== TaskStage.ONGOING}
+                            onClick={handleUpdateTaskStageProvider(TaskAction.PAUSE)}
+                            startIcon={<PauseIcon />}
+                        >
+                            Pause
+                        </Button>
+                    )}
 
-                    <Button
-                        variant='contained'
-                        color='secondary'
-                        disabled={selectedTask.taskStage !== TaskStage.PAUSED}
-                        onClick={handleUpdateTaskStageProvider(TaskAction.RESUME)}
-                    >
-                        Resume
-                    </Button>
+                    {selectedTask.taskStage === TaskStage.PAUSED && (
+                        <Button
+                            variant='contained'
+                            color='secondary'
+                            onClick={handleUpdateTaskStageProvider(TaskAction.RESUME)}
+                            startIcon={<PlayArrowIcon />}
+                        >
+                            Resume
+                        </Button>
+                    )}
 
                     <Button
                         variant='contained'
                         color='success'
                         disabled={![TaskStage.ONGOING, TaskStage.PAUSED].includes(selectedTask.taskStage)}
                         onClick={handleUpdateTaskStageProvider(TaskAction.FINISH)}
+                        startIcon={<PauseIcon />}
                     >
                         End
                     </Button>
+
+                    {!isSmallDevice && <Button
+                        variant='contained'
+                        color='error'
+                        onClick={handleDeleteTask}
+                        startIcon={<DeleteIcon />}
+                    >
+                        Delete
+                    </Button>}
                 </ButtonGroup>
             </Grid>
         </Grid>
