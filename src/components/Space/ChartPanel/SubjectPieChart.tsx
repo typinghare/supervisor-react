@@ -2,6 +2,7 @@ import Chart from 'react-apexcharts'
 import { ChartBox } from '../../Common/Chart/ChartBox'
 import { ApexOptions } from 'apexcharts'
 import { renderToStaticMarkup } from 'react-dom/server'
+import useDeviceSize, { DeviceSize } from '../../../hook/useDeviceSize'
 
 export interface SubjectMinuteDatum {
     subjectName: string
@@ -14,6 +15,7 @@ export interface SubjectPieChartProps {
 
 export function SubjectPieChart(props: SubjectPieChartProps): JSX.Element {
     const { data } = props
+    const isSmallDevice = useDeviceSize() === DeviceSize.Small
 
     if (data.length === 0) {
         return <></>
@@ -28,6 +30,9 @@ export function SubjectPieChart(props: SubjectPieChartProps): JSX.Element {
 
     const options: ApexOptions = {
         labels: subjectList,
+        legend: {
+            show: !isSmallDevice,
+        },
         dataLabels: {
             enabled: true,
             formatter: (val: number) => Math.round(val) + '%',
@@ -45,11 +50,11 @@ export function SubjectPieChart(props: SubjectPieChartProps): JSX.Element {
 
                 return renderToStaticMarkup(element).toString()
             },
-        },
+        }
     }
 
     return (
-        <ChartBox>
+        <ChartBox title={'Total Duration of Each Subject'}>
             <Chart
                 type='donut'
                 series={minutesList}

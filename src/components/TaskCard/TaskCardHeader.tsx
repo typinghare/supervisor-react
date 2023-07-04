@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '@mui/material'
+import { Box, BoxProps, Theme } from '@mui/material'
 import { TaskStage } from '../../common/enum/TaskStage'
 import { collectStyles } from '../../common/functions/style'
 
@@ -20,20 +20,20 @@ export function TaskCardHeader(props: TaskCardHeaderProps): JSX.Element {
             ...sx,
         },
         leftSide: {},
-        rightSide: {
+        rightSide: (theme: Theme) => ({
             marginLeft: 'auto',
-            color: 'coral',
-        },
-        subject: {
+            color: theme.palette.secondary.main,
+        }),
+        subject: (theme: Theme) => ({
             fontSize: '1.25em',
             fontWeight: 'bold',
-            color: '#5465ff',
-        },
-        category: {
+            color: theme.palette.primary.main,
+        }),
+        category: (theme: Theme) => ({
             fontSize: '0.9em',
             paddingTop: '0.2em',
-            color: '#6c757d',
-        },
+            color: theme.palette.secondary.main,
+        }),
     })
 
     const rightSideString: string = (() => {

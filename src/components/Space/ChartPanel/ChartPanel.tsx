@@ -100,20 +100,17 @@ export function ChartPanel(props: ChartPanelProps): JSX.Element {
 
     const styles = collectStyles({
         root: {
-            marginTop: '1.5em',
-        },
-        areaChartGrid: {
-            marginBottom: '6em',
-        },
+            marginTop: '0.5em',
+        }
     })
 
     return (
         <Box sx={styles.root}>
             <Grid container>
-                <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
+                <Grid item xs={12} mb={2}>
                     <AreaChart data={dateMinutesData} />
                 </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
+                <Grid item xs={12} mb={2}>
                     <SubjectPieChart data={subjectMinutesData} />
                 </Grid>
             </Grid>

@@ -40,7 +40,7 @@ export function AreaChart(props: AreaChartProps): JSX.Element {
     }
 
     return (
-        <ChartBox>
+        <ChartBox title={'Total Duration of Each Day'}>
             <Chart options={options} />
         </ChartBox>
     )

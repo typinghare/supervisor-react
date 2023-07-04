@@ -1,25 +1,26 @@
 import { Page } from '../Common/Page'
 import { collectStyles } from '../../common/functions/style'
-import { Box, Typography } from '@mui/material'
+import { Box, Theme, Typography } from '@mui/material'
 import { Changelog200 } from './Changelog/Changelog200'
 import { Changelog210 } from './Changelog/Changelog210'
 import { Changelog211 } from './Changelog/Changelog211'
 import { Changelog212 } from './Changelog/Changelog212'
 import { Changelog220 } from './Changelog/Changelog220'
 import { Changelog221 } from './Changelog/Changelog221'
+import { Changelog222 } from './Changelog/Changelog222'
 
 export function AboutPage(): JSX.Element {
     const styles = collectStyles({
         root: {
             backgroundColor: '#e9ecef',
         },
-        changelogTitle: {
-            color: '#3f88c5',
+        changelogTitle: (theme: Theme) => ({
+            color: theme.palette.primary.main,
             textAlign: 'center',
             fontWeight: 'bold',
             fontSize: '2.5em',
             marginTop: '1em',
-        },
+        }),
     })
 
     return (
@@ -91,6 +92,7 @@ function ChangelogContent(): JSX.Element {
             <Changelog212 />
             <Changelog220 />
             <Changelog221 />
+            <Changelog222 />
         </Box>
     )
 }

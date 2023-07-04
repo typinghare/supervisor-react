@@ -1,7 +1,18 @@
-import { Box, Divider, Paper } from '@mui/material'
+import { Box, Chip, Divider, Paper } from '@mui/material'
 import { collectStyles } from '../../common/functions/style'
 import moment from 'moment'
 import { ReactNode } from 'react'
+
+export interface ChangelogContent {
+    // The new features list.
+    newFeatureList?: ReactNode[],
+
+    // The improved feature list.
+    improvedFeatureList?: ReactNode[],
+
+    // The fixed items list.
+    fixedList?: ReactNode[]
+}
 
 export interface ChangelogProps {
     // The version of the changelog.
@@ -10,12 +21,16 @@ export interface ChangelogProps {
     // The release date of the version (format: "MM/DD/YYYY").
     releaseDate: Date
 
-    // The children
-    children: ReactNode
+    content: ChangelogContent
 }
 
+/**
+ * @link https://coolors.co/palette/ff595e-ffca3a-8ac926-1982c4-6a4c93
+ */
 export function Changelog(props: ChangelogProps): JSX.Element {
-    const { version, releaseDate, children } = props
+    const { version, releaseDate, content } = props
+    const { newFeatureList, improvedFeatureList, fixedList } = content
+    const releaseDateString: string = moment(releaseDate).format('MMM Do, YYYY')
 
     const styles = collectStyles({
         root: {
@@ -28,7 +43,7 @@ export function Changelog(props: ChangelogProps): JSX.Element {
             display: 'block',
             fontSize: '1.5em',
             fontWeight: 'bold',
-            marginBottom: '0.5em',
+            marginBottom: '0.25em',
         },
         publishDate: {
             display: 'block',
@@ -36,8 +51,21 @@ export function Changelog(props: ChangelogProps): JSX.Element {
             fontSize: '0.9em',
             marginBottom: '0.5em',
         },
-        children: {
+        newFeature: {
             marginTop: '0.5em',
+        },
+        itemContainer: {
+            '&>*': {
+                marginBottom: '0.5em',
+            },
+        },
+        chip: {
+            margin: '1em 0',
+            padding: '4px 1em',
+            height: 'auto',
+            borderRadius: '4px',
+            fontWeight: 'bold',
+            color: 'white',
         },
     })
 
@@ -48,14 +76,53 @@ export function Changelog(props: ChangelogProps): JSX.Element {
             </Box>
 
             <Box sx={styles.publishDate}>
-                {moment(releaseDate).format('MMM Do, YYYY')}
+                {releaseDateString}
             </Box>
 
             <Divider />
 
-            <Box sx={styles.children}>
-                {children}
-            </Box>
+            {newFeatureList && newFeatureList.length > 1 && (
+                <Box sx={styles.itemContainer}>
+                    <Chip
+                        label='NEW'
+                        sx={{ ...styles.chip, backgroundColor: '#8AC926' }}
+                    />
+                    {newFeatureList.map((newFeature, index) => (
+                        <Box key={index}>
+                            {newFeature}
+                        </Box>
+                    ))}
+                </Box>
+            )}
+
+            {improvedFeatureList && improvedFeatureList.length > 1 && (
+                <Box sx={styles.itemContainer}>
+                    <Chip
+                        label='IMPROVED'
+                        sx={{ ...styles.chip, backgroundColor: '#1982C4' }}
+                    />
+                    {improvedFeatureList.map((improvedFeature, index) => (
+                        <Box key={index}>
+                            {improvedFeature}
+                        </Box>
+                    ))}
+                </Box>
+            )}
+
+            {fixedList && fixedList.length > 1 && (
+                <Box sx={styles.itemContainer}>
+                    <Chip
+                        label='FIXED'
+                        sx={{ ...styles.chip, backgroundColor: '#FF595E' }}
+                    />
+
+                    {fixedList.map((fixed, index) => (
+                        <Box key={index}>
+                            {fixed}
+                        </Box>
+                    ))}
+                </Box>
+            )}
         </Paper>
     )
 }

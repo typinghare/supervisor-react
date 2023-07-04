@@ -1,21 +1,32 @@
-import { Changelog } from '../Changelog'
+import { Changelog, ChangelogContent } from '../Changelog'
 import moment from 'moment'
 
-export function Changelog221(): JSX.Element {
+export function Changelog222(): JSX.Element {
+    const content: ChangelogContent = {
+        newFeatureList: [
+            <span>Introduced a new query parameter, "tab," to facilitate indicating the selected tab.</span>,
+            <span>
+               Upgraded the user interface for an enhanced visual experience and improved usability.
+            </span>,
+            <span>
+                 Upgraded the user interface for a more visually appealing and user-friendly changelog experience.
+            </span>,
+        ],
+        improvedFeatureList: [
+            <span>
+               Streamlined task deletion process with the addition of an alert dialog for delete confirmation.
+            </span>,
+            <span>
+                Customized MUI theme colors.
+            </span>,
+        ],
+    }
+
     return (
         <Changelog
             version='2.2.2'
-            releaseDate={moment('07/03/2023').toDate()}
-        >
-            <ul>
-                <li>
-                    Improved the ability of deleting tasks; added alter dialog for delete confirmation.
-                </li>
-
-                <li>
-                    Added a "tab" query parameter for indicating the selected tab.
-                </li>
-            </ul>
-        </Changelog>
+            releaseDate={moment('07/04/2023', 'MM/DD/YYYY').toDate()}
+            content={content}
+        />
     )
 }
