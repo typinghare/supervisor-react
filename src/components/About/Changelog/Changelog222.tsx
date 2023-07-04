@@ -4,12 +4,14 @@ import moment from 'moment'
 export function Changelog222(): JSX.Element {
     const content: ChangelogContent = {
         newFeatureList: [
-            <span>Introduced a new query parameter, "tab," to facilitate indicating the selected tab.</span>,
+            <span>Introduced a new query parameter, <i>tab</i>, to facilitate indicating the selected tab.</span>,
             <span>
-               Upgraded the user interface for an enhanced visual experience and improved usability.
+               Revamped Chart Tab Panel: Upgraded the user interface for an enhanced visual experience and improved
+                usability.
             </span>,
             <span>
-                 Upgraded the user interface for a more visually appealing and user-friendly changelog experience.
+                Modernized Changelog Section: Upgraded the user interface for a more visually appealing and
+                 user-friendly changelog experience.
             </span>,
         ],
         improvedFeatureList: [
