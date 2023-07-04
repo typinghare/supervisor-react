@@ -7,6 +7,11 @@ export namespace Frontend {
     // Frontend basename.
     export const Basename = '/supervisor'
 
+    // Query keys.
+    export namespace QueryKey {
+        export const Tab = 'tab'
+    }
+
     // Cookie keys. The keys must adhere to the snack_case naming convention.
     export namespace CookieKey {
         export const UserId = 'user_id'

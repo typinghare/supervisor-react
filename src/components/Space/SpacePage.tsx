@@ -1,12 +1,11 @@
 import { Page } from '../Common/Page'
 import { Alert, BottomNavigation, BottomNavigationAction, Paper } from '@mui/material'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useAppSelector } from '../../redux/hooks'
 import { selectUserId } from '../../redux/slice/UserSlice'
 import { SyntheticEvent, useEffect } from 'react'
 import { collectStyles } from '../../common/functions/style'
 import { Frontend } from '../../common/constants/frontend'
-import { getStringAfterSharp } from '../../common/functions/url'
 import { selectSpaceTabName, switchSpaceTab } from '../../redux/slice/SpaceSlice'
 import { useDispatch } from 'react-redux'
 import FactCheckIcon from '@mui/icons-material/FactCheck'
@@ -22,6 +21,7 @@ import { TabList } from '../Common/Tab/TabList'
 import { indexOf } from 'lodash'
 import { bottomNavigationHeight } from '../App'
 import useDeviceSize, { DeviceSize } from '../../hook/useDeviceSize'
+import { useLocation } from '../../hook/useLocation'
 import SpaceTabName = Frontend.SpaceTabName
 import spaceTabNameList = Frontend.spaceTabNameList
 
@@ -30,8 +30,7 @@ export function SpacePage(): JSX.Element {
     const dispatch = useDispatch()
     const localUserId = useAppSelector(selectUserId)
     const currentSpaceTabName = useAppSelector(selectSpaceTabName)
-    const navigate = useNavigate()
-    const location = useLocation()
+    const { setQueryParams, queryParams } = useLocation()
     const isSmallDevice = useDeviceSize() === DeviceSize.Small
 
     const userId: number = (() => {
@@ -45,7 +44,7 @@ export function SpacePage(): JSX.Element {
 
     // When loading the space at the first time, redirect to the corresponding tab.
     useEffect(() => {
-        const spaceTabName = getStringAfterSharp(window.location.href) as SpaceTabName
+        const spaceTabName = queryParams.get(Frontend.QueryKey.Tab) as SpaceTabName
         if (spaceTabNameList.includes(spaceTabName) && currentSpaceTabName !== spaceTabName) {
             dispatch(switchSpaceTab(spaceTabName))
         }
@@ -92,7 +91,9 @@ export function SpacePage(): JSX.Element {
 
     function handleSpaceTabChange(value: string) {
         dispatch(switchSpaceTab(value as SpaceTabName))
-        navigate(location.pathname + '#' + value)
+        setQueryParams({
+            [Frontend.QueryKey.Tab]: value,
+        })
     }
 
     function handleBottomNavigationSpaceTabChange(event: SyntheticEvent, value: number) {

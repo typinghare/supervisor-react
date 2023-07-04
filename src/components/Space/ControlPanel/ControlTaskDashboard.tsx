@@ -1,4 +1,14 @@
-import { Alert, Button, ButtonGroup, Grid } from '@mui/material'
+import {
+    Alert,
+    Button,
+    ButtonGroup,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Grid,
+} from '@mui/material'
 import { TaskCard } from '../../TaskCard/TaskCard'
 import { TaskStage } from '../../../common/enum/TaskStage'
 import { TaskAction } from '../../../common/enum/TaskAction'
@@ -9,25 +19,31 @@ import { TaskDto } from '../../../dto/TaskDto'
 import { convertTaskDtoToTask } from '../../../common/functions/conversion'
 import { useAppSelector } from '../../../redux/hooks'
 import { selectToken } from '../../../redux/slice/UserSlice'
-import useDeviceSize, { DeviceSize } from '../../../hook/useDeviceSize'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import PauseIcon from '@mui/icons-material/Pause'
 import DeleteIcon from '@mui/icons-material/Delete'
+import useSwitch from '../../../hook/useSwitch'
 
 export interface ControlTaskDashboardProps {
     selectedTaskDto?: TaskDto
-    onTaskUpdate: (updatedTaskDto: TaskDto) => void
+    onTaskUpdate: (updatedTaskDto: TaskDto | undefined) => void
 }
 
 export function ControlTaskDashboard(props: ControlTaskDashboardProps): JSX.Element {
     const { selectedTaskDto, onTaskUpdate } = props
     const token = useAppSelector(selectToken)
-    const isSmallDevice = useDeviceSize() === DeviceSize.Small
+    const [isDeleteAlertDialogShow, openDeleteAlterDialog, closeDeleteAlterDialog] = useSwitch()
 
     const { mutate: updateTask, isLoading: isUpdatingTask } = useMutation(Api.updateTask, {
         onSuccess: (response: Api.HttpResponse<TaskDto>) => {
             const taskDto = response.data
             onTaskUpdate(taskDto)
+        },
+    })
+
+    const { mutate: deleteTask, isLoading: isDeletingTask } = useMutation(Api.deleteTask, {
+        onSuccess: () => {
+            onTaskUpdate(undefined)
         },
     })
 
@@ -40,8 +56,15 @@ export function ControlTaskDashboard(props: ControlTaskDashboardProps): JSX.Elem
         }
     }
 
-    function handleDeleteTask() {
+    function handleDeleteTaskClick() {
+        openDeleteAlterDialog()
+    }
 
+    function handleDeleteTask() {
+        closeDeleteAlterDialog()
+        if (token && selectedTaskDto) {
+            deleteTask({ token, taskId: selectedTaskDto.id })
+        }
     }
 
     const styles = collectStyles({
@@ -116,14 +139,46 @@ export function ControlTaskDashboard(props: ControlTaskDashboardProps): JSX.Elem
                         End
                     </Button>
 
-                    {!isSmallDevice && <Button
+                    <Button
                         variant='contained'
                         color='error'
-                        onClick={handleDeleteTask}
+                        onClick={handleDeleteTaskClick}
                         startIcon={<DeleteIcon />}
+                        disabled={isDeletingTask}
                     >
                         Delete
-                    </Button>}
+                    </Button>
+
+                    <Dialog
+                        fullWidth
+                        open={isDeleteAlertDialogShow}
+                        onClose={closeDeleteAlterDialog}
+                    >
+                        <DialogTitle>
+                            Delete Confirmation
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                Do you really want to delete this task?
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button
+                                onClick={handleDeleteTask}
+                                variant='contained'
+                                color='error'
+                                sx={{ maxWidth: '6rem' }}
+                            >Delete</Button>
+                            <Button
+                                onClick={closeDeleteAlterDialog}
+                                autoFocus
+                                color='inherit'
+                                sx={{ maxWidth: '6rem' }}
+                            >
+                                Cancel
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </ButtonGroup>
             </Grid>
         </Grid>

@@ -9,7 +9,7 @@ import { TaskDto } from '../../../dto/TaskDto'
 import { TaskCardSkeleton } from '../../TaskCard/TaskCardSkeleton'
 import { ControlTaskDashboard } from './ControlTaskDashboard'
 import { ControlTaskList } from './ControlTaskList'
-import { find, findIndex } from 'lodash'
+import { compact, find, findIndex } from 'lodash'
 import { TaskStage } from '../../../common/enum/TaskStage'
 import { collectStyles } from '../../../common/functions/style'
 
@@ -56,13 +56,30 @@ export function ControlSelectedTask(): JSX.Element {
         setSelectedTaskId(selectedTaskId)
     }
 
-    function handleTaskUpdate(updatedTaskDto: TaskDto) {
+    function handleTaskUpdate(updatedTaskDto: TaskDto | undefined) {
         if (notEndedTaskDtoList) {
-            const newNotEndedTaskDtoList = [...notEndedTaskDtoList]
-            const index: number = findIndex(newNotEndedTaskDtoList, taskDto => taskDto.id === updatedTaskDto.id)
-            if (index > -1) {
-                newNotEndedTaskDtoList[index] = updatedTaskDto
-                setNotEndedTaskDtoList(newNotEndedTaskDtoList)
+            if (updatedTaskDto) {
+                // Refresh task list and substitute the updated task.
+                const newNotEndedTaskDtoList = [...notEndedTaskDtoList]
+                const index: number = findIndex(newNotEndedTaskDtoList, taskDto => taskDto.id === updatedTaskDto.id)
+                if (index > -1) {
+                    newNotEndedTaskDtoList[index] = updatedTaskDto
+                    setNotEndedTaskDtoList(newNotEndedTaskDtoList)
+                }
+            } else {
+                // Refresh task list and remove the deleted task.
+                let newNotEndedTaskDtoList = [...notEndedTaskDtoList]
+                const index: number = findIndex(newNotEndedTaskDtoList, taskDto => taskDto.id === selectedTaskId)
+                if (index > -1) {
+                    delete newNotEndedTaskDtoList[index]
+                    newNotEndedTaskDtoList = compact(newNotEndedTaskDtoList)
+                    setNotEndedTaskDtoList(newNotEndedTaskDtoList)
+                }
+
+                // Decide the new selected task.
+                if (newNotEndedTaskDtoList.length > 0) {
+                    setSelectedTaskId(newNotEndedTaskDtoList[0].id)
+                }
             }
         }
     }
@@ -90,8 +107,16 @@ export function ControlSelectedTask(): JSX.Element {
         return <TaskCardSkeleton />
     }
 
+    if (!selectedTaskId) {
+        return (
+            <Box>
+                <Alert severity={'warning'}> No task has selected.</Alert>
+            </Box>
+        )
+    }
+
     const selectedTaskDto = notEndedTaskDtoList &&
-        (find(notEndedTaskDtoList, taskDto => taskDto.id === selectedTaskId))
+        (find(notEndedTaskDtoList, taskDto => taskDto && taskDto.id === selectedTaskId))
 
     return (
         <Box>

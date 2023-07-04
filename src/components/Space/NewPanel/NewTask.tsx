@@ -15,7 +15,10 @@ import { useDispatch } from 'react-redux'
 import { selectSubjectList, setSubjectList, switchSpaceTab } from '../../../redux/slice/SpaceSlice'
 import { TaskDto } from '../../../dto/TaskDto'
 import { AlertSnackBar } from '../../Common/AlertSnackBar'
+import { useLocation } from '../../../hook/useLocation'
+import { Frontend } from '../../../common/constants/frontend'
 import HttpResponse = Api.HttpResponse
+import SpaceTabName = Frontend.SpaceTabName
 
 export function NewTask(): JSX.Element {
     const subjectList = useAppSelector(selectSubjectList)
@@ -28,6 +31,7 @@ export function NewTask(): JSX.Element {
     const userId = useAppSelector(selectUserId)
     const token = useAppSelector(selectToken)
     const dispatch = useDispatch()
+    const { setQueryParams } = useLocation()
 
     const { mutate: getSubjects, isLoading: isLoadingSubjects } = useMutation(Api.getSubjectsForUser, {
         onSuccess: (response: Api.HttpResponse<SubjectDto[]>) => {
@@ -65,6 +69,12 @@ export function NewTask(): JSX.Element {
 
             // Clear content.
             setComment('')
+
+            // Switch to the control tab.
+            dispatch(switchSpaceTab('control'))
+            setQueryParams({
+                [Frontend.QueryKey.Tab]: 'control' as SpaceTabName,
+            })
         },
     })
 
@@ -103,8 +113,11 @@ export function NewTask(): JSX.Element {
             // Clear content.
             setComment('')
 
-            // Switch to control tab.
+            // Switch to the control tab.
             dispatch(switchSpaceTab('control'))
+            setQueryParams({
+                [Frontend.QueryKey.Tab]: 'control' as SpaceTabName,
+            })
         },
     })
 

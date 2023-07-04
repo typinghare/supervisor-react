@@ -43,11 +43,21 @@ export async function updateTask(updateTaskParams: UpdateTaskParams): Promise<Ap
     })).data
 }
 
+export interface DeleteTaskParams {
+    token: string,
+    taskId: number
+}
+
 /**
  * Deletes a task.
  */
-export async function deleteTask(taskId: number): Promise<Api.HttpResponse<void>> {
-    return (await Api.SupervisorAxios.delete(`/tasks/${taskId}/`)).data
+export async function deleteTask(deleteTaskParams: DeleteTaskParams): Promise<Api.HttpResponse<void>> {
+    const { token, taskId } = deleteTaskParams
+    return (await Api.SupervisorAxios.delete(`/tasks/${taskId}/`, {
+        headers: {
+            [Server.HeaderKey.Token]: token,
+        },
+    })).data
 }
 
 export interface CreateTaskCommentParams {
@@ -65,5 +75,5 @@ export async function createTaskComment(params: CreateTaskCommentParams): Promis
         headers: {
             [Server.HeaderKey.Token]: token,
         },
-    }))
+    })).data
 }
