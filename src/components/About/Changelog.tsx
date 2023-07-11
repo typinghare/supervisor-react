@@ -59,9 +59,9 @@ export function Changelog(props: ChangelogProps): JSX.Element {
                 marginBottom: '0.5em',
             },
             '& code': {
-                backgroundColor: '#D3D3D3',
+                fontFamily: 'monospace',
+                backgroundColor: '#e9ecef',
                 padding: '0.1em 0.25em',
-                fontSize: '0.875em',
                 borderRadius: '0.2em',
             },
         },

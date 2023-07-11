@@ -9,7 +9,7 @@ export function Changelog221(): JSX.Element {
         ],
         improvedFeatureList: [
             <span>
-                Adjusted the size of components within the <u>new</u> panel, ensuring a more visually balanced
+                Adjusted the size of components within the <code>new</code> panel, ensuring a more visually balanced
                  and cohesive layout.
             </span>,
             <span>
@@ -18,12 +18,12 @@ export function Changelog221(): JSX.Element {
         ],
         fixedList: [
             <span>
-               Resolved an issue where the <u>new</u> and <u>control</u> panels were incorrectly appearing in the bottom
+               Resolved an issue where the <code>new</code> and <code>control</code> panels were incorrectly appearing in the bottom
                 navigation for visitors.
             </span>,
             <span>
-               After successfully creating a task by clicking the <u>CREATE & START</u> button, the interface will now
-                automatically switch to the <u>control</u> panel.
+               After successfully creating a task by clicking the <code>CREATE & START</code> button, the interface will now
+                automatically switch to the <code>control</code> panel.
             </span>,
         ],
     }
