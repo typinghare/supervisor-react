@@ -84,7 +84,7 @@ export function Navigation(): JSX.Element {
     })
 
     return (
-        <AppBar position='sticky' sx={styles.root}>
+        <AppBar position='relative' sx={styles.root}>
             <Toolbar sx={styles.toolbar}>
                 <Link sx={styles.logo} href={Frontend.Basename + Frontend.Url.Home}>Supervisor 2</Link>
                 <Box sx={styles.linkContainer}>

@@ -62,7 +62,7 @@ export function SpacePage(): JSX.Element {
 
     const styles = collectStyles({
         root: {
-            backgroundColor: '#e9ecef',
+            backgroundColor: '#e7ecef',
         },
         tabsContainer: {
             '& .MuiTabs-scroller': {

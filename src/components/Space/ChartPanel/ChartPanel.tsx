@@ -1,7 +1,7 @@
-import { Box, Grid } from '@mui/material'
+import { Box, CircularProgress, Grid } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
 import Api from '../../../common/api'
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { TaskStage } from '../../../common/enum/TaskStage'
 import moment from 'moment'
 import { TaskDto } from '../../../dto/TaskDto'
@@ -42,10 +42,21 @@ export function ChartPanel(props: ChartPanelProps): JSX.Element {
         getEndedTasks()
     }, [getEndedTasks, days])
 
+    const styles = collectStyles({
+        root: {
+            marginTop: '0.5em',
+        },
+        loadingBox: {
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '2rem',
+        },
+    })
+
     if (isGettingTaskList || !endedTaskDtoList) {
         return (
-            <Box>
-                Loading ...
+            <Box sx={styles.loadingBox}>
+                <CircularProgress />
             </Box>
         )
     }
@@ -97,12 +108,6 @@ export function ChartPanel(props: ChartPanelProps): JSX.Element {
             subjectName, minutes: totalMinutes,
         }))
     })(endedTaskDtoList)
-
-    const styles = collectStyles({
-        root: {
-            marginTop: '0.5em',
-        }
-    })
 
     return (
         <Box sx={styles.root}>

@@ -8,6 +8,7 @@ import { Changelog212 } from './Changelog/Changelog212'
 import { Changelog220 } from './Changelog/Changelog220'
 import { Changelog221 } from './Changelog/Changelog221'
 import { Changelog222 } from './Changelog/Changelog222'
+import { Changelog223 } from './Changelog/Changelog223'
 
 export function AboutPage(): JSX.Element {
     const styles = collectStyles({
@@ -37,7 +38,7 @@ function Statement(): JSX.Element {
     const styles = collectStyles({
         root: {
             marginTop: '1em',
-            backgroundColor: '#e3f2fd',
+            backgroundColor: '#edf2fb',
             padding: '1em',
         },
         title: {
@@ -93,6 +94,7 @@ function ChangelogContent(): JSX.Element {
             <Changelog220 />
             <Changelog221 />
             <Changelog222 />
+            <Changelog223 />
         </Box>
     )
 }

@@ -12,9 +12,14 @@ export function TaskCardWrapper(props: TaskCardWrapperProps): JSX.Element {
 
     const styles = collectStyles({
         root: {
-            boxShadow: shine ? '0 0 14px 9px #d0e7b7' : 'none',
+            boxShadow: shine ? '0 0 12px 9px #d0e7b7' : 'none',
             cursor: 'pointer',
-            transition: 'transform 2s ease-in-out',
+            transition: 'box-shadow 0.5s ease-in-out, margin 0.3s ease-in-out',
+            marginTop: '0.5rem',
+            '&:hover': {
+                marginTop: '0',
+                marginBottom: '0.5rem'
+            },
         },
     })
 

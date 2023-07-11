@@ -1,7 +1,7 @@
 import { Box, Chip, Divider, Paper } from '@mui/material'
 import { collectStyles } from '../../common/functions/style'
 import moment from 'moment'
-import { ReactNode } from 'react'
+import { CSSProperties, ReactNode } from 'react'
 
 export interface ChangelogContent {
     // The new features list.
@@ -40,7 +40,6 @@ export function Changelog(props: ChangelogProps): JSX.Element {
             '& li': { marginTop: '0.8em' },
         },
         title: {
-            display: 'block',
             fontSize: '1.5em',
             fontWeight: 'bold',
             marginBottom: '0.25em',
@@ -48,7 +47,8 @@ export function Changelog(props: ChangelogProps): JSX.Element {
         publishDate: {
             display: 'block',
             color: '#6c757d',
-            fontSize: '0.9em',
+            fontSize: '0.9rem',
+            fontWeight: 'normal',
             marginBottom: '0.5em',
         },
         newFeature: {
@@ -57,6 +57,12 @@ export function Changelog(props: ChangelogProps): JSX.Element {
         itemContainer: {
             '&>*': {
                 marginBottom: '0.5em',
+            },
+            '& code': {
+                backgroundColor: '#D3D3D3',
+                padding: '0.1em 0.25em',
+                fontSize: '0.875em',
+                borderRadius: '0.2em',
             },
         },
         chip: {
@@ -71,17 +77,17 @@ export function Changelog(props: ChangelogProps): JSX.Element {
 
     return (
         <Paper sx={styles.root}>
-            <Box sx={styles.title}>
+            <header style={styles.title as CSSProperties}>
                 {version}
-            </Box>
 
-            <Box sx={styles.publishDate}>
-                {releaseDateString}
-            </Box>
+                <Box sx={styles.publishDate}>
+                    {releaseDateString}
+                </Box>
+            </header>
 
             <Divider />
 
-            {newFeatureList && newFeatureList.length > 1 && (
+            {newFeatureList && newFeatureList.length >= 1 && (
                 <Box sx={styles.itemContainer}>
                     <Chip
                         label='NEW'
@@ -95,7 +101,7 @@ export function Changelog(props: ChangelogProps): JSX.Element {
                 </Box>
             )}
 
-            {improvedFeatureList && improvedFeatureList.length > 1 && (
+            {improvedFeatureList && improvedFeatureList.length >= 1 && (
                 <Box sx={styles.itemContainer}>
                     <Chip
                         label='IMPROVED'
@@ -109,7 +115,7 @@ export function Changelog(props: ChangelogProps): JSX.Element {
                 </Box>
             )}
 
-            {fixedList && fixedList.length > 1 && (
+            {fixedList && fixedList.length >= 1 && (
                 <Box sx={styles.itemContainer}>
                     <Chip
                         label='FIXED'

@@ -13,20 +13,27 @@ export function Page(props: PageProps): JSX.Element {
         root: (theme: Theme) => ({
             margin: '0',
             maxWidth: '100vw',
+            paddingTop: '1rem',
+            paddingBottom: '1rem',
+            minHeight: `calc(100vh - ${navigationHeight})`,
 
             [theme.breakpoints.down('sm')]: {
-                padding: '1em 0.5em',
-                minHeight: `calc(100vh + ${bottomNavigationHeight})`,
+                paddingLeft: '0.5rem',
+                paddingRight: '0.5rem',
+                minHeight: `calc(100vh - ${navigationHeight})`,
+                paddingBottom: `calc(${bottomNavigationHeight} + 1rem)`,
             },
             [theme.breakpoints.up('sm')]: {
-                padding: '1em 1em',
-                minHeight: `calc(100vh - ${navigationHeight})`,
+                paddingLeft: '1rem',
+                paddingRight: '1rem',
             },
             [theme.breakpoints.up('lg')]: {
-                padding: '1em 10%',
+                paddingLeft: '10%',
+                paddingRight: '10%',
             },
             [theme.breakpoints.up('xl')]: {
-                padding: '1em 15%',
+                paddingLeft: '15%',
+                paddingRight: '15%',
             },
             ...sx,
         }),

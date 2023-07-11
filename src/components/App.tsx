@@ -10,13 +10,15 @@ export const bottomNavigationHeight = '56px'
  * The root component of the application.
  */
 export function App(): JSX.Element {
+    const isSmallDevice = useDeviceSize() !== DeviceSize.Small
+
     return (
         <>
             <AppBootstrap />
             <Navigation />
             <>
                 <Router />
-                {useDeviceSize() !== DeviceSize.Small && <Footer />}
+                {isSmallDevice && <Footer />}
             </>
         </>
     )
