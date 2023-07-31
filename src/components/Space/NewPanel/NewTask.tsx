@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useSwitch from '../../../hook/useSwitch'
 import { useMutation } from '@tanstack/react-query'
 import Api from '../../../common/api'
@@ -6,7 +6,7 @@ import { SubjectDto } from '../../../dto/SubjectDto'
 import { CategoryDto } from '../../../dto/CategoryDto'
 import { TaskAction } from '../../../common/enum/TaskAction'
 import { collectStyles } from '../../../common/functions/style'
-import { Box, Button, Grid, TextField } from '@mui/material'
+import { Autocomplete, Box, Button, Grid, TextField } from '@mui/material'
 import EventIcon from '@mui/icons-material/Event'
 import { SimpleSelect, ValueItemEntry } from '../../Common/SimpleSelect'
 import { selectToken, selectUserId } from '../../../redux/slice/UserSlice'
@@ -32,6 +32,7 @@ export function NewTask(): JSX.Element {
     const token = useAppSelector(selectToken)
     const dispatch = useDispatch()
     const { setQueryParams } = useLocation()
+    const [commentOptions, setCommentOptions] = useState<string[]>([])
 
     const { mutate: getSubjects, isLoading: isLoadingSubjects } = useMutation(Api.getSubjectsForUser, {
         onSuccess: (response: Api.HttpResponse<SubjectDto[]>) => {
@@ -121,6 +122,15 @@ export function NewTask(): JSX.Element {
         },
     })
 
+    const {
+        mutate: getHistoricalComments,
+    } = useMutation(Api.getHistoricalComments, {
+        onSuccess: (response: HttpResponse<string[]>) => {
+            const commentContentList = response.data
+            setCommentOptions(commentContentList)
+        },
+    })
+
     function handleSubjectChange(subjectId: number) {
         setSubjectId(subjectId)
         setCategoryList([])
@@ -130,6 +140,7 @@ export function NewTask(): JSX.Element {
 
     function handleCategoryChange(categoryId: number) {
         setCategoryId(categoryId)
+        getHistoricalComments(categoryId)
     }
 
     function handleCreate() {
@@ -148,8 +159,9 @@ export function NewTask(): JSX.Element {
         createAndStartTask(categoryId)
     }
 
-    function handleCommentChange(event: ChangeEvent<HTMLInputElement>) {
-        setComment(event.target.value)
+    function handleCommentChange(inputValue: string) {
+        console.log(inputValue)
+        setComment(inputValue)
     }
 
     function handleCategorySelectFocus() {
@@ -209,14 +221,19 @@ export function NewTask(): JSX.Element {
                 </Grid>
 
                 <Grid item xs={12} md={4} lg={6}>
-                    <TextField
-                        fullWidth
-                        label='Comment'
-                        variant='standard'
-                        size='small'
-                        value={comment}
-                        onChange={handleCommentChange}
-                        disabled={isCreatingTaskComment}
+                    <Autocomplete
+                        inputValue={comment}
+                        onInputChange={(_, newInputValue) => {
+                            handleCommentChange(newInputValue)
+                        }}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label='Comment'
+                                variant='standard'
+                            />
+                        )}
+                        options={commentOptions}
                     />
                 </Grid>
 

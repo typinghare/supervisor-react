@@ -41,7 +41,7 @@ export function ControlSelectedTask(): JSX.Element {
         if (userId) {
             getAllTasks({
                 userId,
-                fromTimestamp: date.startOf('day').toDate().getTime(),
+                fromTimestamp: 0,
                 toTimestamp: date.endOf('day').toDate().getTime(),
                 taskStageString: '0 1 2',
             })

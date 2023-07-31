@@ -47,3 +47,11 @@ export async function updateCategory(categoryId: number, categoryDto: CategoryDt
 export async function deleteCategory(categoryId: number): Promise<Api.HttpResponse<void>> {
     return (await Api.SupervisorAxios.delete(`/categories/${categoryId}/`)).data
 }
+
+/**
+ * Gets historical comments for a category.
+ * @param categoryId
+ */
+export async function getHistoricalComments(categoryId: number): Promise<Api.HttpResponse<string[]>> {
+    return (await Api.SupervisorAxios.get(`/categories/${categoryId}/historical-comments`)).data
+}

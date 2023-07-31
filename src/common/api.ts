@@ -28,6 +28,7 @@ namespace Api {
     export const createCategory = CategoryApi.createCategory
     export const updateCategory = CategoryApi.updateCategory
     export const deleteCategory = CategoryApi.deleteCategory
+    export const getHistoricalComments = CategoryApi.getHistoricalComments
 
     export const createTask = TaskApi.createTask
     export const updateTask = TaskApi.updateTask
