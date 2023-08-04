@@ -54,7 +54,15 @@ export function NewTask(): JSX.Element {
         },
     })
 
-    const { mutate: createTaskComment, isLoading: isCreatingTaskComment } = useMutation(Api.createTaskComment)
+    const { mutate: createTaskComment, isLoading: isCreatingTaskComment } = useMutation(Api.createTaskComment, {
+        onSuccess: () => {
+            // Switch to the control tab.
+            dispatch(switchSpaceTab('control'))
+            setQueryParams({
+                [Frontend.QueryKey.Tab]: 'control' as SpaceTabName,
+            })
+        },
+    })
 
     const { mutate: createTask, isLoading: isCreatingTask } = useMutation(Api.createTask, {
         onSuccess: (response: HttpResponse<TaskDto>) => {
@@ -70,12 +78,6 @@ export function NewTask(): JSX.Element {
 
             // Clear content.
             setComment('')
-
-            // Switch to the control tab.
-            dispatch(switchSpaceTab('control'))
-            setQueryParams({
-                [Frontend.QueryKey.Tab]: 'control' as SpaceTabName,
-            })
         },
     })
 
@@ -113,12 +115,6 @@ export function NewTask(): JSX.Element {
 
             // Clear content.
             setComment('')
-
-            // Switch to the control tab.
-            dispatch(switchSpaceTab('control'))
-            setQueryParams({
-                [Frontend.QueryKey.Tab]: 'control' as SpaceTabName,
-            })
         },
     })
 
@@ -222,6 +218,7 @@ export function NewTask(): JSX.Element {
 
                 <Grid item xs={12} md={4} lg={6}>
                     <Autocomplete
+                        freeSolo
                         inputValue={comment}
                         onInputChange={(_, newInputValue) => {
                             handleCommentChange(newInputValue)

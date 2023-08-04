@@ -5,7 +5,7 @@ export default function Changelog224() {
     const content: ChangelogContent = {
         newFeatureList: [
             <span>
-                Implemented Autocomplete Functionality for Comment Text in Task Creation.
+                Implemented autocomplete functionality for the comment input in task creation.
             </span>,
         ],
         fixedList: [
