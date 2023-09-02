@@ -3,7 +3,7 @@
  */
 export namespace Server {
     // The domain of the backend server.
-    export const ApiDomain = 'jameschan.us'
+    export const ApiDomain = 'www.jameschan.us'
 
     // The protocol.
     export const ApiProtocol: 'http' | 'https' = 'https'
